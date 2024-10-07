@@ -559,6 +559,26 @@ stakeholder_survey
 
 ``` r
 stakeholder_survey %>%
+  group_by(involvement) %>%
+  summarise(dietary_health_score_mean=mean(dietary_health_score),dietary_sustainability_score_mean=mean(dietary_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),food_pricing_score_mean=mean(food_pricing_score),operational_costs_score_mean=mean(operational_costs_score),guest_satisfaction_score_mean=mean(guest_satisfaction_score),worker_satisfaction_score_mean=mean(worker_satisfaction_score),campus_culture_score_mean=mean(campus_culture_score),other_score_mean=mean(other_score),n=n())
+```
+
+    ## # A tibble: 4 × 11
+    ##   involvement                      dietary_health_score…¹ dietary_sustainabili…²
+    ##   <chr>                                             <dbl>                  <dbl>
+    ## 1 I am a primary decision maker                      5.67                   5.17
+    ## 2 I consult on best practices                        6.31                   5.56
+    ## 3 I offer feedback on existing se…                   6.67                   4.33
+    ## 4 Other (please specify):                            7                      6   
+    ## # ℹ abbreviated names: ¹​dietary_health_score_mean,
+    ## #   ²​dietary_sustainability_score_mean
+    ## # ℹ 8 more variables: institutional_sustainability_score_mean <dbl>,
+    ## #   food_pricing_score_mean <dbl>, operational_costs_score_mean <dbl>,
+    ## #   guest_satisfaction_score_mean <dbl>, worker_satisfaction_score_mean <dbl>,
+    ## #   campus_culture_score_mean <dbl>, other_score_mean <dbl>, n <int>
+
+``` r
+stakeholder_survey %>%
   group_by(role_type) %>%
   summarise(dietary_health_score_mean=mean(dietary_health_score),dietary_sustainability_score_mean=mean(dietary_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),food_pricing_score_mean=mean(food_pricing_score),operational_costs_score_mean=mean(operational_costs_score),guest_satisfaction_score_mean=mean(guest_satisfaction_score),worker_satisfaction_score_mean=mean(worker_satisfaction_score),campus_culture_score_mean=mean(campus_culture_score),other_score_mean=mean(other_score),n=n())
 ```
