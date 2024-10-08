@@ -21,10 +21,12 @@ stakeholder_survey <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-an
 
 # Cleaning
 
+We will need to first select out and rename the variables that wil be necessary for our analysis, with `date` corresponding to second the response was recorded, `completion` corresponding to the proportion of the survey that was responded to or viewed, `channel` corresponding to the means through which the survey was accessed, `consent` corresponding to the terms of participation, `involvement` corresponding to the participants' self-reported role in deciding dining policies and practices, `involvement_other` corresponding to offered clarifications on participants' reported roles in deciding dining policies and practices, `stakeholder_type` corresponding to the type of professional role participants reported as serving, `stakeholder_type_other` corresponding to offered clarifications on the type of professional role participants reported as serving, `title` corresponding to participants' disclosed job titles, `role_duration` corresponding to the number of years participants have served in that position, `dietary_health_ranking` corresponding to the level of priority given to the healthiness of food offerings, `dietary_sustainability_ranking` corresponding to the level of priority given to the sustainability of guest food choices, `institutional_sustainability_ranking` corresponding to the level of priority given to the sustainability of dining operations, `food_pricing_ranking` corresponding to the level of priority given to the campus food prices, `operational_costs_ranking` corresponding to the level of priority given to cost of funding dining operations, `guest_satisfaction_ranking` corresponding to the level of priority given to the dining experiences of students, `worker_satisfaction_ranking` corresponding to the level of priority given to the labor experiences of dining staff, `campus_culture_ranking` corresponding to the level of priority given to campus sustainability culture and the monitoring of spillover effects, `other_ranking` corresponding to the level of priority given to other relevant indicators of university-based dietary intervention performance not considered in the provided list, `other_ranking_other` corresponding to offered indicators. 
+
 ```{r}
 stakeholder_survey <- stakeholder_survey %>%
   select(RecordedDate,Progress,DistributionChannel,Q1,Q2,Q2_4_TEXT,Q6,Q6_10_TEXT,Q3,Q5_1,Q2_1,Q2_2,Q2_3,Q2_4,Q2_5,Q2_6,Q2_7,Q2_8,Q2_9,Q2_9_TEXT) %>%
-  rename(data=RecordedDate,completion=Progress,channel=DistributionChannel,consent=Q1,involvement=Q2,involvement_other=Q2_4_TEXT,role_type=Q6,role_type_other=Q6_10_TEXT,title=Q3,role_duration=Q5_1,dietary_health_ranking=Q2_1,dietary_sustainability_ranking=Q2_2,institutional_sustainability_ranking=Q2_3,food_pricing_ranking=Q2_4,operational_costs_ranking=Q2_5,guest_satisfaction_ranking=Q2_6,worker_satisfaction_ranking=Q2_7,campus_culture_ranking=Q2_8,other_ranking=Q2_9,other_ranking_other=Q2_9_TEXT) %>%
+  rename(date=RecordedDate,completion=Progress,channel=DistributionChannel,consent=Q1,involvement=Q2,involvement_other=Q2_4_TEXT,stakeholder_type=Q6,stakeholder_type_other=Q6_10_TEXT,title=Q3,role_duration=Q5_1,dietary_health_ranking=Q2_1,dietary_sustainability_ranking=Q2_2,institutional_sustainability_ranking=Q2_3,food_pricing_ranking=Q2_4,operational_costs_ranking=Q2_5,guest_satisfaction_ranking=Q2_6,worker_satisfaction_ranking=Q2_7,campus_culture_ranking=Q2_8,other_ranking=Q2_9,other_ranking_other=Q2_9_TEXT) %>%
   slice(3:n()) %>%
   mutate(dietary_health_ranking=as.numeric(dietary_health_ranking)) %>%
   mutate(dietary_sustainability_ranking=as.numeric(dietary_sustainability_ranking)) %>%
@@ -131,7 +133,7 @@ stakeholder_survey %>%
 
 ```{r}
 stakeholder_survey %>%
-  group_by(role_type) %>%
+  group_by(stakeholder_type) %>%
   summarise(dietary_health_score_mean=mean(dietary_health_score),dietary_sustainability_score_mean=mean(dietary_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),food_pricing_score_mean=mean(food_pricing_score),operational_costs_score_mean=mean(operational_costs_score),guest_satisfaction_score_mean=mean(guest_satisfaction_score),worker_satisfaction_score_mean=mean(worker_satisfaction_score),campus_culture_score_mean=mean(campus_culture_score),other_score_mean=mean(other_score),n=n())
 ```
 
