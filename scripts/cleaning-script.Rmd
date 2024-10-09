@@ -64,9 +64,12 @@ stakeholder_survey <- stakeholder_survey %>%
   mutate(worker_satisfaction_ranking=as.numeric(worker_satisfaction_ranking)) %>%
   mutate(campus_culture_ranking=as.numeric(campus_culture_ranking)) %>%
   mutate(other_ranking=as.numeric(other_ranking)) 
+stakeholder_survey
 ```
 
-Only one respondent added, 
+Because only one respondent offered an additional text response for `other_ranking_other`, we will opt to 
+
+positioning "Cuisine type" as the second-most important criterion in their decision to implement changes to dining policy or practice, we note this entry in our results section but shift their ranking scheme to align . All other respondents assigned a value of "9" to `other_ranking`.
 
 
 ```{r}
