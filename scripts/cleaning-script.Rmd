@@ -50,7 +50,7 @@ stakeholder_survey <- stakeholder_survey %>%
   rename(date=RecordedDate,completion=Progress,channel=DistributionChannel,consent=Q1,involvement=Q2,involvement_other=Q2_4_TEXT,stakeholder_type=Q6,stakeholder_type_other=Q6_10_TEXT,title=Q3,role_duration=Q5_1,dietary_health_ranking=Q2_1,dietary_sustainability_ranking=Q2_2,institutional_sustainability_ranking=Q2_3,food_pricing_ranking=Q2_4,operational_costs_ranking=Q2_5,guest_satisfaction_ranking=Q2_6,worker_satisfaction_ranking=Q2_7,campus_culture_ranking=Q2_8,other_ranking=Q2_9,other_ranking_other=Q2_9_TEXT) 
 ```
 
-Subsequently, we will need to alter some of the default formatting . 
+Subsequently, we will need to (1) omit the first three rows, which contain information about how the survey variables are coded and (2) reclass the `dietary_health_ranking`, `dietary_sustainability_ranking`, `institutional_sustainability_ranking`, `food_price_ranking`, `operational_costs_ranking`, `guest_satisfaction_ranking`, `worker_satisfaction_ranking`, `campus_culure_ranking`, and `other_ranking` variables from characteric strings to numeric vectors. 
 
 ```{r}
 stakeholder_survey <- stakeholder_survey %>%
