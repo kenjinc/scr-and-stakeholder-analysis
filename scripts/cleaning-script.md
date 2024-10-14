@@ -26,47 +26,49 @@ stakeholder_survey <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-an
 
 # Cleaning
 
-We will need to first select out and rename the variables that wil be
-necessary for our analysis, with:
+First, we will need to select and rename the variables relevant to our
+plan of analysis. We will specifically focus on the following:
 
-- `date` corresponding to second the response was recorded
-- `completion` corresponding to the proportion of the survey that was
-  responded to or viewed
-- `channel` corresponding to the means through which the survey was
-  accessed
-- `consent` corresponding to the terms of participation
-- `involvement` corresponding to the participants’ self-reported role in
-  deciding dining policies and practices
-- `involvement_other` corresponding to offered clarifications on
+- `date`, which corresponds to the date and time the response was
+  recorded
+- `completion`, which corresponds to the proportion of the survey that
+  was completed
+- `channel`, which corresponds to the means through which the survey
+  materials were accessed
+- `consent`, which corresponds to whether participants provided informed
+  consent
+- `involvement`, which corresponds to the participants’ self-reported
+  role in deciding dining policies and practices
+- `involvement_other`, which corresponds to to offered clarifications on
   participants’ reported roles in deciding dining policies and practices
-- `stakeholder_type` corresponding to the type of professional role
+- `stakeholder_type`, which corresponds to the type of professional role
   participants reported as serving
-- `stakeholder_type_other` corresponding to offered clarifications on
-  the type of professional role participants reported as serving
-- `title` corresponding to participants’ disclosed job titles
-- `role_duration` corresponding to the number of years participants have
-  served in that position
-- `dietary_health_ranking` corresponding to the level of priority given
-  to the healthiness of food offerings
-- `dietary_sustainability_ranking` corresponding to the level of
+- `stakeholder_type_other`, which corresponds to offered clarifications
+  on the type of professional role participants reported as serving
+- `title`, which corresponds to participants’ disclosed job titles
+- `role_duration`, which corresponds to the number of years participants
+  have served in that position
+- `dietary_health_ranking`, which corresponds to the level of priority
+  given to the healthiness of food offerings
+- `dietary_sustainability_ranking`, which corresponds to the level of
   priority given to the sustainability of guest food choices
-- `institutional_sustainability_ranking` corresponding to the level of
-  priority given to the sustainability of dining operations
-- `food_pricing_ranking` corresponding to the level of priority given to
-  the campus food prices
-- `operational_costs_ranking` corresponding to the level of priority
-  given to cost of funding dining operations
-- `guest_satisfaction_ranking` corresponding to the level of priority
-  given to the dining experiences of students
-- `worker_satisfaction_ranking` corresponding to the level of priority
-  given to the labor experiences of dining staff
-- `campus_culture_ranking` corresponding to the level of priority given
-  to campus sustainability culture and the monitoring of spillover
+- `institutional_sustainability_ranking`, which corresponds to the level
+  of priority given to the sustainability of dining operations
+- `food_pricing_ranking`, which corresponds to the level of priority
+  given to the campus food prices
+- `operational_costs_ranking`, which corresponds to the level of
+  priority given to cost of funding dining operations
+- `guest_satisfaction_ranking`, which corresponds to the level of
+  priority given to the dining experiences of students
+- `worker_satisfaction_ranking`, which corresponds to the level of
+  priority given to the labor experiences of dining staff
+- `campus_culture_ranking`, which corresponds to the level of priority
+  given to campus sustainability culture and the monitoring of spillover
   effects
-- `other_ranking` corresponding to the level of priority given to other
-  relevant indicators of university-based dietary intervention
+- `other_ranking`, which corresponds to the level of priority given to
+  other relevant indicators of university-based dietary intervention
   performance not considered in the provided list
-- `other_ranking_other` corresponding to offered indicators
+- `other_ranking_other`, which corresponds to offered indicators
 
 ``` r
 stakeholder_survey <- stakeholder_survey %>%
@@ -74,9 +76,9 @@ stakeholder_survey <- stakeholder_survey %>%
   rename(date=RecordedDate,completion=Progress,channel=DistributionChannel,consent=Q1,involvement=Q2,involvement_other=Q2_4_TEXT,stakeholder_type=Q6,stakeholder_type_other=Q6_10_TEXT,title=Q3,role_duration=Q5_1,dietary_health_ranking=Q2_1,dietary_sustainability_ranking=Q2_2,institutional_sustainability_ranking=Q2_3,food_pricing_ranking=Q2_4,operational_costs_ranking=Q2_5,guest_satisfaction_ranking=Q2_6,worker_satisfaction_ranking=Q2_7,campus_culture_ranking=Q2_8,other_ranking=Q2_9,other_ranking_other=Q2_9_TEXT) 
 ```
 
-Subsequently, we will need to (1) omit the first three rows, which
-contain information about how the survey variables are coded and (2)
-reclass the `dietary_health_ranking`, `dietary_sustainability_ranking`,
+We also need to (1) omit the first three rows, which contain information
+about how the survey variables are coded and (2) reclass the
+`dietary_health_ranking`, `dietary_sustainability_ranking`,
 `institutional_sustainability_ranking`, `food_price_ranking`,
 `operational_costs_ranking`, `guest_satisfaction_ranking`,
 `worker_satisfaction_ranking`, `campus_culure_ranking`, and
@@ -94,7 +96,61 @@ stakeholder_survey <- stakeholder_survey %>%
   mutate(worker_satisfaction_ranking=as.numeric(worker_satisfaction_ranking)) %>%
   mutate(campus_culture_ranking=as.numeric(campus_culture_ranking)) %>%
   mutate(other_ranking=as.numeric(other_ranking)) 
-stakeholder_survey
+```
+
+With this complete, we can now move on to address an isolated difference
+in how one subject elected to respond to the rank-order choice set. More
+specifically, this participant used the provided prompt to suggest an
+unlisted performance indicator in `other_ranking_other`, with all other
+respondents ranking `other_ranking` last and without any additional
+details. Given this, in the interest of constructing a consistent
+scoring system, we will narratively note the omission of the suggested
+“Cuisine type” indicator in our results while simultaneously removing
+the `other_ranking` and `other_ranking_other` variables from the
+variable list.
+
+In this particular instance, because the subject identified this
+previously unspecified indicator with a rank of “2,” this requires us to
+subtract 1 from every ranked indicator apart from
+`guest_satisfaction_ranking`, which was ranked first, ahead of “Cuisine
+type.”
+
+To accomplish this, we will first transform the data by adding variable
+`id` to attach unique identifiers to each individual response. This will
+help us isolate the changes in ranking to the one outlying response set.
+
+``` r
+stakeholder_survey <- stakeholder_survey %>%
+  mutate(id=row_number())
+```
+
+Now, we move on to the next step, which involves recoding all rank
+responses greater than “2,” such that every performance indicator apart
+from `guest_satisfaction_ranking` moves one position ahead to compensate
+for the joint removal of `other_ranking` and `other_ranking_other`.
+
+``` r
+stakeholder_survey <- stakeholder_survey %>%
+  mutate(campus_culture_ranking=case_when(id == 22 ~ 8,
+                                          TRUE ~ campus_culture_ranking)) %>%
+  mutate(worker_satisfaction_ranking=case_when(id == 22 ~ 7,
+                                          TRUE ~ worker_satisfaction_ranking)) %>%
+  mutate(operational_costs_ranking=case_when(id == 22 ~ 2,
+                                          TRUE ~ worker_satisfaction_ranking)) %>%
+  mutate(food_pricing_ranking=case_when(id == 22 ~ 3,
+                                          TRUE ~ food_pricing_ranking)) %>%
+  mutate(institutional_sustainability_ranking=case_when(id == 22 ~ 4,
+                                          TRUE ~ institutional_sustainability_ranking)) %>%
+  mutate(dietary_sustainability_ranking=case_when(id == 22 ~ 5,
+                                          TRUE ~ dietary_sustainability_ranking)) %>%
+  mutate(dietary_health_ranking=case_when(id == 22 ~ 6,
+                                          TRUE ~ dietary_health_ranking)) 
+```
+
+With
+
+``` r
+stakeholder_survey %>% select(-other_ranking,-other_ranking_other)
 ```
 
     ##                   date completion channel               consent
@@ -284,7 +340,7 @@ stakeholder_survey
     ## 19             2                      1                              4
     ## 20             1                      5                              6
     ## 21             2                      5                              2
-    ## 22            16                      7                              6
+    ## 22            16                      6                              5
     ## 23             3                      1                              2
     ## 24            .1                      6                              2
     ## 25             3                      2                              5
@@ -317,7 +373,7 @@ stakeholder_survey
     ## 19                                    8                    6
     ## 20                                    4                    8
     ## 21                                    3                    7
-    ## 22                                    5                    4
+    ## 22                                    4                    3
     ## 23                                    6                    8
     ## 24                                    1                    5
     ## 25                                    6                    3
@@ -329,134 +385,92 @@ stakeholder_survey
     ## 31                                    7                    8
     ## 32                                    8                    2
     ##    operational_costs_ranking guest_satisfaction_ranking
-    ## 1                          4                          1
-    ## 2                          7                          4
-    ## 3                          5                          6
-    ## 4                          3                          1
-    ## 5                          3                          4
-    ## 6                          1                          4
-    ## 7                          8                          4
-    ## 8                          3                          2
-    ## 9                          4                          1
-    ## 10                         3                          5
-    ## 11                         2                          1
-    ## 12                         7                          5
-    ## 13                         2                          4
-    ## 14                         7                          2
-    ## 15                         2                          3
-    ## 16                         3                          1
-    ## 17                         7                          4
-    ## 18                         5                          2
-    ## 19                         5                          2
-    ## 20                         7                          1
-    ## 21                         6                          4
-    ## 22                         3                          1
-    ## 23                         4                          3
-    ## 24                         3                          8
-    ## 25                         4                          1
-    ## 26                         7                          4
-    ## 27                         1                          3
-    ## 28                         3                          2
-    ## 29                         1                          2
-    ## 30                         5                          1
-    ## 31                         3                          4
-    ## 32                         1                          4
-    ##    worker_satisfaction_ranking campus_culture_ranking other_ranking
-    ## 1                            6                      8             9
-    ## 2                            5                      6             9
-    ## 3                            7                      1             9
-    ## 4                            7                      8             9
-    ## 5                            2                      6             9
-    ## 6                            7                      5             9
-    ## 7                            6                      7             9
-    ## 8                            1                      7             9
-    ## 9                            6                      3             9
-    ## 10                           6                      8             9
-    ## 11                           6                      4             9
-    ## 12                           2                      3             9
-    ## 13                           8                      1             9
-    ## 14                           3                      4             9
-    ## 15                           8                      7             9
-    ## 16                           7                      5             9
-    ## 17                           2                      5             9
-    ## 18                           6                      1             9
-    ## 19                           3                      7             9
-    ## 20                           3                      2             9
-    ## 21                           1                      8             9
-    ## 22                           8                      9             2
-    ## 23                           7                      5             9
-    ## 24                           4                      7             9
-    ## 25                           8                      7             9
-    ## 26                           8                      2             9
-    ## 27                           8                      7             9
-    ## 28                           7                      4             9
-    ## 29                           8                      6             9
-    ## 30                           7                      8             9
-    ## 31                           2                      1             9
-    ## 32                           5                      7             9
-    ##    other_ranking_other
-    ## 1                     
-    ## 2                     
-    ## 3                     
-    ## 4                     
-    ## 5                     
-    ## 6                     
-    ## 7                     
-    ## 8                     
-    ## 9                     
-    ## 10                    
-    ## 11                    
-    ## 12                    
-    ## 13                    
-    ## 14                    
-    ## 15                    
-    ## 16                    
-    ## 17                    
-    ## 18                    
-    ## 19                    
-    ## 20                    
-    ## 21                    
-    ## 22        Cuisine type
-    ## 23                    
-    ## 24                    
-    ## 25                    
-    ## 26                    
-    ## 27                    
-    ## 28                    
-    ## 29                    
-    ## 30                    
-    ## 31                    
-    ## 32
+    ## 1                          6                          1
+    ## 2                          5                          4
+    ## 3                          7                          6
+    ## 4                          7                          1
+    ## 5                          2                          4
+    ## 6                          7                          4
+    ## 7                          6                          4
+    ## 8                          1                          2
+    ## 9                          6                          1
+    ## 10                         6                          5
+    ## 11                         6                          1
+    ## 12                         2                          5
+    ## 13                         8                          4
+    ## 14                         3                          2
+    ## 15                         8                          3
+    ## 16                         7                          1
+    ## 17                         2                          4
+    ## 18                         6                          2
+    ## 19                         3                          2
+    ## 20                         3                          1
+    ## 21                         1                          4
+    ## 22                         2                          1
+    ## 23                         7                          3
+    ## 24                         4                          8
+    ## 25                         8                          1
+    ## 26                         8                          4
+    ## 27                         8                          3
+    ## 28                         7                          2
+    ## 29                         8                          2
+    ## 30                         7                          1
+    ## 31                         2                          4
+    ## 32                         5                          4
+    ##    worker_satisfaction_ranking campus_culture_ranking id
+    ## 1                            6                      8  1
+    ## 2                            5                      6  2
+    ## 3                            7                      1  3
+    ## 4                            7                      8  4
+    ## 5                            2                      6  5
+    ## 6                            7                      5  6
+    ## 7                            6                      7  7
+    ## 8                            1                      7  8
+    ## 9                            6                      3  9
+    ## 10                           6                      8 10
+    ## 11                           6                      4 11
+    ## 12                           2                      3 12
+    ## 13                           8                      1 13
+    ## 14                           3                      4 14
+    ## 15                           8                      7 15
+    ## 16                           7                      5 16
+    ## 17                           2                      5 17
+    ## 18                           6                      1 18
+    ## 19                           3                      7 19
+    ## 20                           3                      2 20
+    ## 21                           1                      8 21
+    ## 22                           7                      8 22
+    ## 23                           7                      5 23
+    ## 24                           4                      7 24
+    ## 25                           8                      7 25
+    ## 26                           8                      2 26
+    ## 27                           8                      7 27
+    ## 28                           7                      4 28
+    ## 29                           8                      6 29
+    ## 30                           7                      8 30
+    ## 31                           2                      1 31
+    ## 32                           5                      7 32
 
-Because only one respondent offered an additional text response for
-`other_ranking_other`, we will opt to
-
-positioning “Cuisine type” as the second-most important criterion in
-their decision to implement changes to dining policy or practice, we
-note this entry in our results section but shift their ranking scheme to
-align . All other respondents assigned a value of “9” to
-`other_ranking`.
+Inverted scoring system
 
 ``` r
 stakeholder_survey <- stakeholder_survey %>%
-  mutate(dietary_health_score=case_when(dietary_health_ranking == 1 ~ 9,
-                                        dietary_health_ranking == 2 ~ 8,
-                                        dietary_health_ranking == 3 ~ 7,
-                                        dietary_health_ranking == 4 ~ 6,
-                                        dietary_health_ranking == 5 ~ 5,
-                                        dietary_health_ranking == 6 ~ 4,
-                                        dietary_health_ranking == 7 ~ 3,
-                                        dietary_health_ranking == 8 ~ 2,
-                                        dietary_health_ranking == 9 ~ 1)) %>%
-  mutate(dietary_sustainability_score=case_when(dietary_sustainability_ranking == 1 ~ 9,
-                                        dietary_sustainability_ranking == 2 ~ 8,
-                                        dietary_sustainability_ranking == 3 ~ 7,
-                                        dietary_sustainability_ranking == 4 ~ 6,
-                                        dietary_sustainability_ranking == 5 ~ 5,
-                                        dietary_sustainability_ranking == 6 ~ 4,
-                                        dietary_sustainability_ranking == 7 ~ 3,
-                                        dietary_sustainability_ranking == 8 ~ 2,
-                                        dietary_sustainability_ranking == 9 ~ 1)) %>%
+  mutate(dietary_health_score=case_when(dietary_health_ranking == 1 ~ 8,
+                                        dietary_health_ranking == 2 ~ 7,
+                                        dietary_health_ranking == 3 ~ 6,
+                                        dietary_health_ranking == 4 ~ 5,
+                                        dietary_health_ranking == 5 ~ 4,
+                                        dietary_health_ranking == 6 ~ 3,
+                                        dietary_health_ranking == 7 ~ 2,
+                                        dietary_health_ranking == 8 ~ 1)) %>%
+  mutate(dietary_sustainability_score=case_when(dietary_sustainability_ranking == 1 ~ 8,
+                                        dietary_sustainability_ranking == 2 ~ 7,
+                                        dietary_sustainability_ranking == 3 ~ 6,
+                                        dietary_sustainability_ranking == 4 ~ 5,
+                                        dietary_sustainability_ranking == 5 ~ 4,
+                                        dietary_sustainability_ranking == 6 ~ 3,
+                                        dietary_sustainability_ranking == 7 ~ 2,
+                                        dietary_sustainability_ranking == 8 ~ 1)) %>%
   mutate(institutional_sustainability_score=case_when(institutional_sustainability_ranking == 1 ~ 9,
                                         institutional_sustainability_ranking == 2 ~ 8,
                                         institutional_sustainability_ranking == 3 ~ 7,
@@ -466,60 +480,54 @@ stakeholder_survey <- stakeholder_survey %>%
                                         institutional_sustainability_ranking == 7 ~ 3,
                                         institutional_sustainability_ranking == 8 ~ 2,
                                         institutional_sustainability_ranking == 9 ~ 1)) %>%
-  mutate(food_pricing_score=case_when(food_pricing_ranking == 1 ~ 9,
-                                        food_pricing_ranking == 2 ~ 8,
-                                        food_pricing_ranking == 3 ~ 7,
-                                        food_pricing_ranking == 4 ~ 6,
-                                        food_pricing_ranking == 5 ~ 5,
-                                        food_pricing_ranking == 6 ~ 4,
-                                        food_pricing_ranking == 7 ~ 3,
-                                        food_pricing_ranking == 8 ~ 2,
-                                        food_pricing_ranking == 9 ~ 1)) %>%
-  mutate(operational_costs_score=case_when(operational_costs_ranking == 1 ~ 9,
-                                        operational_costs_ranking == 2 ~ 8,
-                                        operational_costs_ranking == 3 ~ 7,
-                                        operational_costs_ranking == 4 ~ 6,
-                                        operational_costs_ranking == 5 ~ 5,
-                                        operational_costs_ranking == 6 ~ 4,
-                                        operational_costs_ranking == 7 ~ 3,
-                                        operational_costs_ranking == 8 ~ 2,
-                                        operational_costs_ranking == 9 ~ 1)) %>%
-  mutate(guest_satisfaction_score=case_when(guest_satisfaction_ranking == 1 ~ 9,
-                                        guest_satisfaction_ranking == 2 ~ 8,
-                                        guest_satisfaction_ranking == 3 ~ 7,
-                                        guest_satisfaction_ranking == 4 ~ 6,
-                                        guest_satisfaction_ranking == 5 ~ 5,
-                                        guest_satisfaction_ranking == 6 ~ 4,
-                                        guest_satisfaction_ranking == 7 ~ 3,
-                                        guest_satisfaction_ranking == 8 ~ 2,
-                                        guest_satisfaction_ranking == 9 ~ 1)) %>%
-  mutate(worker_satisfaction_score=case_when(worker_satisfaction_ranking == 1 ~ 9,
-                                        worker_satisfaction_ranking == 2 ~ 8,
-                                        worker_satisfaction_ranking == 3 ~ 7,
-                                        worker_satisfaction_ranking == 4 ~ 6,
-                                        worker_satisfaction_ranking == 5 ~ 5,
-                                        worker_satisfaction_ranking == 6 ~ 4,
-                                        worker_satisfaction_ranking == 7 ~ 3,
-                                        worker_satisfaction_ranking == 8 ~ 2,
-                                        worker_satisfaction_ranking == 9 ~ 1)) %>%
-  mutate(campus_culture_score=case_when(campus_culture_ranking == 1 ~ 9,
-                                        campus_culture_ranking == 2 ~ 8,
-                                        campus_culture_ranking == 3 ~ 7,
-                                        campus_culture_ranking == 4 ~ 6,
-                                        campus_culture_ranking == 5 ~ 5,
-                                        campus_culture_ranking == 6 ~ 4,
-                                        campus_culture_ranking == 7 ~ 3,
-                                        campus_culture_ranking == 8 ~ 2,
-                                        campus_culture_ranking == 9 ~ 1)) %>%
-  mutate(other_score=case_when(other_ranking == 1 ~ 9,
-                                        other_ranking == 2 ~ 8,
-                                        other_ranking == 3 ~ 7,
-                                        other_ranking == 4 ~ 6,
-                                        other_ranking == 5 ~ 5,
-                                        other_ranking == 6 ~ 4,
-                                        other_ranking == 7 ~ 3,
-                                        other_ranking == 8 ~ 2,
-                                        other_ranking == 9 ~ 1)) 
+  mutate(food_pricing_score=case_when(food_pricing_ranking == 1 ~ 8,
+                                        food_pricing_ranking == 2 ~ 7,
+                                        food_pricing_ranking == 3 ~ 6,
+                                        food_pricing_ranking == 4 ~ 5,
+                                        food_pricing_ranking == 5 ~ 4,
+                                        food_pricing_ranking == 6 ~ 3,
+                                        food_pricing_ranking == 7 ~ 2,
+                                        food_pricing_ranking == 8 ~ 1)) %>%
+  mutate(operational_costs_score=case_when(operational_costs_ranking == 1 ~ 8,
+                                        operational_costs_ranking == 2 ~ 7,
+                                        operational_costs_ranking == 3 ~ 6,
+                                        operational_costs_ranking == 4 ~ 5,
+                                        operational_costs_ranking == 5 ~ 4,
+                                        operational_costs_ranking == 6 ~ 3,
+                                        operational_costs_ranking == 7 ~ 2,
+                                        operational_costs_ranking == 8 ~ 1)) %>%
+  mutate(guest_satisfaction_score=case_when(guest_satisfaction_ranking == 1 ~ 8,
+                                        guest_satisfaction_ranking == 2 ~ 7,
+                                        guest_satisfaction_ranking == 3 ~ 6,
+                                        guest_satisfaction_ranking == 4 ~ 5,
+                                        guest_satisfaction_ranking == 5 ~ 4,
+                                        guest_satisfaction_ranking == 6 ~ 3,
+                                        guest_satisfaction_ranking == 7 ~ 2,
+                                        guest_satisfaction_ranking == 8 ~ 1)) %>%
+  mutate(worker_satisfaction_score=case_when(worker_satisfaction_ranking == 1 ~ 8,
+                                        worker_satisfaction_ranking == 2 ~ 7,
+                                        worker_satisfaction_ranking == 3 ~ 6,
+                                        worker_satisfaction_ranking == 4 ~ 5,
+                                        worker_satisfaction_ranking == 5 ~ 4,
+                                        worker_satisfaction_ranking == 6 ~ 3,
+                                        worker_satisfaction_ranking == 7 ~ 2,
+                                        worker_satisfaction_ranking == 8 ~ 1)) %>%
+  mutate(campus_culture_score=case_when(campus_culture_ranking == 1 ~ 8,
+                                        campus_culture_ranking == 2 ~ 7,
+                                        campus_culture_ranking == 3 ~ 6,
+                                        campus_culture_ranking == 4 ~ 5,
+                                        campus_culture_ranking == 5 ~ 4,
+                                        campus_culture_ranking == 6 ~ 3,
+                                        campus_culture_ranking == 7 ~ 2,
+                                        campus_culture_ranking == 8 ~ 1)) %>%
+  mutate(other_score=case_when(other_ranking == 1 ~ 8,
+                                        other_ranking == 2 ~ 7,
+                                        other_ranking == 3 ~ 6,
+                                        other_ranking == 4 ~ 5,
+                                        other_ranking == 5 ~ 4,
+                                        other_ranking == 6 ~ 3,
+                                        other_ranking == 7 ~ 2,
+                                        other_ranking == 8 ~ 1)) 
 ```
 
 ``` r
@@ -531,10 +539,10 @@ stakeholder_survey %>%
     ## # A tibble: 4 × 11
     ##   involvement                      dietary_health_score…¹ dietary_sustainabili…²
     ##   <chr>                                             <dbl>                  <dbl>
-    ## 1 I am a primary decision maker                      5.67                   5.17
-    ## 2 I consult on best practices                        6.31                   5.56
-    ## 3 I offer feedback on existing se…                   6.67                   4.33
-    ## 4 Other (please specify):                            7                      6   
+    ## 1 I am a primary decision maker                      4.75                   4.25
+    ## 2 I consult on best practices                        5.31                   4.56
+    ## 3 I offer feedback on existing se…                   5.67                   3.33
+    ## 4 Other (please specify):                            6                      5   
     ## # ℹ abbreviated names: ¹​dietary_health_score_mean,
     ## #   ²​dietary_sustainability_score_mean
     ## # ℹ 8 more variables: institutional_sustainability_score_mean <dbl>,
@@ -551,12 +559,12 @@ stakeholder_survey %>%
     ## # A tibble: 6 × 11
     ##   stakeholder_type           dietary_health_score_mean dietary_sustainability_…¹
     ##   <chr>                                          <dbl>                     <dbl>
-    ## 1 Chef                                            5                         5.25
-    ## 2 Dining director                                 5.71                      5.71
-    ## 3 Nutrition specialist                            7.4                       5.6 
-    ## 4 Other (please specify):                         6.83                      5.67
-    ## 5 Sustainability coordinator                      5.5                       5.83
-    ## 6 University administrator                        6.25                      3   
+    ## 1 Chef                                            4                         4.25
+    ## 2 Dining director                                 4.71                      4.71
+    ## 3 Nutrition specialist                            6.4                       4.6 
+    ## 4 Other (please specify):                         5.83                      4.67
+    ## 5 Sustainability coordinator                      4.5                       4.83
+    ## 6 University administrator                        5.5                       2.25
     ## # ℹ abbreviated name: ¹​dietary_sustainability_score_mean
     ## # ℹ 8 more variables: institutional_sustainability_score_mean <dbl>,
     ## #   food_pricing_score_mean <dbl>, operational_costs_score_mean <dbl>,
@@ -569,13 +577,13 @@ stakeholder_survey %>%
 ```
 
     ##   dietary_health_score_mean dietary_sustainability_score_mean
-    ## 1                     6.125                            5.3125
+    ## 1                   5.15625                           4.34375
     ##   institutional_sustainability_score_mean food_pricing_score_mean
-    ## 1                                  4.8125                 5.21875
+    ## 1                                 4.84375                    4.25
     ##   operational_costs_score_mean guest_satisfaction_score_mean
-    ## 1                      5.96875                        7.0625
+    ## 1                         3.75                        6.0625
     ##   worker_satisfaction_score_mean campus_culture_score_mean other_score_mean  n
-    ## 1                         4.5625                   4.71875          1.21875 32
+    ## 1                        3.59375                      3.75               NA 32
 
 ``` r
 stakeholder_survey %>%
@@ -583,10 +591,10 @@ stakeholder_survey %>%
 ```
 
     ##   dietary_health_score_sum dietary_sustainability_score_sum
-    ## 1                      196                              170
+    ## 1                      165                              139
     ##   institutional_sustainability_score_sum food_pricing_score_sum
-    ## 1                                    154                    167
+    ## 1                                    155                    136
     ##   operational_costs_score_sum guest_satisfaction_score_sum
-    ## 1                         191                          226
+    ## 1                         120                          194
     ##   worker_satisfaction_score_sum campus_culture_score_sum other_score_sum  n
-    ## 1                           146                      151              39 32
+    ## 1                           115                      120              NA 32
