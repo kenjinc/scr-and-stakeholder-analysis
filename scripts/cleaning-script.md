@@ -519,24 +519,30 @@ stakeholder_survey <- stakeholder_survey %>%
                                         campus_culture_ranking == 5 ~ 4,
                                         campus_culture_ranking == 6 ~ 3,
                                         campus_culture_ranking == 7 ~ 2,
-                                        campus_culture_ranking == 8 ~ 1)) %>%
-  mutate(other_score=case_when(other_ranking == 1 ~ 8,
-                                        other_ranking == 2 ~ 7,
-                                        other_ranking == 3 ~ 6,
-                                        other_ranking == 4 ~ 5,
-                                        other_ranking == 5 ~ 4,
-                                        other_ranking == 6 ~ 3,
-                                        other_ranking == 7 ~ 2,
-                                        other_ranking == 8 ~ 1)) 
+                                        campus_culture_ranking == 8 ~ 1)) 
 ```
 
 ``` r
 stakeholder_survey %>%
-  group_by(involvement) %>%
-  summarise(dietary_health_score_mean=mean(dietary_health_score),dietary_sustainability_score_mean=mean(dietary_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),food_pricing_score_mean=mean(food_pricing_score),operational_costs_score_mean=mean(operational_costs_score),guest_satisfaction_score_mean=mean(guest_satisfaction_score),worker_satisfaction_score_mean=mean(worker_satisfaction_score),campus_culture_score_mean=mean(campus_culture_score),other_score_mean=mean(other_score),n=n())
+  summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score)) 
 ```
 
-    ## # A tibble: 4 × 11
+    ##   dietary_health_score_sum dietary_sustainability_score
+    ## 1                      165                          139
+    ##   institutional_sustainability_score_sum food_pricing_score_sum
+    ## 1                                    155                    136
+    ##   operational_costs_score_sum guest_satisfaction_score_sum
+    ## 1                         120                          194
+    ##   worker_satisfaction_score_sum campus_culture_score_sum
+    ## 1                           115                      120
+
+``` r
+stakeholder_survey %>%
+  group_by(involvement) %>%
+  summarise(dietary_health_score_mean=mean(dietary_health_score),dietary_sustainability_score_mean=mean(dietary_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),food_pricing_score_mean=mean(food_pricing_score),operational_costs_score_mean=mean(operational_costs_score),guest_satisfaction_score_mean=mean(guest_satisfaction_score),worker_satisfaction_score_mean=mean(worker_satisfaction_score),campus_culture_score_mean=mean(campus_culture_score),n=n())
+```
+
+    ## # A tibble: 4 × 10
     ##   involvement                      dietary_health_score…¹ dietary_sustainabili…²
     ##   <chr>                                             <dbl>                  <dbl>
     ## 1 I am a primary decision maker                      4.75                   4.25
@@ -545,18 +551,18 @@ stakeholder_survey %>%
     ## 4 Other (please specify):                            6                      5   
     ## # ℹ abbreviated names: ¹​dietary_health_score_mean,
     ## #   ²​dietary_sustainability_score_mean
-    ## # ℹ 8 more variables: institutional_sustainability_score_mean <dbl>,
+    ## # ℹ 7 more variables: institutional_sustainability_score_mean <dbl>,
     ## #   food_pricing_score_mean <dbl>, operational_costs_score_mean <dbl>,
     ## #   guest_satisfaction_score_mean <dbl>, worker_satisfaction_score_mean <dbl>,
-    ## #   campus_culture_score_mean <dbl>, other_score_mean <dbl>, n <int>
+    ## #   campus_culture_score_mean <dbl>, n <int>
 
 ``` r
 stakeholder_survey %>%
   group_by(stakeholder_type) %>%
-  summarise(dietary_health_score_mean=mean(dietary_health_score),dietary_sustainability_score_mean=mean(dietary_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),food_pricing_score_mean=mean(food_pricing_score),operational_costs_score_mean=mean(operational_costs_score),guest_satisfaction_score_mean=mean(guest_satisfaction_score),worker_satisfaction_score_mean=mean(worker_satisfaction_score),campus_culture_score_mean=mean(campus_culture_score),other_score_mean=mean(other_score),n=n())
+  summarise(dietary_health_score_mean=mean(dietary_health_score),dietary_sustainability_score_mean=mean(dietary_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),food_pricing_score_mean=mean(food_pricing_score),operational_costs_score_mean=mean(operational_costs_score),guest_satisfaction_score_mean=mean(guest_satisfaction_score),worker_satisfaction_score_mean=mean(worker_satisfaction_score),campus_culture_score_mean=mean(campus_culture_score),n=n())
 ```
 
-    ## # A tibble: 6 × 11
+    ## # A tibble: 6 × 10
     ##   stakeholder_type           dietary_health_score_mean dietary_sustainability_…¹
     ##   <chr>                                          <dbl>                     <dbl>
     ## 1 Chef                                            4                         4.25
@@ -566,14 +572,14 @@ stakeholder_survey %>%
     ## 5 Sustainability coordinator                      4.5                       4.83
     ## 6 University administrator                        5.5                       2.25
     ## # ℹ abbreviated name: ¹​dietary_sustainability_score_mean
-    ## # ℹ 8 more variables: institutional_sustainability_score_mean <dbl>,
+    ## # ℹ 7 more variables: institutional_sustainability_score_mean <dbl>,
     ## #   food_pricing_score_mean <dbl>, operational_costs_score_mean <dbl>,
     ## #   guest_satisfaction_score_mean <dbl>, worker_satisfaction_score_mean <dbl>,
-    ## #   campus_culture_score_mean <dbl>, other_score_mean <dbl>, n <int>
+    ## #   campus_culture_score_mean <dbl>, n <int>
 
 ``` r
 stakeholder_survey %>%
-  summarise(dietary_health_score_mean=mean(dietary_health_score),dietary_sustainability_score_mean=mean(dietary_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),food_pricing_score_mean=mean(food_pricing_score),operational_costs_score_mean=mean(operational_costs_score),guest_satisfaction_score_mean=mean(guest_satisfaction_score),worker_satisfaction_score_mean=mean(worker_satisfaction_score),campus_culture_score_mean=mean(campus_culture_score),other_score_mean=mean(other_score),n=n())
+  summarise(dietary_health_score_mean=mean(dietary_health_score),dietary_sustainability_score_mean=mean(dietary_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),institutional_sustainability_score_mean=mean(institutional_sustainability_score),food_pricing_score_mean=mean(food_pricing_score),operational_costs_score_mean=mean(operational_costs_score),guest_satisfaction_score_mean=mean(guest_satisfaction_score),worker_satisfaction_score_mean=mean(worker_satisfaction_score),campus_culture_score_mean=mean(campus_culture_score),n=n())
 ```
 
     ##   dietary_health_score_mean dietary_sustainability_score_mean
@@ -582,12 +588,12 @@ stakeholder_survey %>%
     ## 1                                 4.84375                    4.25
     ##   operational_costs_score_mean guest_satisfaction_score_mean
     ## 1                         3.75                        6.0625
-    ##   worker_satisfaction_score_mean campus_culture_score_mean other_score_mean  n
-    ## 1                        3.59375                      3.75               NA 32
+    ##   worker_satisfaction_score_mean campus_culture_score_mean  n
+    ## 1                        3.59375                      3.75 32
 
 ``` r
 stakeholder_survey %>%
-  summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score_sum=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score),other_score_sum=sum(other_score),n=n())
+  summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score_sum=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score),n=n())
 ```
 
     ##   dietary_health_score_sum dietary_sustainability_score_sum
@@ -596,5 +602,5 @@ stakeholder_survey %>%
     ## 1                                    155                    136
     ##   operational_costs_score_sum guest_satisfaction_score_sum
     ## 1                         120                          194
-    ##   worker_satisfaction_score_sum campus_culture_score_sum other_score_sum  n
-    ## 1                           115                      120              NA 32
+    ##   worker_satisfaction_score_sum campus_culture_score_sum  n
+    ## 1                           115                      120 32
