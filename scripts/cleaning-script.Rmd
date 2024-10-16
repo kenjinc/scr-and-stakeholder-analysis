@@ -18,6 +18,7 @@ library(maps)
 
 ```{r}
 stakeholder_survey <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/survey-data.csv")
+review_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv")
 ```
 
 # Cleaning
@@ -287,6 +288,45 @@ global_shapefile <- global_shapefile %>%
 ```{r}
 global_shapefile %>%
   distinct(country)
+```
+
+
+
+```{r}
+review_data <- review_data %>% 
+  select(Country_2,Participating.Institutions) %>%
+  rename(country=Country_2,institutions=Participating.Institutions)
+```
+
+```{r}
+review_data <- review_data %>%
+  mutate(across(country,str_replace,"USA","United States")) %>%
+  mutate(across(country,str_replace,"UK","United Kingdom")) 
+```
+
+```{r}
+review_data <- review_data %>%
+  group_by(country) %>%
+  summarise(count=sum(institutions))
+```
+
+```{r}
+review_data %>% arrange(desc(count))
+```
+
+```{r}
+aggregated_data <- left_join(review_data,global_shapefile,by="country")
+```
+
+```{r}
+aggregated_data %>%
+  ggplot(aes(x=long,y=lat,fill=count,group=group)) + 
+  geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
+  scale_fill_gradient(low="lavender",high="lightslateblue",na.value="white",name="",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
+  xlab("") + 
+  ylab("") +
+  labs(caption="") +
+  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
 

@@ -33,6 +33,7 @@ library(maps)
 
 ``` r
 stakeholder_survey <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/survey-data.csv")
+review_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv")
 ```
 
 # Cleaning
@@ -721,6 +722,78 @@ global_shapefile %>%
     ##  9 Antigua            
     ## 10 Antigua and Barbuda
     ## # ℹ 248 more rows
+
+``` r
+review_data <- review_data %>% 
+  select(Country_2,Participating.Institutions) %>%
+  rename(country=Country_2,institutions=Participating.Institutions)
+```
+
+``` r
+review_data <- review_data %>%
+  mutate(across(country,str_replace,"USA","United States")) %>%
+  mutate(across(country,str_replace,"UK","United Kingdom")) 
+```
+
+    ## Warning: There was 1 warning in `mutate()`.
+    ## ℹ In argument: `across(country, str_replace, "USA", "United States")`.
+    ## Caused by warning:
+    ## ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+    ## Supply arguments directly to `.fns` through an anonymous function instead.
+    ## 
+    ##   # Previously
+    ##   across(a:b, mean, na.rm = TRUE)
+    ## 
+    ##   # Now
+    ##   across(a:b, \(x) mean(x, na.rm = TRUE))
+
+``` r
+review_data <- review_data %>%
+  group_by(country) %>%
+  summarise(count=sum(institutions))
+```
+
+``` r
+review_data %>% arrange(desc(count))
+```
+
+    ## # A tibble: 17 × 2
+    ##    country        count
+    ##    <chr>          <int>
+    ##  1 United States     74
+    ##  2 United Kingdom    15
+    ##  3 Canada            13
+    ##  4 Portugal           7
+    ##  5 Italy              6
+    ##  6 Germany            4
+    ##  7 China              3
+    ##  8 Sweden             3
+    ##  9 Australia          2
+    ## 10 Belgium            2
+    ## 11 Brazil             2
+    ## 12 Netherlands        2
+    ## 13 France             1
+    ## 14 India              1
+    ## 15 Norway             1
+    ## 16 Switzerland        1
+    ## 17 Thailand           1
+
+``` r
+aggregated_data <- left_join(review_data,global_shapefile,by="country")
+```
+
+``` r
+aggregated_data %>%
+  ggplot(aes(x=long,y=lat,fill=count,group=group)) + 
+  geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
+  scale_fill_gradient(low="lavender",high="lightslateblue",na.value="white",name="",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
+  xlab("") + 
+  ylab("") +
+  labs(caption="") +
+  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+```
+
+![](cleaning-script_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 ``` r
 uk_shapefile <- map_data("world",region="UK")
