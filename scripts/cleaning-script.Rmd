@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
+library(maps)
 ```
 
 # Data Loading
@@ -217,3 +218,90 @@ stakeholder_survey %>%
 stakeholder_survey %>%
   summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score_sum=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score),n=n())
 ```
+
+# Extraction Data
+
+
+
+
+```{r}
+global_shapefile <- map_data("world")
+```
+
+```{r}
+global_shapefile <- global_shapefile %>% 
+  rename(country=region) %>%
+  mutate(country=case_when(country=="Macedonia"~"North Macedonia",
+                           country=="Ivory Coast"~"Cote d'Ivoire",
+                           country=="Democratic Republic of the Congo"~"Congo, Dem. Rep.",
+                           country=="Republic of Congo"~"Congo, Rep.",
+                           country=="UK"~"United Kingdom",
+                           country=="USA"~"United States",
+                           country=="Laos"~"Lao",
+                           country=="Slovakia"~"Slovak Republic",
+                           country=="Saint Lucia"~"St. Lucia",
+                           country=="Kyrgyzstan"~"Krygyz Republic",
+                           country=="Micronesia"~"Micronesia, Fed. Sts.",
+                           country=="Swaziland"~"Eswatini",
+                           country=="Virgin Islands"~"Virgin Islands (U.S.)",
+                        TRUE~country))
+island_nations <- c("Antigua","Barbuda","Nevis", 
+                 "Saint Kitts","Trinidad",
+                 "Tobago","Grenadines","Saint Vincent")
+island_nations_match <- global_shapefile %>% 
+  filter(country %in% island_nations)
+island_nations_match %>% distinct(country)
+ant_bar <- c(137,138 )
+kit_nev <- c(930,931)
+tri_tog <- c(1425,1426)
+vin_gre <- c(1575,1576,1577)
+island_nation_names <- c("Antigua and Barbuda","St. Kitts and Nevis","Trinidad and Tobago","St. Vincent and the Grenadines")
+island_nations_match <- island_nations_match %>% 
+  mutate(country=case_when(group %in% ant_bar~"Antigua and Barbuda",
+                           group %in% kit_nev~"St. Kitts and Nevis",
+                           group %in% tri_tog~"Trinidad and Tobago",
+                           group %in% vin_gre~"St. Vincent and the Grenadines")) %>% 
+  tibble()
+island_nations_match %>%
+  distinct(country) 
+global_shapefile <- global_shapefile %>%
+  filter(!country %in% island_nation_names)
+global_shapefile <- global_shapefile %>% 
+  bind_rows(island_nations_match) %>%
+  arrange(country) %>%
+  tibble()
+sra_names <- c("Hong Kong","Macao")
+hk_mc <- global_shapefile %>% 
+  filter(subregion %in% sra_names)
+hk_mc <- hk_mc %>%
+  mutate(country = case_when(subregion=="Hong Kong"~"Hong Kong, China",
+                             subregion=="Macao"~"Macao, China"))
+global_shapefile <- global_shapefile %>%
+  filter(!subregion %in% sra_names)
+global_shapefile <- global_shapefile %>% 
+  bind_rows(hk_mc) %>%
+  select(-subregion) %>% 
+  tibble()
+```
+
+```{r}
+global_shapefile %>%
+  distinct(country)
+```
+
+
+```{r}
+uk_shapefile <- map_data("world",region="UK")
+```
+
+```{r}
+usa_shapefile <- map_data("state")
+```
+
+```{r}
+usa_shapefile %>%
+  distinct(region)
+```
+
+
+

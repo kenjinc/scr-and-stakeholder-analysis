@@ -18,6 +18,17 @@ library(tidyverse)
     ## ✖ dplyr::lag()    masks stats::lag()
     ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
+``` r
+library(maps)
+```
+
+    ## 
+    ## Attaching package: 'maps'
+    ## 
+    ## The following object is masked from 'package:purrr':
+    ## 
+    ##     map
+
 # Data Loading
 
 ``` r
@@ -604,3 +615,173 @@ stakeholder_survey %>%
     ## 1                         120                          194
     ##   worker_satisfaction_score_sum campus_culture_score_sum  n
     ## 1                           115                      120 32
+
+# Extraction Data
+
+``` r
+global_shapefile <- map_data("world")
+```
+
+``` r
+global_shapefile <- global_shapefile %>% 
+  rename(country=region) %>%
+  mutate(country=case_when(country=="Macedonia"~"North Macedonia",
+                           country=="Ivory Coast"~"Cote d'Ivoire",
+                           country=="Democratic Republic of the Congo"~"Congo, Dem. Rep.",
+                           country=="Republic of Congo"~"Congo, Rep.",
+                           country=="UK"~"United Kingdom",
+                           country=="USA"~"United States",
+                           country=="Laos"~"Lao",
+                           country=="Slovakia"~"Slovak Republic",
+                           country=="Saint Lucia"~"St. Lucia",
+                           country=="Kyrgyzstan"~"Krygyz Republic",
+                           country=="Micronesia"~"Micronesia, Fed. Sts.",
+                           country=="Swaziland"~"Eswatini",
+                           country=="Virgin Islands"~"Virgin Islands (U.S.)",
+                        TRUE~country))
+island_nations <- c("Antigua","Barbuda","Nevis", 
+                 "Saint Kitts","Trinidad",
+                 "Tobago","Grenadines","Saint Vincent")
+island_nations_match <- global_shapefile %>% 
+  filter(country %in% island_nations)
+island_nations_match %>% distinct(country)
+```
+
+    ##         country
+    ## 1       Antigua
+    ## 2       Barbuda
+    ## 3         Nevis
+    ## 4   Saint Kitts
+    ## 5      Trinidad
+    ## 6        Tobago
+    ## 7    Grenadines
+    ## 8 Saint Vincent
+
+``` r
+ant_bar <- c(137,138 )
+kit_nev <- c(930,931)
+tri_tog <- c(1425,1426)
+vin_gre <- c(1575,1576,1577)
+island_nation_names <- c("Antigua and Barbuda","St. Kitts and Nevis","Trinidad and Tobago","St. Vincent and the Grenadines")
+island_nations_match <- island_nations_match %>% 
+  mutate(country=case_when(group %in% ant_bar~"Antigua and Barbuda",
+                           group %in% kit_nev~"St. Kitts and Nevis",
+                           group %in% tri_tog~"Trinidad and Tobago",
+                           group %in% vin_gre~"St. Vincent and the Grenadines")) %>% 
+  tibble()
+island_nations_match %>%
+  distinct(country) 
+```
+
+    ## # A tibble: 4 × 1
+    ##   country                       
+    ##   <chr>                         
+    ## 1 Antigua and Barbuda           
+    ## 2 St. Kitts and Nevis           
+    ## 3 Trinidad and Tobago           
+    ## 4 St. Vincent and the Grenadines
+
+``` r
+global_shapefile <- global_shapefile %>%
+  filter(!country %in% island_nation_names)
+global_shapefile <- global_shapefile %>% 
+  bind_rows(island_nations_match) %>%
+  arrange(country) %>%
+  tibble()
+sra_names <- c("Hong Kong","Macao")
+hk_mc <- global_shapefile %>% 
+  filter(subregion %in% sra_names)
+hk_mc <- hk_mc %>%
+  mutate(country = case_when(subregion=="Hong Kong"~"Hong Kong, China",
+                             subregion=="Macao"~"Macao, China"))
+global_shapefile <- global_shapefile %>%
+  filter(!subregion %in% sra_names)
+global_shapefile <- global_shapefile %>% 
+  bind_rows(hk_mc) %>%
+  select(-subregion) %>% 
+  tibble()
+```
+
+``` r
+global_shapefile %>%
+  distinct(country)
+```
+
+    ## # A tibble: 258 × 1
+    ##    country            
+    ##    <chr>              
+    ##  1 Afghanistan        
+    ##  2 Albania            
+    ##  3 Algeria            
+    ##  4 American Samoa     
+    ##  5 Andorra            
+    ##  6 Angola             
+    ##  7 Anguilla           
+    ##  8 Antarctica         
+    ##  9 Antigua            
+    ## 10 Antigua and Barbuda
+    ## # ℹ 248 more rows
+
+``` r
+uk_shapefile <- map_data("world",region="UK")
+```
+
+``` r
+usa_shapefile <- map_data("state")
+```
+
+``` r
+usa_shapefile %>%
+  distinct(region)
+```
+
+    ##                  region
+    ## 1               alabama
+    ## 2               arizona
+    ## 3              arkansas
+    ## 4            california
+    ## 5              colorado
+    ## 6           connecticut
+    ## 7              delaware
+    ## 8  district of columbia
+    ## 9               florida
+    ## 10              georgia
+    ## 11                idaho
+    ## 12             illinois
+    ## 13              indiana
+    ## 14                 iowa
+    ## 15               kansas
+    ## 16             kentucky
+    ## 17            louisiana
+    ## 18                maine
+    ## 19             maryland
+    ## 20        massachusetts
+    ## 21             michigan
+    ## 22            minnesota
+    ## 23          mississippi
+    ## 24             missouri
+    ## 25              montana
+    ## 26             nebraska
+    ## 27               nevada
+    ## 28        new hampshire
+    ## 29           new jersey
+    ## 30           new mexico
+    ## 31             new york
+    ## 32       north carolina
+    ## 33         north dakota
+    ## 34                 ohio
+    ## 35             oklahoma
+    ## 36               oregon
+    ## 37         pennsylvania
+    ## 38         rhode island
+    ## 39       south carolina
+    ## 40         south dakota
+    ## 41            tennessee
+    ## 42                texas
+    ## 43                 utah
+    ## 44              vermont
+    ## 45             virginia
+    ## 46           washington
+    ## 47        west virginia
+    ## 48            wisconsin
+    ## 49              wyoming
