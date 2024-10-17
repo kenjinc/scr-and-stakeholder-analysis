@@ -315,20 +315,35 @@ review_data %>% arrange(desc(count))
 ```
 
 ```{r}
-aggregated_data <- left_join(review_data,global_shapefile,by="country")
+aggregated_data <- left_join(global_shapefile,review_data,by="country")
 ```
 
 ```{r}
 aggregated_data %>%
   ggplot(aes(x=long,y=lat,fill=count,group=group)) + 
   geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
-  scale_fill_gradient(low="lavender",high="lightslateblue",na.value="white",name="",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
+  scale_fill_gradient(low="azure2",high="seagreen",na.value="white",name="Number of Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
   xlab("") + 
   ylab("") +
   labs(caption="") +
   theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
+```{r}
+aggregated_data <- aggregated_data %>% 
+  mutate(count=as.character(count))
+```
+
+```{r}
+aggregated_data %>%
+  ggplot(aes(x=long,y=lat,fill=count,group=group)) + 
+  geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
+  scale_fill_brewer(palette="Greens",na.value="white") +
+  xlab("") + 
+  ylab("") +
+  labs(caption="") +
+  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+```
 
 ```{r}
 uk_shapefile <- map_data("world",region="UK")
