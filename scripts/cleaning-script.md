@@ -1590,7 +1590,7 @@ usa_data %>%
   mutate(region=as.list(region)) %>%
   mutate(across(region,str_replace_all,";",",")) %>%
   unnest(region,.sep=",") %>%
-  count(region, name="count")
+  count(region, name="count") #still need to remove grouped rows
 ```
 
     ## Warning: The `.sep` argument of `unnest()` is deprecated as of tidyr 1.0.0.
@@ -1613,6 +1613,34 @@ usa_data %>%
     ##  9 Florida                                                       2
     ## 10 Illinois                                                      4
     ## # ℹ 20 more rows
+
+- Alabama
+- Arizona
+- Arkansas
+- California
+- Colorado
+- Florida
+- Georgia
+- Illinois
+- Indiana
+- Kentucky
+- Maine
+- Massachusetts
+- Michigan
+- New Jersey
+- New York
+- North Carolina
+- Ohio
+- Oklahoma
+- Pennsylvania
+- Rhode Island
+- South Dakota
+- Tennessee
+- Texas
+- Utah
+- Vermont
+- Virginia
+- Wisconsin
 
 ``` r
 usa_data %>%
@@ -1643,6 +1671,16 @@ usa_data %>%
     ## argument is not an atomic vector; coercing
 
     ## [1] 19
+
+``` r
+usa_data %>% 
+  str_count("Tennessee")
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
 
 ``` r
 usa_data %>%
@@ -1783,4 +1821,4 @@ aggregated_data %>%
   theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->

@@ -366,8 +366,35 @@ usa_data %>%
   mutate(region=as.list(region)) %>%
   mutate(across(region,str_replace_all,";",",")) %>%
   unnest(region,.sep=",") %>%
-  count(region, name="count")
+  count(region, name="count") #still need to remove grouped rows
 ```
+* Alabama
+* Arizona
+* Arkansas
+* California
+* Colorado
+* Florida
+* Georgia
+* Illinois
+* Indiana
+* Kentucky
+* Maine
+* Massachusetts
+* Michigan
+* New Jersey
+* New York
+* North Carolina
+* Ohio
+* Oklahoma
+* Pennsylvania
+* Rhode Island
+* South Dakota
+* Tennessee
+* Texas
+* Utah
+* Vermont
+* Virginia
+* Wisconsin
 
 
 ```{r}
@@ -385,6 +412,12 @@ usa_data %>%
 usa_data %>%
   str_count("California")
 ```
+
+```{r}
+usa_data %>% 
+  str_count("Tennessee")
+```
+
 
 ```{r}
 usa_data %>%
