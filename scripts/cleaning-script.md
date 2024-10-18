@@ -757,26 +757,27 @@ review_data <- review_data %>%
 review_data %>% arrange(desc(count))
 ```
 
-    ## # A tibble: 17 × 2
-    ##    country        count
-    ##    <chr>          <int>
-    ##  1 United States     74
-    ##  2 United Kingdom    15
-    ##  3 Canada            13
-    ##  4 Portugal           7
-    ##  5 Italy              6
-    ##  6 Germany            4
-    ##  7 China              3
-    ##  8 Sweden             3
-    ##  9 Australia          2
-    ## 10 Belgium            2
-    ## 11 Brazil             2
-    ## 12 Netherlands        2
-    ## 13 France             1
-    ## 14 India              1
-    ## 15 Norway             1
-    ## 16 Switzerland        1
-    ## 17 Thailand           1
+    ## # A tibble: 18 × 2
+    ##    country          count
+    ##    <chr>            <int>
+    ##  1 "United States"     74
+    ##  2 "United Kingdom"    15
+    ##  3 "Canada"            13
+    ##  4 "Portugal"           7
+    ##  5 "Italy"              6
+    ##  6 "Germany"            4
+    ##  7 "China"              3
+    ##  8 "Sweden"             3
+    ##  9 "Australia"          2
+    ## 10 "Belgium"            2
+    ## 11 "Brazil"             2
+    ## 12 "Netherlands"        2
+    ## 13 "France"             1
+    ## 14 "India"              1
+    ## 15 "Norway"             1
+    ## 16 "Switzerland"        1
+    ## 17 "Thailand"           1
+    ## 18 ""                  NA
 
 ``` r
 aggregated_data <- left_join(global_shapefile,review_data,by="country")
@@ -812,15 +813,16 @@ uk_shapefile %>%
     ## 5    Great Britain
 
 ``` r
-usa_shapefile <- map_data("state")
+usa_shapefile <- map_data("state") %>%
+  rename(state=region)
 ```
 
 ``` r
 usa_shapefile %>%
-  distinct(region)
+  distinct(state)
 ```
 
-    ##                  region
+    ##                   state
     ## 1               alabama
     ## 2               arizona
     ## 3              arkansas
@@ -872,715 +874,7 @@ usa_shapefile %>%
     ## 49              wyoming
 
 ``` r
-usa_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") 
-usa_data
-```
-
-    ##     Study.No.                                                     DOI
-    ## 1         116              https://doi.org/10.1016/j.jneb.2014.03.005
-    ## 2         115           https://doi.org/10.1080/07448481.2020.1721506
-    ## 3         114             https://doi.org/10.1016/j.focus.2023.100064
-    ## 4         113           https://doi.org/10.1080/07448481.2020.1848847
-    ## 5         112             https://doi.org/10.1016/j.jenvp.2021.101589
-    ## 6         111              https://doi.org/10.1016/j.jada.2006.06.005
-    ## 7         110              https://doi.org/10.1186/s40795-023-00764-3
-    ## 8         109           https://doi.org/10.1080/08870446.2015.1050393
-    ## 9         108             https://doi.org/10.1016/j.appet.2021.105662
-    ## 10        107                https://doi.org/10.1177/0956797619872191
-    ## 11        106         https://doi.org/10.1016/j.cognition.2020.104397
-    ## 12        105                     https://doi.org/10.1079/bjn20051476
-    ## 13        104              https://doi.org/10.1016/j.jneb.2017.02.003
-    ## 14        103          https://doi.org/10.1080%2F07448481.2012.755189
-    ## 15        102             https://doi.org/10.1016/j.appet.2022.105978
-    ## 16        101             https://doi.org/10.1016/j.appet.2022.105978
-    ## 17        100             https://doi.org/10.1016/j.appet.2022.105978
-    ## 18         99             https://doi.org/10.1016/j.appet.2022.105978
-    ## 19         98             https://doi.org/10.1016/j.appet.2022.105978
-    ## 20         97               https://doi.org/10.1093%2Fpubmed%2Ffdv147
-    ## 21         96              https://doi.org/10.1007/s13412-023-00882-1
-    ## 22         95                  https://doi.org/10.3148/cjdpr-2015-008
-    ## 23         94             https://doi.org/10.1016/j.appet.2015.07.007
-    ## 24         93             https://doi.org/10.1016/j.appet.2015.07.007
-    ## 25         92              https://doi.org/10.1016/j.jeem.2018.06.005
-    ## 26         91              https://doi.org/10.1016/j.jneb.2020.08.009
-    ## 27         90               https://doi.org/10.1186/s12889-018-6063-8
-    ## 28         89            https://doi.org/10.4278/ajhp.091214-quan-389
-    ## 29         88               https://doi.org/10.1017/s000711450930389x
-    ## 30         87                       https://doi.org/10.2196/jmir.6537
-    ## 31         86               https://doi.org/10.1177/11786388231159192
-    ## 32         85           https://doi.org/10.1080/08870446.2015.1054827
-    ## 33         84                      https://doi.org/10.3390/nu15183873
-    ## 34         83                         https://doi.org/10.2196%2F30566
-    ## 35         82               https://doi.org/10.3389/fpsyg.2020.577111
-    ## 36         81                      https://doi.org/10.3390/nu10081121
-    ## 37         80                           https://doi.org/10.2196/37563
-    ## 38         79            https://doi.org/10.1016/j.nutres.2012.11.015
-    ## 39         78                      https://doi.org/10.1037/a0021981\n
-    ## 40         77         https://doi.org/10.1016/j.socscimed.2017.01.005
-    ## 41         76              https://doi.org/10.1016/j.jeem.2022.102693
-    ## 42         75             https://doi.org/10.1016/j.appet.2017.04.035
-    ## 43         74             https://doi.org/10.1016/j.appet.2021.105624
-    ## 44         73              https://doi.org/10.1016/j.jneb.2022.05.004
-    ## 45         72                 https://doi.org/10.3390/ijerph181910443
-    ## 46         71                 https://doi.org/10.3390/ijerph181910443
-    ## 47         70             https://doi.org/10.1016/j.appet.2015.10.001
-    ## 48         69             https://doi.org/10.1016/j.appet.2022.105981
-    ## 49         68             https://doi.org/10.1016/j.appet.2022.105981
-    ## 50         67                      https://doi.org/10.3390/su13158669
-    ## 51         66           https://doi.org/10.1016/S0002-8223(01)00223-1
-    ## 52         65           https://doi.org/10.1016/S0002-8223(01)00223-1
-    ## 53         64                https://doi.org/10.3389/fsufs.2019.00040
-    ## 54         63               https://doi.org/10.1186/s12889-019-7438-1
-    ## 55         62             https://doi.org/10.1016/j.appet.2022.105995
-    ## 56         61 https://escholarship.mcgill.ca/concern/papers/vt150k71s
-    ## 57         60               https://doi.org/10.3389/fpsyg.2021.668674
-    ## 58         59              https://doi.org/10.3389/fsufs.2022.1001157
-    ## 59         58          https://doi.org/10.1016/j.foodqual.2023.105084
-    ## 60         57               https://doi.org/10.1038/s43016-020-0132-8
-    ## 61         56               https://doi.org/10.1038/s43016-020-0132-8
-    ## 62         55          https://doi.org/10.1016/j.foodqual.2021.104498
-    ## 63         54             https://doi.org/10.1016/j.appet.2017.06.025
-    ## 64         53              https://doi.org/10.1007/s13164-021-00583-0
-    ## 65         52                 https://doi.org/10.1073/pnas.1907207116
-    ## 66         51                      https://doi.org/10.3390/nu12092890
-    ## 67         50               https://doi.org/10.3389/fsufs.2021.677002
-    ## 68         49            https://doi.org/10.1097/JXX.0000000000000553
-    ## 69         48             https://doi.org/10.1016/j.appet.2018.08.014
-    ## 70         47             https://doi.org/10.1017%2FS1368980019003574
-    ## 71         46             https://doi.org/10.1016/j.appet.2014.07.014
-    ## 72         45              https://doi.org/10.1016/j.jneb.2008.01.006
-    ## 73         44                 https://doi.org/10.1111/1753-6405.12232
-    ## 74         43             https://doi.org/10.1186/s13063-015-1092-4\n
-    ## 75         42               https://doi.org/10.1017/S1368980023001763
-    ## 76         41               https://doi.org/10.1017/S0029665112002212
-    ## 77         40            https://doi.org/10.1016/j.eatbeh.2016.08.012
-    ## 78         39        https://doi.org/10.2752/175303713X13636846944367
-    ## 79         38        https://doi.org/10.1111/j.2044-8287.2011.02018.x
-    ## 80         37             https://doi.org/10.1016/j.appet.2017.04.027
-    ## 81         36           https://doi.org/10.1080/10810730.2017.1382614
-    ## 82         35               https://doi.org/10.1017/s1368980013003066
-    ## 83         34             https://doi.org/10.1016/j.appet.2018.09.024
-    ## 84         33             https://doi.org/10.1016/j.appet.2018.09.024
-    ## 85         32            https://doi.org/10.1080/07448481.2014.899233
-    ## 86         31             https://doi.org/10.1016/j.appet.2017.05.045
-    ## 87         30           https://doi.org/10.1016/j.foodpol.2020.101950
-    ## 88         29           https://doi.org/10.1080/07448481.2019.1661845
-    ## 89         28          https://doi.org/10.1016/j.ecolecon.2017.12.012
-    ## 90         27                      https://doi.org/10.3390/nu11081786
-    ## 91         26            https://doi.org/10.1186/s12966-021-01239-z\n
-    ## 92         25             https://doi.org/10.1016/j.appet.2020.104842
-    ## 93         24             https://doi.org/10.1016/j.appet.2020.104842
-    ## 94         23                https://doi.org/10.1177/0013916512469099
-    ## 95         22                       https://doi.org/10.3390/g12010002
-    ## 96         21                      https://doi.org/10.3390/su14063296
-    ## 97         20                          https://doi.org/10.1086/720450
-    ## 98         19            https://doi.org/10.1371/journal.pone.0238642
-    ## 99         18             https://doi.org/10.17170/kobra-202011192217
-    ## 100        17             https://doi.org/10.1016/j.jenvp.2019.101319
-    ## 101        16              https://doi.org/10.1007/s10584-019-02407-8
-    ## 102        15                 https://doi.org/10.3945/ajcn.111.013417
-    ## 103        14              https://doi.org/10.1177%2F1559827620903701
-    ## 104        13              https://doi.org/10.1016/j.jneb.2008.07.001
-    ## 105        12           https://doi.org/10.1016/j.meatsci.2022.108745
-    ## 106        11           https://doi.org/10.1080/07315724.2015.1118652
-    ## 107        10                https://doi.org/10.1177/0260106019841247
-    ## 108         9            https://doi.org/10.1080/07448481.2014.887572
-    ## 109         8               https://doi.org/10.1177/23733799221122787
-    ## 110         7                   https://doi.org/10.1089/acm.2018.0313
-    ## 111         6                         https://doi.org/10.2196%2F15156
-    ## 112         5             https://pubmed.ncbi.nlm.nih.gov/32659066/\n
-    ## 113         4         https://dx.doi.org/10.1007/s10584-023-03543-y\n
-    ## 114         3              https://doi.org/10.1016/j.jneb.2021.02.004
-    ## 115         2            https://doi.org/10.1371/journal.pone.0198162
-    ## 116         1                https://doi.org/10.3389/fpsyg.2013.00778
-    ##                             Study Publication.Year
-    ## 1        (O'Donnell et al., 2014)             2014
-    ## 2          (Clerkin et al., 2021)             2021
-    ## 3      (Almousa & Contento, 2023)             2023
-    ## 4           (Alexis et al., 2022)             2022
-    ## 5          (Garnett et al., 2021)             2021
-    ## 6          (Richard et al., 2006)             2006
-    ## 7          (Marcone et al., 2023)             2023
-    ## 8          (Boucher et al., 2015)             2015
-    ## 9          (Cesareo et al., 2022)             2022
-    ## 10        (Turnwald et al., 2019)             2019
-    ## 11    (Schwitzgebel et al., 2020)             2020
-    ## 12       (Papadaki & Scott, 2005)             2005
-    ## 13   (Scourboutakos et al., 2017)             2017
-    ## 14         (McClain et al., 2013)             2013
-    ## 15              (Yi et al., 2022)             2022
-    ## 16              (Yi et al., 2022)             2022
-    ## 17              (Yi et al., 2022)             2022
-    ## 18              (Yi et al., 2022)             2022
-    ## 19              (Yi et al., 2022)             2022
-    ## 20               (Appleton, 2016)             2016
-    ## 21            (Null et al., 2024)             2024
-    ## 22        (Strawson et al., 2015)             2015
-    ## 23     (Kenzierski et al., 2015a)             2015
-    ## 24     (Kenzierski et al., 2015b)             2015
-    ## 25                   (Kurz, 2018)             2018
-    ## 26         (Bhurosy et al., 2020)             2020
-    ## 27        (Walmsley et al., 2018)             2018
-    ## 28           (Brown et al., 2011)             2011
-    ## 29          (Lachat et al., 2009)             2009
-    ## 30            (Meng et al., 2017)             2017
-    ## 31           (Moore et al., 2023)             2023
-    ## 32         (Godinho et al., 2015)             2015
-    ## 33       (Franchini et al., 2023)             2023
-    ## 34            (Duan et al., 2022)             2022
-    ## 35    (Wolstenholme et al., 2020)             2020
-    ## 36        (Hartmann et al., 2018)             2018
-    ## 37           (Liang et al., 2022)             2022
-    ## 38            (Yen & Lewis, 2013)             2013
-    ## 39          (Gerend et al., 2011)             2011
-    ## 40         (Carfora et al., 2017)             2017
-    ## 41         (Lohmann et al., 2022)             2022
-    ## 42          (Manero et al., 2017)             2017
-    ## 43        (Guichard et al., 2021)             2021
-    ## 44          (O'Neal et al., 2022)             2022
-    ## 45      (Schneider et al., 2021a)             2021
-    ## 46      (Schneider et al., 2021b)             2021
-    ## 47         (Godinho et al., 2016)             2016
-    ## 48          (Feltz et al., 2022a)             2022
-    ## 49          (Feltz et al., 2022b)             2022
-    ## 50        (Griesoph et al., 2021)             2021
-    ## 51        (Buscher et al., 2001a)             2001
-    ## 52        (Buscher et al., 2001b)             2001
-    ## 53       (Slapø & Karevold, 2019)             2019
-    ## 54            (Duan et al., 2017)             2017
-    ## 55      (Migliavada et al., 2022)             2022
-    ## 56        (Mcdonough et al. 2014)             2014
-    ## 57           (Haile et al., 2021)             2021
-    ## 58      (Boronowsky et al., 2022)             2022
-    ## 59      (Vasiljevic et al., 2024)             2024
-    ## 60        (Garnett et al., 2020a)             2020
-    ## 61        (Garnett et al., 2020b)             2020
-    ## 62      (Weingarten et al., 2022)             2022
-    ## 63         (Carfora et al., 2017)             2017
-    ## 64    (Schwitzgebel et al., 2021)             2023
-    ## 65          (Garnett et al. 2019)             2019
-    ## 66           (Malan et al., 2020)             2020
-    ## 67        (Whitener et al., 2021)             2021
-    ## 68          (Downes et al., 2021)             2021
-    ## 69        (Bernardo et al., 2018)             2018
-    ## 70  (van den Bogerd et al., 2020)             2020
-    ## 71        (Lhakhang et al., 2014)             2014
-    ## 72        (Clifford et al., 2009)             2009
-    ## 73        (Rompotis et al., 2014)             2014
-    ## 74         (Cameron et al., 2015)             2015
-    ## 75          (Guedes et al., 2023)             2023
-    ## 76        (Holloway et al., 2012)             2012
-    ## 77         (O'Brien et al., 2016)             2016
-    ## 78         (Prunty & Apple, 2013)             2013
-    ## 79       (Pietersma et al., 2011)             2011
-    ## 80        (Wengreen et al., 2017)             2017
-    ## 81         (Godinho et al., 2017)             2017
-    ## 82         (Wansink & Just, 2015)             2015
-    ## 83        (Collins et al., 2019a)             2019
-    ## 84        (Collins et al., 2019b)             2019
-    ## 85           (Brown et al., 2014)             2014
-    ## 86             (Nix et al., 2017)             2017
-    ## 87           (Jalil et al., 2020)             2020
-    ## 88       (Schroeter et al., 2021)             2021
-    ## 89         (Brunner et al., 2018)             2018
-    ## 90         (Mistura et al., 2019)             2019
-    ## 91          (Pechey et al., 2022)             2022
-    ## 92        (Piester et al., 2020a)             2020
-    ## 93        (Piester et al., 2020b)             2020
-    ## 94  (Campbell-Arvai et al., 2014)             2014
-    ## 95   (Andersson & Nelander, 2021)             2021
-    ## 96       (Egeler and Bauer, 2022)             2022
-    ## 97           (Malan et al., 2022)             2022
-    ## 98  (Kanchanachitra et al., 2020)             2020
-    ## 99          (Larner et al., 2021)             2021
-    ## 100        (Carfora et al., 2019)             2019
-    ## 101            (Jay et al., 2019)             2019
-    ## 102       (Hoefkens et al., 2011)             2011
-    ## 103      (Dissen & Crowell, 2022)             2022
-    ## 104       (Ha & Caine-Bish, 2009)             2009
-    ## 105         (Sogari et al., 2022)             2022
-    ## 106        (Petroka et al., 2016)             2016
-    ## 107          (Irwin et al., 2019)             2019
-    ## 108          (Brown et al., 2014)             2014
-    ## 109           (Leih et al., 2022)             2022
-    ## 110           (Ring et al., 2019)             2019
-    ## 111   (Krzyzanowski et al., 2020)             2020
-    ## 112      (Warsaw & Alfonso, 2020)             2020
-    ## 113      (Lambrecht et al., 2023)             2023
-    ## 114         (Matias et al., 2021)             2021
-    ## 115          (Bevet et al., 2018)             2018
-    ## 116         (Hormes et al., 2013)             2013
-    ##                                                                                                                                                                                    Article.Title
-    ## 1                                                                        "The effect of goal setting on fruit and vegetable consumption and physical activity level in a Web-based intervention"
-    ## 2                                                                                                                       "Influencing nutritional habits of college students using a food pantry"
-    ## 3                                                                                                         "Pilot Study of the Feasibility of a Worksite Plant-Based Diabetes Prevention Program"
-    ## 4                                                                                "Implementation of a food scholarship program improves nutrient intake and dietary quality of college students"
-    ## 5                                                                                     "Price of change: Does a small alteration to the price of meat and vegetarian options affect their sales?"
-    ## 6                                                                                                             "Motivating 18- to 24-year-olds to increase their fruit and vegetable consumption"
-    ## 7                                                    "Effects of an educational planetary plate graphic on meat consumption in a Stanford University dining hall: a randomized controlled trial"
-    ## 8                              "Effect of an intervention mapping approach to promote the consumption of fruits and vegetables among young adults in junior college: A quasi-experimental study"
-    ## 9                                      "The effectiveness of nudging interventions to promote healthy eating choices: A systematic review and an intervention among Italian university students"
-    ## 10                                        "Increasing Vegetable Intake by Emphasizing Tasty and Enjoyable Attributes: A Randomized Controlled Multisite Intervention for Taste-Focused Labeling"
-    ## 11                                                                                                "Do ethics classes influence student behavior? Case study: Teaching the ethics of eating meat"
-    ## 12                                                      "The Mediterranean eating in Scotland experience project: evaluation of an Internet-based intervention promoting the Mediterranean diet"
-    ## 13                                                                                                   "Testing a Beverage and Fruit/Vegetable Education Intervention in a University Dining Hall"
-    ## 14                                                                     "Incorporating prototyping and iteration into intervention development: a case study of a dining hall-based intervention"
-    ## 15                                                                                                    "Nudging food service users to choose fruit- and vegetable-rich items: Five field studies"
-    ## 16                                                                                                    "Nudging food service users to choose fruit- and vegetable-rich items: Five field studies"
-    ## 17                                                                                                    "Nudging food service users to choose fruit- and vegetable-rich items: Five field studies"
-    ## 18                                                                                                    "Nudging food service users to choose fruit- and vegetable-rich items: Five field studies"
-    ## 19                                                                                                    "Nudging food service users to choose fruit- and vegetable-rich items: Five field studies"
-    ## 20                                                                                  "Greater fruit selection following an appearance-based compared with a health-based health promotion poster"
-    ## 21                                                              "Beyond the classroom: Influence of a sustainability intervention on university students’ environmental knowledge and behaviors"
-    ## 22                                                                                           "Changing Dietary Habits of Alberta Nutrition Students Enrolled in a Travel Study Program in Italy"
-    ## 23                                                       "The effectiveness of an implementation intentions intervention for fruit and vegetable consumption as moderated by self-schema status"
-    ## 24                                                       "The effectiveness of an implementation intentions intervention for fruit and vegetable consumption as moderated by self-schema status"
-    ## 25                                                                          "Nudging to reduce meat consumption: Immediate and persistent effects of an intervention at a university restaurant"
-    ## 26                                                                                                    "A Randomized mHealth Trial to Promote Vegetable Intake Through Counting and Goal Setting"
-    ## 27                                             "Choice architecture modifies fruit and vegetable purchasing in a university campus grocery store: time series modelling of a natural experiment"
-    ## 28   "Increased self-efficacy for vegetable preparation following an online, skill-based intervention and in-class tasting experience as a part of a general education college nutrition course"
-    ## 29                                                    "Availability of free fruits and vegetables at canteen lunch improves lunch and daily nutritional profiles: a randomised controlled trial"
-    ## 30                                                    "Online Self-Tracking Groups to Increase Fruit and Vegetable Intake: A Small-Scale Study on Mechanisms of Group Effect on Behavior Change"
-    ## 31                                                                                                  "A Teaching Kitchen Program Improves Employee Micronutrient and Healthy Dietary Consumption"
-    ## 32                                                                                     "Health messages to promote fruit and vegetable consumption at different stages: A match-mismatch design"
-    ## 33                                                                          "Increasing the Consumption of Environmentally Friendly Foods in a University Dining Hall Using Menu Item Placement"
-    ## 34      "The Effectiveness of Sequentially Delivered Web-Based Interventions on Promoting Physical Activity and Fruit-Vegetable Consumption Among Chinese College Students: Mixed Methods Study"
-    ## 35                                "Two Birds, One Stone: The Effectiveness of Health and Environmental Messages to Reduce Meat Consumption and Encourage Pro-environmental Behavioral Spillover"
-    ## 36                                                                                "Consumption of Fruits and Vegetables by Low-Income Brazilian Undergraduate Students: A Cross-Sectional Study"
-    ## 37                     "Psychosocial Mediators of Web-Based Interventions for Promoting a Healthy Lifestyle Among Chinese College Students: Secondary Analysis of a Randomized Controlled Trial"
-    ## 38                                    "MyPyramid-omega-3 fatty acid nutrition education intervention may improve food groups and omega-3 fatty acid consumption in university middle-aged women"
-    ## 39                                                                                     "Fear, anger, fruits, and veggies: interactive effects of emotion and message framing on health behavior"
-    ## 40                                                      "Correlational study and randomised controlled trial for understanding and changing red meat consumption: The role of eating identities"
-    ## 41                                                                                          "Do carbon footprint labels promote climatarian diets? Evidence from a large-scale field experiment"
-    ## 42                                                                                                                "Influence of seasoning on vegetable selection, liking and intent to purchase"
-    ## 43                                                     "Increasing vegetables purchase with a descriptive-norm message: A cluster randomized controlled intervention in two university canteens"
-    ## 44                                                                                 "Pilot Intervention Using Food Challenges and Video Technology for Promoting Fruit and Vegetable Consumption"
-    ## 45                                            "Environmental Intervention in a University Canteen with Focus on Decision Guidance-Effects on Sale and Daily Consumption of Vegetables and Fruit"
-    ## 46                                            "Environmental Intervention in a University Canteen with Focus on Decision Guidance-Effects on Sale and Daily Consumption of Vegetables and Fruit"
-    ## 47                                               "Emphasizing the losses or the gains: Comparing situational and individual moderators of framed messages to promote fruit and vegetable intake"
-    ## 48                                                                                                        "Educational interventions and animal consumption: Results from lab and field studies"
-    ## 49                                                                                                        "Educational interventions and animal consumption: Results from lab and field studies"
-    ## 50                                                                                                   "Guess what …?—how guessed norms nudge climate-friendly food choices in real-life settings"
-    ## 51                                       "Point-of-purchase messages framed in terms of cost, convenience, taste, and energy improve healthful snack selection in a college foodservice setting"
-    ## 52                                       "Point-of-purchase messages framed in terms of cost, convenience, taste, and energy improve healthful snack selection in a college foodservice setting"
-    ## 53                                                        "Simple Eco-Labels to Nudge Customers Toward the Most Environmentally Friendly Warm Dishes: An Empirical Study in a Cafeteria Setting"
-    ## 54                                                "Web-Based Intervention for Physical Activity and Fruit and Vegetable Intake Among Chinese University Students: A Randomized Controlled Trial"
-    ## 55                                                                         "Is purchasing of vegetable dishes affected by organic or local labels? Empirical evidence from a university canteen"
-    ## 56                                                                                                                                           "Modifying students' intentions to eat sustainably"
-    ## 57                                                                                                     "Changing Hearts and Plates: The Effect of Animal-Advocacy Pamphlets on Meat Consumption"
-    ## 58                                                 "Plant-based default nudges effectively increase the sustainability of catered meals on college campuses: Three randomized controlled trials"
-    ## 59                "Can warning labels communicating the environmental impact of meat reduce meat consumption? Evidence from two multiple treatment reversal experiments in college dining halls"
-    ## 60                                                                                        "Order of meals at the counter and distance between options affect student cafeteria vegetarian sales"
-    ## 61                                                                                        "Order of meals at the counter and distance between options affect student cafeteria vegetarian sales"
-    ## 62                                                                                 "Can information influence meat consumption behaviour? An experimental field study in the university canteen"
-    ## 63                               "Randomised controlled trial of a text messaging intervention for reducing processed meat consumption: The mediating roles of anticipated regret and intention"
-    ## 64                                                                                                                                           "Students Eat Less Meat After Studying Meat Ethics"
-    ## 65                                                                                                      "Impact of increasing vegetarian availability on meal selection and sales in cafeterias"
-    ## 66                                                                     "Impact of a Scalable, Multi-Campus "Foodprint" Seminar on College Students' Dietary Intake and Dietary Carbon Footprint"
-    ## 67                      "Impact of a College Course on the Sustainability of Student Diets in Terms of the Planetary Boundaries for Climate Change and Land, Water, Nitrogen and Phosphorus Use"
-    ## 68                                                                                      "Impact of a nutrition education program on health behaviors in a university workplace wellness program"
-    ## 69                                                 "Positive impact of a cooking skills intervention among Brazilian university students: Six months follow-up of a randomized controlled trial"
-    ## 70                                                                                           "A free-produce stand on campus: impact on fruit and vegetable intake in Dutch university students"
-    ## 71                                                                                       "A brief intervention increases fruit and vegetable intake. A comparison of two intervention sequences"
-    ## 72                                                                                                           "Good Grubbin': impact of a TV cooking show for college students living off campus"
-    ## 73                                                                       "Benefits of habit-based informational interventions: a randomised controlled trial of fruit and vegetable consumption"
-    ## 74                                        "A theory-based online health behaviour intervention for new university students (U@Uni:LifeGuide): results from a repeat randomized controlled trial"
-    ## 75                                                                                                                   "Promoting plant-based eating in meat-centric meal contexts: a field study"
-    ## 76                                                                                                    "Dietary intervention to reduce meat intake by 50% in University students - a pilot study"
-    ## 77                                                               "Efficacy of a brief web-based intervention with and without SMS to enhance healthy eating behaviors among university students"
-    ## 78                                                                                                              "Painfully aware: The effects of dissonance on attitudes toward factory farming"
-    ## 79                        "Do behavioural health intentions engender health behaviour change? A study on the moderating role of self-affirmation on actual fruit intake versus vegetable intake"
-    ## 80                                                                                        "The effect of social norms messaging regarding skin carotenoid concentrations among college students"
-    ## 81                                        "When Is Congruency Helpful? Interactive Effects of Frame, Motivational Orientation, and Perceived Message Quality on Fruit and Vegetable Consumption"
-    ## 82                                                                                                              "Trayless cafeterias lead diners to take less salad and relatively more dessert"
-    ## 83                                              "Two observational studies examining the effect of a social norm and a health message on the purchase of vegetables in student canteen settings"
-    ## 84                                              "Two observational studies examining the effect of a social norm and a health message on the purchase of vegetables in student canteen settings"
-    ## 85                                                    "Mobile MyPlate: a pilot study using text messaging to provide nutrition education and promote better dietary choices in college students"
-    ## 86                                                              "Social approval bias in self-reported fruit and vegetable intake after presentation of a normative message in college students"
-    ## 87                                                                            "Eating to save the planet: Evidence from a randomized controlled trial using individual-level food purchase data"
-    ## 88                                                                          "An incentive-based health program using MyPlate: a pilot study analyzing college students' dietary intake behavior"
-    ## 89                                                                                                               "Carbon Label at a University Restaurant – Label Implementation and Evaluation"
-    ## 90  "Examining the Efficacy of a 'Feasible' Nudge Intervention to Increase the Purchase of Vegetables by First Year University Students (17-19 Years of Age) in British Columbia: A Pilot Study"
-    ## 91                                         "Impact of increasing the relative availability of meat-free options on food selection: two natural field experiments and an online randomised trial"
-    ## 92                                                                     ""I'll try the veggie burger": Increasing purchases of sustainable foods with information about sustainability and taste"
-    ## 93                                                                     ""I'll try the veggie burger": Increasing purchases of sustainable foods with information about sustainability and taste"
-    ## 94                                                                                       "Motivating Sustainable Food Choices: The Role of Nudges, Value Orientation, and Information Provision"
-    ## 95                                                                                                           "Nudge the lunch: A field experiment testing menu-primacy effects on lunch choices"
-    ## 96                                                                                                "Menu Choice and Meat-Eating Habits: Results of a Field Experiment in Two University Canteens"
-    ## 97                                        "Increasing the Selection of Low-Carbon-Footprint Entrées through the Addition of New Menu Items and a Social Marketing Campaign in University Dining"
-    ## 98                                                                                                                           "Nudge interventions to reduce fish sauce consumption in Thailand."
-    ## 99                                                          "Reaction to a low-carbon footprint food logo and other sustainable diet promotions in a UK University’s Student Union ‘Living Lab’"
-    ## 100                                                                           "How to reduce red and processed meat consumption by daily text messages targeting environment or health benefits"
-    ## 101                                                                                "Reduction of the carbon footprint of college freshman diets after a food-based environmental science course"
-    ## 102                                                                  "Posting point-of-purchase nutrition information in university canteens does not influence meal choice and nutrient intake"
-    ## 103                                                 "We Are What We Eat: Assessing the Use of a Documentary Film as an Educational Tool to Change Students’ Nutritional Attitudes and Behaviors"
-    ## 104                                                     "Effect of nutrition intervention using a general nutrition course for promoting fruit and vegetable consumption among college students"
-    ## 105                                                                               "Toward a reduced meat diet: University North American students' acceptance of a blended meat-mushroom burger"
-    ## 106          "Short-term Exposure to a Mediterranean Environment Influences Attitudes and Dietary Profile in U.S. College Students: The MEDiterranean Diet in AMEricans (A-MED-AME) Pilot Study"
-    ## 107                                                                      "Challenges following a personalised diet adhering to dietary guidelines in a sample of Australian university students"
-    ## 108                            "Healthy active living: a residence community-based intervention to increase physical activity and healthy eating during the transition to first-year university"
-    ## 109                                        "Biology in Public Health: Course-Based Experiential Learning Strategies to Promote Active Experimentation Among Undergraduate Public Health Student"
-    ## 110                                                                                "Cooking Up Health: A Novel Culinary Medicine and Service Learning Elective for Health Professional Students"
-    ## 111              "Rams Have Heart, a Mobile App Tracking Activity and Fruit and Vegetable Consumption to Support the Cardiovascular Health of College Students: Development and Usability Study"
-    ## 112                                                           "The Potential Impact of Hospital Cafeterias on Dietary Habits: A Case Study of the University of Wisconsin Hospitals and Clinics"
-    ## 113                                                             "Limiting red meat availability in a university food service setting reduces food-related greenhouse gas emissions by one-third"
-    ## 114                                                                                                                 "Evaluation of a College-Level Nutrition Course With a Teaching Kitchen Lab"
-    ## 115                                                                           "You can't "nudge" nuggets: An investigation of college late-night dining with behavioral economics interventions"
-    ## 116                                                     "Reading a book can change your mind, but only some changes last for a year: food attitude changes in readers of The Omnivore's Dilemma"
-    ##                                                     Journal.Information
-    ## 1                           Journal of Nutrition Education and Behavior
-    ## 2                                    Journal of American College Health
-    ## 3                                                            AJPM Focus
-    ## 4                                    Journal of American College Health
-    ## 5                                   Journal of Environmental Psychology
-    ## 6                          Journal of the American Dietetic Association
-    ## 7                                                         BMC Nutrition
-    ## 8                                                   Psychology & Health
-    ## 9                                                              Appetite
-    ## 10                                                Psychological Science
-    ## 11                                                            Cognition
-    ## 12                                         British Journal of Nutrition
-    ## 13                          Journal of Nutrition Educatino and Behavior
-    ## 14                                   Journal of American College Health
-    ## 15                                                             Appetite
-    ## 16                                                             Appetite
-    ## 17                                                             Appetite
-    ## 18                                                             Appetite
-    ## 19                                                             Appetite
-    ## 20                                             Journal of Public Health
-    ## 21                        Journal of Environmental Studies and Sciences
-    ## 22                   Canadian Journal of Dietetic Practice and Research
-    ## 23                                                             Appetite
-    ## 24                                                             Appetite
-    ## 25                    Journal of Environmental Economics and Management
-    ## 26                          Journal of Nutrition Education and Behavior
-    ## 27                                                    BMC Public Health
-    ## 28                                 American Journal of Health Promotion
-    ## 29                                         Birtish Journal of Nutrition
-    ## 30                                 Journal of Medical Internet Research
-    ## 31                                     Nutrition and Metabolic Insights
-    ## 32                                                Psychology and Health
-    ## 33                                                            Nutrients
-    ## 34                                 Journal of Medical Internet Research
-    ## 35                                              Frontiers in Psychology
-    ## 36                                                            Nutrients
-    ## 37                                 Journal of Medical Internet Research
-    ## 38                                                   Nutrition Research
-    ## 39                                                    Health Psychology
-    ## 40                                          Social Science and Medicine
-    ## 41                    Journal of Environmental Economics and Management
-    ## 42                                                             Appetite
-    ## 43                                                             Appetite
-    ## 44                          Journal of Nutrition Education and Behavior
-    ## 45    International Journal of Environmental Research and Public Health
-    ## 46    International Journal of Environmental Research and Public Health
-    ## 47                                                             Appetite
-    ## 48                                                             Appetite
-    ## 49                                                             Appetite
-    ## 50                                                       Sustainability
-    ## 51                         Journal of the American Dietetic Association
-    ## 52                         Journal of the American Dietetic Association
-    ## 53                                Frontiers in Sustainable Food Systems
-    ## 54                                 Journal of Medical Internet Research
-    ## 55                                                             Appetite
-    ## 56                    International Journal of Sustainability Education
-    ## 57                                              Frontiers in Psychology
-    ## 58                                Frontiers in Sustainable Food Systems
-    ## 59                                          Food Quality and Preference
-    ## 60                                                          Nature Food
-    ## 61                                                          Nature Food
-    ## 62                                          Food Quality and Preference
-    ## 63                                                             Appetite
-    ## 64                                   Review of Philosphy and Psychology
-    ## 65                      Proceedings of the National Academy of Sciences
-    ## 66                                                            Nutrients
-    ## 67                                Frontiers in Sustainable Food Systems
-    ## 68           Journal of the American Assoication of Nurse Practitioners
-    ## 69                                                             Appetite
-    ## 70                                              Public Health Nutrition
-    ## 71                                                             Appetite
-    ## 72                          Journal of Nutrition Education and Behavior
-    ## 73                   Australia and New Zealand Journal of Public Health
-    ## 74                                                               Trials
-    ## 75                                              Public Health Nutrition
-    ## 76                                 Proceedings of the Nutrition Society
-    ## 77                                                     Eating Behaviors
-    ## 78                                                           Anthrozoös
-    ## 79                                 British Journal of Health Psychology
-    ## 80                                                             Appetite
-    ## 81                                      Journal of Health Communication
-    ## 82                                              Public Health Nutrition
-    ## 83                                                             Appetite
-    ## 84                                                             Appetite
-    ## 85                                   Journal of American College Health
-    ## 86                                                             Appetite
-    ## 87                                                          Food Policy
-    ## 88                                   Journal of American College Health
-    ## 89                                                 Ecological Economics
-    ## 90                                                            Nutrients
-    ## 91  International Journal of Behavioral Nutrition and Physical Activity
-    ## 92                                                             Appetite
-    ## 93                                                             Appetite
-    ## 94                                             Environment and Behavior
-    ## 95                                                                Games
-    ## 96                                                       Sustainability
-    ## 97                     Journal of the Association for Consumer Research
-    ## 98                                                             PLOS ONE
-    ## 99             Future of Food: Journal on Food, Agriculture and Society
-    ## 100                                 Journal of Environmental Psychology
-    ## 101                                                     Climatic Change
-    ## 102                              American Journal of Clinical Nutriiton
-    ## 103                              American Journal of Lifestyle Medicine
-    ## 104                         Journal of Nutrition Education and Behavior
-    ## 105                                                        Meat Science
-    ## 106                                  Journal of American College Health
-    ## 107                                                Nutrition and Health
-    ## 108                                  Journal of American College Health
-    ## 109                                        Pedagogy in Health Promotion
-    ## 110                   Journal of Alternative and Complementary Medicine
-    ## 111                                            JMIR mHealth and uHealth
-    ## 112                                           Wisconsin Medical Journal
-    ## 113                                                     Climatic Change
-    ## 114                         Journal of Nutrition Education and Behavior
-    ## 115                                                            PLOS ONE
-    ## 116                                             Frontiers in Psychology
-    ##       Country_2 Participating.Institutions
-    ## 1           USA                          8
-    ## 2           USA                          1
-    ## 3           USA                          1
-    ## 4           USA                          1
-    ## 5            UK                          1
-    ## 6           USA                          1
-    ## 7           USA                          1
-    ## 8        Canada                          1
-    ## 9         Italy                          1
-    ## 10          USA                          5
-    ## 11          USA                          1
-    ## 12           UK                          1
-    ## 13       Canada                          1
-    ## 14          USA                          1
-    ## 15       Canada                          1
-    ## 16       Canada                          1
-    ## 17       Canada                          1
-    ## 18       Canada                          1
-    ## 19       Canada                          1
-    ## 20           UK                          1
-    ## 21          USA                          1
-    ## 22       Canada                          1
-    ## 23          USA                          1
-    ## 24          USA                          1
-    ## 25       Sweden                          1
-    ## 26          USA                          1
-    ## 27           UK                          1
-    ## 28          USA                          1
-    ## 29      Belgium                          1
-    ## 30          USA                          1
-    ## 31          USA                          1
-    ## 32     Portugal                          3
-    ## 33          USA                          1
-    ## 34        China                          1
-    ## 35           UK                          1
-    ## 36       Brazil                          1
-    ## 37        China                          1
-    ## 38          USA                          1
-    ## 39          USA                          1
-    ## 40        Italy                          1
-    ## 41           UK                          1
-    ## 42          USA                          1
-    ## 43       France                          1
-    ## 44          USA                          1
-    ## 45      Germany                          1
-    ## 46      Germany                          1
-    ## 47     Portugal                          3
-    ## 48          USA                          1
-    ## 49          USA                          4
-    ## 50      Germany                          1
-    ## 51       Canada                          1
-    ## 52       Canada                          1
-    ## 53       Norway                          1
-    ## 54        China                          1
-    ## 55        Italy                          1
-    ## 56       Canada                          1
-    ## 57          USA                          1
-    ## 58          USA                          3
-    ## 59           UK                          1
-    ## 60           UK                          1
-    ## 61           UK                          1
-    ## 62      Germany                          1
-    ## 63        Italy                          1
-    ## 64          USA                          1
-    ## 65           UK                          1
-    ## 66          USA                          3
-    ## 67          USA                          1
-    ## 68          USA                          1
-    ## 69       Brazil                          1
-    ## 70  Netherlands                          1
-    ## 71        India                          1
-    ## 72          USA                          1
-    ## 73    Australia                          1
-    ## 74           UK                          1
-    ## 75     Portugal                          1
-    ## 76           UK                          1
-    ## 77          USA                          1
-    ## 78          USA                          1
-    ## 79  Netherlands                          1
-    ## 80          USA                          1
-    ## 81          USA                          1
-    ## 82          USA                          1
-    ## 83           UK                          1
-    ## 84           UK                          1
-    ## 85          USA                          1
-    ## 86          USA                          1
-    ## 87          USA                          1
-    ## 88          USA                          1
-    ## 89       Sweden                          1
-    ## 90       Canada                          1
-    ## 91          USA                          1
-    ## 92          USA                          1
-    ## 93          USA                          1
-    ## 94          USA                          1
-    ## 95       Sweden                          1
-    ## 96  Switzerland                          1
-    ## 97          USA                          1
-    ## 98     Thailand                          1
-    ## 99           UK                          1
-    ## 100       Italy                          1
-    ## 101         USA                          1
-    ## 102     Belgium                          1
-    ## 103         USA                          1
-    ## 104         USA                          1
-    ## 105         USA                          1
-    ## 106       Italy                          1
-    ## 107   Australia                          1
-    ## 108      Canada                          1
-    ## 109         USA                          1
-    ## 110         USA                          1
-    ## 111         USA                          1
-    ## 112         USA                          1
-    ## 113         USA                          1
-    ## 114         USA                          1
-    ## 115         USA                          1
-    ## 116         USA                          1
-    ##                                                                           State..If.in.USA.
-    ## 1   Maine, Michigan, Pennsylvania, Rhode Island, South Dakota, New York, Alabama, Wisconsin
-    ## 2                                                                                  Illinois
-    ## 3                                                                                  New York
-    ## 4                                                                                     Texas
-    ## 5                                                                                      <NA>
-    ## 6                                                                              South Dakota
-    ## 7                                                                                California
-    ## 8                                                                                      <NA>
-    ## 9                                                                                      <NA>
-    ## 10                                California; New Jersey; California; Texas; Massachussetts
-    ## 11                                                                               California
-    ## 12                                                                                     <NA>
-    ## 13                                                                                     <NA>
-    ## 14                                                                               California
-    ## 15                                                                                     <NA>
-    ## 16                                                                                     <NA>
-    ## 17                                                                                     <NA>
-    ## 18                                                                                     <NA>
-    ## 19                                                                                     <NA>
-    ## 20                                                                                     <NA>
-    ## 21                                                                                 Illinois
-    ## 22                                                                                     <NA>
-    ## 23                                                               Pennsylvania; Pennsylvania
-    ## 24                                                                             Pennsylvania
-    ## 25                                                                                     <NA>
-    ## 26                                                                                  Indiana
-    ## 27                                                                                     <NA>
-    ## 28                                                                                     Utah
-    ## 29                                                                                     <NA>
-    ## 30                                                                                 Michigan
-    ## 31                                                                                  Atlanta
-    ## 32                                                                                     <NA>
-    ## 33                                                                               California
-    ## 34                                                                                     <NA>
-    ## 35                                                                                     <NA>
-    ## 36                                                                                     <NA>
-    ## 37                                                                                     <NA>
-    ## 38                                                                                 Nebraska
-    ## 39                                                                                  Florida
-    ## 40                                                                                     <NA>
-    ## 41                                                                                     <NA>
-    ## 42                                                                                 Illinois
-    ## 43                                                                                     <NA>
-    ## 44                                                                                 Kentucky
-    ## 45                                                                                     <NA>
-    ## 46                                                                                     <NA>
-    ## 47                                                                                     <NA>
-    ## 48                                                                                 Arkansas
-    ## 49                                                  Oklahoma; Arkansas; Illinois; Tennessee
-    ## 50                                                                                     <NA>
-    ## 51                                                                                     <NA>
-    ## 52                                                                                     <NA>
-    ## 53                                                                                     <NA>
-    ## 54                                                                                     <NA>
-    ## 55                                                                                     <NA>
-    ## 56                                                                                     <NA>
-    ## 57                                                                               California
-    ## 58                                                    California; California; Massachusetts
-    ## 59                                                                                     <NA>
-    ## 60                                                                                     <NA>
-    ## 61                                                                                     <NA>
-    ## 62                                                                                     <NA>
-    ## 63                                                                                     <NA>
-    ## 64                                                                               California
-    ## 65                                                                                     <NA>
-    ## 66                                                       California; California; California
-    ## 67                                                                               California
-    ## 68                                                                                  Florida
-    ## 69                                                                                     <NA>
-    ## 70                                                                                     <NA>
-    ## 71                                                                                     <NA>
-    ## 72                                                                                 Colorado
-    ## 73                                                                                     <NA>
-    ## 74                                                                                     <NA>
-    ## 75                                                                                     <NA>
-    ## 76                                                                                     <NA>
-    ## 77                                                                            Massachusetts
-    ## 78                                                                                 Virginia
-    ## 79                                                                                     <NA>
-    ## 80                                                                                     Utah
-    ## 81                                                                                     Ohio
-    ## 82                                                                                 New York
-    ## 83                                                                                     <NA>
-    ## 84                                                                                     <NA>
-    ## 85                                                                                  Indiana
-    ## 86                                                                                     Utah
-    ## 87                                                                               California
-    ## 88                                                                               California
-    ## 89                                                                                     <NA>
-    ## 90                                                                                     <NA>
-    ## 91                                                                                     <NA>
-    ## 92                                                                                 Virginia
-    ## 93                                                                                 Virginia
-    ## 94                                                                                 Michigan
-    ## 95                                                                                     <NA>
-    ## 96                                                                                     <NA>
-    ## 97                                                                               California
-    ## 98                                                                                     <NA>
-    ## 99                                                                                     <NA>
-    ## 100                                                                                    <NA>
-    ## 101                                                                              California
-    ## 102                                                                                    <NA>
-    ## 103                                                                              New Jersey
-    ## 104                                                                                    Ohio
-    ## 105                                                                                New York
-    ## 106                                                                                    <NA>
-    ## 107                                                                                    <NA>
-    ## 108                                                                                    <NA>
-    ## 109                                                                                 Arizona
-    ## 110                                                                                Illinois
-    ## 111                                                                          North Carolina
-    ## 112                                                                               Wisconsin
-    ## 113                                                                                Michigan
-    ## 114                                                                              California
-    ## 115                                                                                 Vermont
-    ## 116                                                                            Pennsylvania
-
-``` r
-usa_data <- usa_data %>% 
+usa_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
   select(State..If.in.USA.) %>%
   rename(region=State..If.in.USA.) 
 ```
@@ -1599,20 +893,20 @@ usa_data %>%
     ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
     ## generated.
 
-    ## # A tibble: 30 × 2
-    ##    region                                                    count
-    ##    <chr>                                                     <int>
-    ##  1 Arizona                                                       1
-    ##  2 Arkansas                                                      1
-    ##  3 Atlanta                                                       1
-    ##  4 California                                                   12
-    ##  5 California, California, California                            1
-    ##  6 California, California, Massachusetts                         1
-    ##  7 California, New Jersey, California, Texas, Massachussetts     1
-    ##  8 Colorado                                                      1
-    ##  9 Florida                                                       2
-    ## 10 Illinois                                                      4
-    ## # ℹ 20 more rows
+    ## # A tibble: 31 × 2
+    ##    region                                                     count
+    ##    <chr>                                                      <int>
+    ##  1 ""                                                           883
+    ##  2 "Arizona"                                                      1
+    ##  3 "Arkansas"                                                     1
+    ##  4 "California"                                                  12
+    ##  5 "California, California, California"                           1
+    ##  6 "California, California, Massachusetts"                        1
+    ##  7 "California, New Jersey, California, Texas, Massachusetts"     1
+    ##  8 "Colorado"                                                     1
+    ##  9 "Florida"                                                      2
+    ## 10 "Georgia"                                                      1
+    ## # ℹ 21 more rows
 
 - Alabama
 - Arizona
@@ -1627,6 +921,7 @@ usa_data %>%
 - Maine
 - Massachusetts
 - Michigan
+- Nebraska
 - New Jersey
 - New York
 - North Carolina
@@ -1644,6 +939,231 @@ usa_data %>%
 
 ``` r
 usa_data %>%
+  str_count("Alabama") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- tibble(state="alabama",
+       frequency=1)
+```
+
+``` r
+usa_data %>%
+  str_count("Arizona") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="arizona",frequency=1)
+```
+
+``` r
+usa_data %>%
+  str_count("Arkansas") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 2
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="arkansas",frequency=2)
+```
+
+``` r
+usa_data %>%
+  str_count("California") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 19
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="california",frequency=19)
+```
+
+``` r
+usa_data %>%
+  str_count("Colorado") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="colorado",frequency=1)
+```
+
+``` r
+usa_data %>%
+  str_count("Florida") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 2
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="florida",frequency=2)
+```
+
+``` r
+usa_data %>%
+  str_count("Georgia") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="georgia",frequency=1) 
+```
+
+``` r
+usa_data %>%
+  str_count("Illinois") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 5
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="illinois",frequency=5)
+```
+
+``` r
+usa_data %>%
+  str_count("Indiana") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 2
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="indiana",frequency=2)
+```
+
+``` r
+usa_data %>%
+  str_count("Kentucky") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="kentucky",frequency=1)
+```
+
+``` r
+usa_data %>%
+  str_count("Maine") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="maine",frequency=1)
+```
+
+``` r
+usa_data %>%
+  str_count("Massachusetts") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 3
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="massachusetts",frequency=3) 
+```
+
+``` r
+usa_data %>%
+  str_count("Michigan") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 4
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="michigan",frequency=4)
+```
+
+``` r
+usa_data %>%
+  str_count("Nebraska") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="nebraska",frequency=1)
+```
+
+``` r
+usa_data %>%
+  str_count("New Jersey") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 2
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="new jersey",frequency=2)
+```
+
+``` r
+usa_data %>%
   str_count("New York") 
 ```
 
@@ -1653,7 +1173,57 @@ usa_data %>%
     ## [1] 4
 
 ``` r
-usa_data %>% 
+state_frequencies <- state_frequencies %>%
+  add_row(state="new york",frequency=4)
+```
+
+``` r
+usa_data %>%
+  str_count("North Carolina") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="north carolina",frequency=1)
+```
+
+``` r
+usa_data %>%
+  str_count("Ohio") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 2
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="ohio",frequency=2)
+```
+
+``` r
+usa_data %>%
+  str_count("Oklahoma") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="oklahoma",frequency=1)
+```
+
+``` r
+usa_data %>%
   str_count("Pennsylvania") 
 ```
 
@@ -1663,18 +1233,13 @@ usa_data %>%
     ## [1] 5
 
 ``` r
-usa_data %>%
-  str_count("California")
+state_frequencies <- state_frequencies %>%
+  add_row(state="pennsylvania",frequency=5)
 ```
 
-    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
-    ## argument is not an atomic vector; coercing
-
-    ## [1] 19
-
 ``` r
-usa_data %>% 
-  str_count("Tennessee")
+usa_data %>%
+  str_count("Rhode Island") 
 ```
 
     ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
@@ -1683,142 +1248,242 @@ usa_data %>%
     ## [1] 1
 
 ``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="rhode island",frequency=1)
+```
+
+``` r
 usa_data %>%
-  mutate(region=map_chr(strsplit(region,";"),~str_c(unique(.x),collapse=";")))
+  str_count("South Dakota") 
 ```
 
-    ##                                                                                      region
-    ## 1   Maine, Michigan, Pennsylvania, Rhode Island, South Dakota, New York, Alabama, Wisconsin
-    ## 2                                                                                  Illinois
-    ## 3                                                                                  New York
-    ## 4                                                                                     Texas
-    ## 5                                                                                      <NA>
-    ## 6                                                                              South Dakota
-    ## 7                                                                                California
-    ## 8                                                                                      <NA>
-    ## 9                                                                                      <NA>
-    ## 10                                California; New Jersey; California; Texas; Massachussetts
-    ## 11                                                                               California
-    ## 12                                                                                     <NA>
-    ## 13                                                                                     <NA>
-    ## 14                                                                               California
-    ## 15                                                                                     <NA>
-    ## 16                                                                                     <NA>
-    ## 17                                                                                     <NA>
-    ## 18                                                                                     <NA>
-    ## 19                                                                                     <NA>
-    ## 20                                                                                     <NA>
-    ## 21                                                                                 Illinois
-    ## 22                                                                                     <NA>
-    ## 23                                                               Pennsylvania; Pennsylvania
-    ## 24                                                                             Pennsylvania
-    ## 25                                                                                     <NA>
-    ## 26                                                                                  Indiana
-    ## 27                                                                                     <NA>
-    ## 28                                                                                     Utah
-    ## 29                                                                                     <NA>
-    ## 30                                                                                 Michigan
-    ## 31                                                                                  Atlanta
-    ## 32                                                                                     <NA>
-    ## 33                                                                               California
-    ## 34                                                                                     <NA>
-    ## 35                                                                                     <NA>
-    ## 36                                                                                     <NA>
-    ## 37                                                                                     <NA>
-    ## 38                                                                                 Nebraska
-    ## 39                                                                                  Florida
-    ## 40                                                                                     <NA>
-    ## 41                                                                                     <NA>
-    ## 42                                                                                 Illinois
-    ## 43                                                                                     <NA>
-    ## 44                                                                                 Kentucky
-    ## 45                                                                                     <NA>
-    ## 46                                                                                     <NA>
-    ## 47                                                                                     <NA>
-    ## 48                                                                                 Arkansas
-    ## 49                                                  Oklahoma; Arkansas; Illinois; Tennessee
-    ## 50                                                                                     <NA>
-    ## 51                                                                                     <NA>
-    ## 52                                                                                     <NA>
-    ## 53                                                                                     <NA>
-    ## 54                                                                                     <NA>
-    ## 55                                                                                     <NA>
-    ## 56                                                                                     <NA>
-    ## 57                                                                               California
-    ## 58                                                    California; California; Massachusetts
-    ## 59                                                                                     <NA>
-    ## 60                                                                                     <NA>
-    ## 61                                                                                     <NA>
-    ## 62                                                                                     <NA>
-    ## 63                                                                                     <NA>
-    ## 64                                                                               California
-    ## 65                                                                                     <NA>
-    ## 66                                                                   California; California
-    ## 67                                                                               California
-    ## 68                                                                                  Florida
-    ## 69                                                                                     <NA>
-    ## 70                                                                                     <NA>
-    ## 71                                                                                     <NA>
-    ## 72                                                                                 Colorado
-    ## 73                                                                                     <NA>
-    ## 74                                                                                     <NA>
-    ## 75                                                                                     <NA>
-    ## 76                                                                                     <NA>
-    ## 77                                                                            Massachusetts
-    ## 78                                                                                 Virginia
-    ## 79                                                                                     <NA>
-    ## 80                                                                                     Utah
-    ## 81                                                                                     Ohio
-    ## 82                                                                                 New York
-    ## 83                                                                                     <NA>
-    ## 84                                                                                     <NA>
-    ## 85                                                                                  Indiana
-    ## 86                                                                                     Utah
-    ## 87                                                                               California
-    ## 88                                                                               California
-    ## 89                                                                                     <NA>
-    ## 90                                                                                     <NA>
-    ## 91                                                                                     <NA>
-    ## 92                                                                                 Virginia
-    ## 93                                                                                 Virginia
-    ## 94                                                                                 Michigan
-    ## 95                                                                                     <NA>
-    ## 96                                                                                     <NA>
-    ## 97                                                                               California
-    ## 98                                                                                     <NA>
-    ## 99                                                                                     <NA>
-    ## 100                                                                                    <NA>
-    ## 101                                                                              California
-    ## 102                                                                                    <NA>
-    ## 103                                                                              New Jersey
-    ## 104                                                                                    Ohio
-    ## 105                                                                                New York
-    ## 106                                                                                    <NA>
-    ## 107                                                                                    <NA>
-    ## 108                                                                                    <NA>
-    ## 109                                                                                 Arizona
-    ## 110                                                                                Illinois
-    ## 111                                                                          North Carolina
-    ## 112                                                                               Wisconsin
-    ## 113                                                                                Michigan
-    ## 114                                                                              California
-    ## 115                                                                                 Vermont
-    ## 116                                                                            Pennsylvania
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 2
 
 ``` r
-aggregated_data <- aggregated_data %>% 
-  mutate(count=as.character(count))
+state_frequencies <- state_frequencies %>%
+  add_row(state="south dakota",frequency=2)
 ```
 
 ``` r
-aggregated_data %>%
-  ggplot(aes(x=long,y=lat,fill=count,group=group)) + 
+usa_data %>%
+  str_count("Tennessee") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="tennessee",frequency=1)
+```
+
+``` r
+usa_data %>%
+  str_count("Texas") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 2
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="texas",frequency=2)
+```
+
+``` r
+usa_data %>%
+  str_count("Utah") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 3
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="utah",frequency=3)
+```
+
+``` r
+usa_data %>%
+  str_count("Vermont") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="vermont",frequency=1)
+```
+
+``` r
+usa_data %>%
+  str_count("Virginia") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 3
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="virginia",frequency=3)
+```
+
+``` r
+usa_data %>%
+  str_count("Wisconsin") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 2
+
+``` r
+state_frequencies <- state_frequencies %>%
+  add_row(state="wisconsin",frequency=2)
+```
+
+``` r
+state_frequencies
+```
+
+    ## # A tibble: 28 × 2
+    ##    state      frequency
+    ##    <chr>          <dbl>
+    ##  1 alabama            1
+    ##  2 arizona            1
+    ##  3 arkansas           2
+    ##  4 california        19
+    ##  5 colorado           1
+    ##  6 florida            2
+    ##  7 georgia            1
+    ##  8 illinois           5
+    ##  9 indiana            2
+    ## 10 kentucky           1
+    ## # ℹ 18 more rows
+
+``` r
+ state_frequencies %>%
+  summarise(sum=sum(frequency))
+```
+
+    ## # A tibble: 1 × 1
+    ##     sum
+    ##   <dbl>
+    ## 1    74
+
+``` r
+state_data <- left_join(usa_shapefile,state_frequencies,by="state")
+```
+
+``` r
+state_data %>%
+  ggplot(aes(x=long,y=lat,fill=frequency,group=group)) + 
   geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
-  scale_fill_brewer(palette="Greens",na.value="white") +
+  scale_fill_gradient(low="azure2",high="seagreen4",na.value="white",name="Number of Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
   xlab("") + 
   ylab("") +
   labs(caption="") +
-  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
+
+``` r
+uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
+  select(country..if.in.UK.) %>%
+  rename(region=country..if.in.UK.) 
+```
+
+``` r
+uk_data %>%
+  str_count("England") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 13
+
+``` r
+country_frequencies <- tibble(country="Great Britain",
+       frequency=13)
+```
+
+``` r
+uk_data %>%
+  str_count("Scotland") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+country_frequencies <- country_frequencies %>%
+  add_row(country="Scotland",frequency=1)
+```
+
+``` r
+uk_data %>%
+  str_count("Wales") 
+```
+
+    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
+    ## argument is not an atomic vector; coercing
+
+    ## [1] 1
+
+``` r
+country_frequencies <- country_frequencies %>%
+  add_row(country="Wales",frequency=1)
+```
+
+``` r
+uk_shapefile %>%
+  distinct(subregion)
+```
+
+    ##          subregion
+    ## 1    Isle of Wight
+    ## 2            Wales
+    ## 3 Northern Ireland
+    ## 4         Scotland
+    ## 5    Great Britain
+
+``` r
+uk_shapefile <- uk_shapefile %>%
+  rename(country=subregion)
+```
+
+``` r
+country_data <- left_join(uk_shapefile,country_frequencies,by="country")
+```
+
+``` r
+country_data %>%
+  ggplot(aes(x=long,y=lat,fill=frequency,group=group)) + 
+  geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
+  scale_fill_gradient(low="azure2",high="seagreen4",na.value="white",name="Number of Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
+  xlab("") + 
+  ylab("") +
+  labs(caption="") +
+  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+```
+
+![](cleaning-script_files/figure-gfm/unnamed-chunk-68-1.png)<!-- -->

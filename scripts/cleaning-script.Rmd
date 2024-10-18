@@ -341,25 +341,22 @@ uk_shapefile %>%
 ```
 
 ```{r}
-usa_shapefile <- map_data("state")
+usa_shapefile <- map_data("state") %>%
+  rename(state=region)
 ```
 
 ```{r}
 usa_shapefile %>%
-  distinct(region)
+  distinct(state)
 ```
 
 
 ```{r}
-usa_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") 
-usa_data
-```
-
-```{r}
-usa_data <- usa_data %>% 
+usa_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
   select(State..If.in.USA.) %>%
   rename(region=State..If.in.USA.) 
 ```
+
 
 ```{r}
 usa_data %>%
@@ -368,7 +365,7 @@ usa_data %>%
   unnest(region,.sep=",") %>%
   count(region, name="count") #still need to remove grouped rows
 ```
-* Alabama
+* Alabama 
 * Arizona
 * Arkansas
 * California
@@ -381,6 +378,7 @@ usa_data %>%
 * Maine
 * Massachusetts
 * Michigan
+* Nebraska
 * New Jersey
 * New York
 * North Carolina
@@ -396,52 +394,288 @@ usa_data %>%
 * Virginia
 * Wisconsin
 
+```{r}
+usa_data %>%
+  str_count("Alabama") 
+state_frequencies <- tibble(state="alabama",
+       frequency=1)
+```
+
+```{r}
+usa_data %>%
+  str_count("Arizona") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="arizona",frequency=1)
+```
+
+```{r}
+usa_data %>%
+  str_count("Arkansas") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="arkansas",frequency=2)
+```
+
+```{r}
+usa_data %>%
+  str_count("California") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="california",frequency=19)
+```
+
+```{r}
+usa_data %>%
+  str_count("Colorado") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="colorado",frequency=1)
+```
+
+```{r}
+usa_data %>%
+  str_count("Florida") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="florida",frequency=2)
+```
+
+```{r}
+usa_data %>%
+  str_count("Georgia") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="georgia",frequency=1) 
+```
+
+```{r}
+usa_data %>%
+  str_count("Illinois") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="illinois",frequency=5)
+```
+
+```{r}
+usa_data %>%
+  str_count("Indiana") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="indiana",frequency=2)
+```
+
+```{r}
+usa_data %>%
+  str_count("Kentucky") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="kentucky",frequency=1)
+```
+
+```{r}
+usa_data %>%
+  str_count("Maine") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="maine",frequency=1)
+```
+
+```{r}
+usa_data %>%
+  str_count("Massachusetts") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="massachusetts",frequency=3) 
+```
+
+```{r}
+usa_data %>%
+  str_count("Michigan") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="michigan",frequency=4)
+```
+
+```{r}
+usa_data %>%
+  str_count("Nebraska") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="nebraska",frequency=1)
+```
+
+
+```{r}
+usa_data %>%
+  str_count("New Jersey") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="new jersey",frequency=2)
+```
 
 ```{r}
 usa_data %>%
   str_count("New York") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="new york",frequency=4)
 ```
 
 ```{r}
-usa_data %>% 
+usa_data %>%
+  str_count("North Carolina") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="north carolina",frequency=1)
+```
+
+```{r}
+usa_data %>%
+  str_count("Ohio") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="ohio",frequency=2)
+```
+
+```{r}
+usa_data %>%
+  str_count("Oklahoma") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="oklahoma",frequency=1)
+```
+
+```{r}
+usa_data %>%
   str_count("Pennsylvania") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="pennsylvania",frequency=5)
 ```
-
 
 ```{r}
 usa_data %>%
-  str_count("California")
+  str_count("Rhode Island") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="rhode island",frequency=1)
 ```
-
-```{r}
-usa_data %>% 
-  str_count("Tennessee")
-```
-
 
 ```{r}
 usa_data %>%
-  mutate(region=map_chr(strsplit(region,";"),~str_c(unique(.x),collapse=";")))
+  str_count("South Dakota") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="south dakota",frequency=2)
+```
+
+```{r}
+usa_data %>%
+  str_count("Tennessee") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="tennessee",frequency=1)
+```
+
+```{r}
+usa_data %>%
+  str_count("Texas") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="texas",frequency=2)
+```
+
+```{r}
+usa_data %>%
+  str_count("Utah") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="utah",frequency=3)
+```
+
+```{r}
+usa_data %>%
+  str_count("Vermont") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="vermont",frequency=1)
+```
+
+```{r}
+usa_data %>%
+  str_count("Virginia") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="virginia",frequency=3)
+```
+
+```{r}
+usa_data %>%
+  str_count("Wisconsin") 
+state_frequencies <- state_frequencies %>%
+  add_row(state="wisconsin",frequency=2)
+```
+  
+```{r}
+state_frequencies
+```
+
+```{r}
+ state_frequencies %>%
+  summarise(sum=sum(frequency))
+```
+
+```{r}
+state_data <- left_join(usa_shapefile,state_frequencies,by="state")
 ```
 
 
 
-
 ```{r}
-aggregated_data <- aggregated_data %>% 
-  mutate(count=as.character(count))
-```
-
-```{r}
-aggregated_data %>%
-  ggplot(aes(x=long,y=lat,fill=count,group=group)) + 
+state_data %>%
+  ggplot(aes(x=long,y=lat,fill=frequency,group=group)) + 
   geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
-  scale_fill_brewer(palette="Greens",na.value="white") +
+  scale_fill_gradient(low="azure2",high="seagreen4",na.value="white",name="Number of Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
   xlab("") + 
   ylab("") +
   labs(caption="") +
-  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
+
+
+
+```{r}
+uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
+  select(country..if.in.UK.) %>%
+  rename(region=country..if.in.UK.) 
+```
+
+```{r}
+uk_data %>%
+  str_count("England") 
+country_frequencies <- tibble(country="Great Britain",
+       frequency=13)
+```
+
+```{r}
+uk_data %>%
+  str_count("Scotland") 
+country_frequencies <- country_frequencies %>%
+  add_row(country="Scotland",frequency=1)
+```
+
+```{r}
+uk_data %>%
+  str_count("Wales") 
+country_frequencies <- country_frequencies %>%
+  add_row(country="Wales",frequency=1)
+```
+
+```{r}
+uk_shapefile %>%
+  distinct(subregion)
+```
+```{r}
+uk_shapefile <- uk_shapefile %>%
+  rename(country=subregion)
+```
+
+```{r}
+country_data <- left_join(uk_shapefile,country_frequencies,by="country")
+```
+  
+  
+  
+
+
+```{r}
+country_data %>%
+  ggplot(aes(x=long,y=lat,fill=frequency,group=group)) + 
+  geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
+  scale_fill_gradient(low="azure2",high="seagreen4",na.value="white",name="Number of Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
+  xlab("") + 
+  ylab("") +
+  labs(caption="") +
+  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+```
+
+
+
 
 
 
