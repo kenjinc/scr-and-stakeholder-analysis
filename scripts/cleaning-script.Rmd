@@ -221,6 +221,22 @@ stakeholder_survey %>%
   summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score_sum=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score),n=n())
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Extraction Data
 
 
@@ -321,7 +337,7 @@ aggregated_data <- left_join(global_shapefile,review_data,by="country")
 ```
 
 ```{r}
-aggregated_data %>%
+global_frequencies <- aggregated_data %>%
   ggplot(aes(x=long,y=lat,fill=count,group=group)) + 
   geom_polygon(color="black",linewidth=0.125,alpha=0.75) +
   scale_fill_gradient(low="lavender",high="slateblue4",na.value="white",name="Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,alpha=0.75,title.position="top",title.hjust=0.5,limits=c(1,74))) +
@@ -329,6 +345,7 @@ aggregated_data %>%
   ylab("") +
   labs(caption="") +
   theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+global_frequencies
 ```
 
 
@@ -608,7 +625,7 @@ state_data <- left_join(usa_shapefile,state_frequencies,by="state")
 
 
 ```{r}
-state_data %>%
+usa_frequencies <- state_data %>%
   ggplot(aes(x=long,y=lat,fill=frequency,group=group)) + 
   geom_polygon(color="black",linewidth=0.125,alpha=0.75) +
   scale_fill_gradient(low="lavender",high="slateblue4",na.value="white",name="Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,alpha=0.75,title.position="top",title.hjust=0.5,limits=c(1,74))) +
@@ -616,7 +633,8 @@ state_data %>%
   ylab("") +
   labs(caption="") +
   coord_map() +
-  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+  theme(legend.key.width=unit(3,"lines"),legend.position="none",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+usa_frequencies
 ```
 
 
@@ -657,10 +675,7 @@ uk_shapefile <- uk_shapefile %>%
   rename(country=subregion)
 ```
 
-```{r}
-uk_shapefile
-```
-
+great britain vs england
 
 ```{r}
 country_data <- left_join(uk_shapefile,country_frequencies,by="country")
@@ -668,13 +683,7 @@ country_data <- left_join(uk_shapefile,country_frequencies,by="country")
   
   
 ```{r}
-country_data
-```
-
-
-
-```{r}
-country_data %>%
+uk_frequencies <- country_data %>%
   ggplot(aes(x=long,y=lat,fill=frequency,group=group)) + 
   geom_polygon(color="black",linewidth=0.125,alpha=0.75) +
   scale_fill_gradient(low="lavender",high="slateblue4",na.value="white",name="Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,alpha=0.75,title.position="top",title.hjust=0.5,limits=c(1,74))) +
@@ -682,10 +691,24 @@ country_data %>%
   ylab("") +
   labs(caption="") +
   coord_map() + 
-  theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+  theme(legend.key.width=unit(3,"lines"),legend.position="none",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+uk_frequencies
 ```
 
 
+```{r}
+subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
+          ncol=2,
+          widths=c(2,1),
+          labels=c("B","C"))
+subregion_frequencies
+```
+```{r}
+region_frequencies <- ggarrange(global_frequencies,
+          labels="A",
+          legend="none")
+region_frequencies
+```
 
 
 
