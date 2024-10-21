@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
+library(ggpubr)
 library(maps)
 ```
 
@@ -322,8 +323,8 @@ aggregated_data <- left_join(global_shapefile,review_data,by="country")
 ```{r}
 aggregated_data %>%
   ggplot(aes(x=long,y=lat,fill=count,group=group)) + 
-  geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
-  scale_fill_gradient(low="azure2",high="seagreen4",na.value="white",name="Number of Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
+  geom_polygon(color="black",linewidth=0.125,alpha=0.75) +
+  scale_fill_gradient(low="lavender",high="slateblue4",na.value="white",name="Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,alpha=0.75,title.position="top",title.hjust=0.5,limits=c(1,74))) +
   xlab("") + 
   ylab("") +
   labs(caption="") +
@@ -609,11 +610,12 @@ state_data <- left_join(usa_shapefile,state_frequencies,by="state")
 ```{r}
 state_data %>%
   ggplot(aes(x=long,y=lat,fill=frequency,group=group)) + 
-  geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
-  scale_fill_gradient(low="azure2",high="seagreen4",na.value="white",name="Number of Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
+  geom_polygon(color="black",linewidth=0.125,alpha=0.75) +
+  scale_fill_gradient(low="lavender",high="slateblue4",na.value="white",name="Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,alpha=0.75,title.position="top",title.hjust=0.5,limits=c(1,74))) +
   xlab("") + 
   ylab("") +
   labs(caption="") +
+  coord_map() +
   theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
@@ -656,23 +658,33 @@ uk_shapefile <- uk_shapefile %>%
 ```
 
 ```{r}
+uk_shapefile
+```
+
+
+```{r}
 country_data <- left_join(uk_shapefile,country_frequencies,by="country")
 ```
   
   
-  
+```{r}
+country_data
+```
+
 
 
 ```{r}
 country_data %>%
   ggplot(aes(x=long,y=lat,fill=frequency,group=group)) + 
-  geom_polygon(color="black",linewidth=0.125,alpha=0.8) +
-  scale_fill_gradient(low="azure2",high="seagreen4",na.value="white",name="Number of Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,title.position="top",title.hjust=0.5)) +
+  geom_polygon(color="black",linewidth=0.125,alpha=0.75) +
+  scale_fill_gradient(low="lavender",high="slateblue4",na.value="white",name="Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,alpha=0.75,title.position="top",title.hjust=0.5,limits=c(1,74))) +
   xlab("") + 
   ylab("") +
   labs(caption="") +
+  coord_map() + 
   theme(legend.key.width=unit(3,"lines"),legend.position="bottom",legend.justification="center",legend.box.spacing=unit(-15,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="aliceblue"),panel.border=element_rect(fill=NA),axis.text=element_blank(),axis.ticks=element_blank(),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
+
 
 
 
