@@ -789,6 +789,7 @@ global_frequencies <- aggregated_data %>%
   ggplot(aes(x=long,y=lat,fill=count,group=group)) + 
   geom_polygon(color="black",linewidth=0.125,alpha=0.75) +
   scale_fill_gradient(low="lavender",high="slateblue4",na.value="white",name="Intervention-Receiving Institutions",guide=guide_colourbar(reverse=FALSE,alpha=0.75,title.position="top",title.hjust=0.5,limits=c(1,74))) +
+  scale_y_continuous(limits=c(-60,90)) + 
   xlab("") + 
   ylab("") +
   labs(caption="") +
