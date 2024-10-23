@@ -179,9 +179,171 @@ stakeholder_survey <- stakeholder_survey %>%
 ```
 
 
+
 ```{r}
-stakeholder_survey %>%
-  summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score)) 
+stakeholder_survey %>% mutate(dietary_sustainability_over_dietary_health=case_when(dietary_sustainability_ranking<dietary_health_ranking ~ 1,
+                                                                                   dietary_sustainability_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(dietary_sustainability_over_dietary_health_sum=sum(dietary_sustainability_over_dietary_health))
+```
+```{r}
+stakeholder_survey %>% mutate(institutional_sustainability_over_dietary_health=case_when(institutional_sustainability_ranking<dietary_health_ranking ~ 1,
+                                                                                   institutional_sustainability_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(institutional_sustainability_over_dietary_health_sum=sum(institutional_sustainability_over_dietary_health))
+```
+
+```{r}
+stakeholder_survey %>% mutate(food_pricing_over_dietary_health=case_when(food_pricing_ranking<dietary_health_ranking ~ 1,
+                                                                                   food_pricing_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(food_pricing_over_dietary_health_sum=sum(food_pricing_over_dietary_health))
+```
+
+```{r}
+stakeholder_survey %>% mutate(operational_costs_over_dietary_health=case_when(operational_costs_ranking<dietary_health_ranking ~ 1,
+                                                                                   operational_costs_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(operational_costs_over_dietary_health_sum=sum(operational_costs_over_dietary_health))
+```
+
+```{r}
+stakeholder_survey %>% mutate(guest_satisfaction_over_dietary_health=case_when(guest_satisfaction_ranking<dietary_health_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_dietary_health_sum=sum(guest_satisfaction_over_dietary_health))
+```
+```{r}
+stakeholder_survey %>% mutate(worker_satisfaction_over_dietary_health=case_when(worker_satisfaction_ranking<dietary_health_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(worker_satisfaction_over_dietary_health_sum=sum(worker_satisfaction_over_dietary_health))
+```
+```{r}
+stakeholder_survey %>% mutate(campus_culture_over_dietary_health=case_when(campus_culture_ranking<dietary_health_ranking ~ 1,
+                                                                                   campus_culture_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(campus_culture_over_dietary_health_sum=sum(campus_culture_over_dietary_health))
+```
+
+```{r}
+stakeholder_survey %>% mutate(institutional_sustainability_over_dietary_sustainability=case_when(institutional_sustainability_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   institutional_sustainability_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(institutional_sustainability_over_dietary_sustainability_sum=sum(institutional_sustainability_over_dietary_sustainability))
+```
+```{r}
+stakeholder_survey %>% mutate(food_pricing_over_dietary_sustainability=case_when(food_pricing_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   food_pricing_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(food_pricing_over_dietary_sustainability_sum=sum(food_pricing_over_dietary_sustainability))
+```
+
+```{r}
+stakeholder_survey %>% mutate(operational_costs_over_dietary_sustainability=case_when(operational_costs_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   operational_costs_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(operational_costs_over_dietary_sustainability_sum=sum(operational_costs_over_dietary_sustainability))
+```
+
+```{r}
+stakeholder_survey %>% mutate(guest_satisfaction_over_dietary_sustainability=case_when(guest_satisfaction_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_dietary_sustainability_sum=sum(guest_satisfaction_over_dietary_sustainability))
+```
+
+```{r}
+stakeholder_survey %>% mutate(campus_culture_over_dietary_sustainability=case_when(campus_culture_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   campus_culture_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(campus_culture_over_dietary_sustainability_sum=sum(campus_culture_over_dietary_sustainability))
+```
+```{r}
+stakeholder_survey %>% mutate(food_pricing_over_institutional_sustainability=case_when(food_pricing_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   food_pricing_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(food_pricing_over_institutional_sustainability_sum=sum(food_pricing_over_institutional_sustainability))
+```
+
+```{r}
+stakeholder_survey %>% mutate(operational_costs_over_institutional_sustainability=case_when(operational_costs_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   operational_costs_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(operational_costs_over_institutional_sustainability_sum=sum(operational_costs_over_institutional_sustainability))
+```
+
+```{r}
+stakeholder_survey %>% mutate(guest_satisfaction_over_institutional_sustainability=case_when(guest_satisfaction_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_institutional_sustainability_sum=sum(guest_satisfaction_over_institutional_sustainability))
+```
+```{r}
+stakeholder_survey %>% mutate(worker_satisfaction_over_institutional_sustainability=case_when(worker_satisfaction_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(worker_satisfaction_over_institutional_sustainability_sum=sum(worker_satisfaction_over_institutional_sustainability))
+```
+
+
+```{r}
+stakeholder_survey %>% mutate(campus_culture_over_institutional_sustainability=case_when(campus_culture_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   campus_culture_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(campus_culture_over_institutional_sustainability_sum=sum(campus_culture_over_institutional_sustainability))
+```
+
+```{r}
+stakeholder_survey %>% mutate(operational_costs_over_food_pricing=case_when(operational_costs_ranking<food_pricing_ranking ~ 1,
+                                                                                   operational_costs_ranking>food_pricing_ranking ~ 0)) %>%
+  summarise(operational_costs_over_food_pricing_sum=sum(operational_costs_over_food_pricing))
+```
+
+```{r}
+stakeholder_survey %>% mutate(guest_satisfaction_over_food_pricing=case_when(guest_satisfaction_ranking<food_pricing_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>food_pricing_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_food_pricing_sum=sum(guest_satisfaction_over_food_pricing))
+```
+
+```{r}
+stakeholder_survey %>% mutate(worker_satisfaction_over_food_pricing=case_when(worker_satisfaction_ranking<food_pricing_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>food_pricing_ranking ~ 0)) %>%
+  summarise(worker_satisfaction_over_food_pricing_sum=sum(worker_satisfaction_over_food_pricing))
+```
+
+```{r}
+stakeholder_survey %>% mutate(campus_culture_over_food_pricing=case_when(campus_culture_ranking<food_pricing_ranking ~ 1,
+                                                                                   campus_culture_ranking>food_pricing_ranking ~ 0)) %>%
+  summarise(campus_culture_over_food_pricing_sum=sum(campus_culture_over_food_pricing))
+```
+
+```{r}
+stakeholder_survey %>% mutate(guest_satisfaction_over_operational_costs=case_when(guest_satisfaction_ranking<operational_costs_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>operational_costs_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_operational_costs_sum=sum(guest_satisfaction_over_operational_costs))
+```
+
+```{r}
+stakeholder_survey %>% mutate(worker_satisfaction_over_operational_costs=case_when(worker_satisfaction_ranking<operational_costs_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>operational_costs_ranking ~ 0)) 
+```
+
+%>%
+  summarise(worker_satisfaction_over_operational_costs_sum=sum(worker_satisfaction_over_operational_costs))
+
+```{r}
+stakeholder_survey
+```
+
+
+
+```{r}
+stakeholder_survey %>% mutate(campus_culture_over_operational_costs=case_when(campus_culture_ranking<operational_costs_ranking ~ 1,
+                                                                                   campus_culture_ranking>operational_costs_ranking ~ 0)) %>%
+  summarise(campus_culture_over_operational_costs_sum=sum(campus_culture_over_operational_costs))
+```
+
+```{r}
+stakeholder_survey %>% mutate(worker_satisfaction_over_guest_satisfaction=case_when(worker_satisfaction_ranking<guest_satisfaction_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>guest_satisfaction_ranking ~ 0)) %>%
+  summarise(worker_satisfaction_over_guest_satisfaction_sum=sum(worker_satisfaction_over_guest_satisfaction))
+```
+
+
+```{r}
+stakeholder_survey %>% mutate(campus_culture_over_guest_satisfaction=case_when(campus_culture_ranking<guest_satisfaction_ranking ~ 1,
+                                                                                   campus_culture_ranking>guest_satisfaction_ranking ~ 0)) %>%
+  summarise(campus_culture_over_guest_satisfaction_sum=sum(campus_culture_over_guest_satisfaction))
+```
+
+```{r}
+stakeholder_survey %>% mutate(campus_culture_over_worker_satisfaction=case_when(campus_culture_ranking<worker_satisfaction_ranking ~ 1,
+                                                                                   campus_culture_ranking>worker_satisfaction_ranking ~ 0)) %>%
+  summarise(campus_culture_over_worker_satisfaction_sum=sum(campus_culture_over_worker_satisfaction))
 ```
 
 
@@ -195,9 +357,10 @@ stakeholder_survey %>%
 
 
 
-
-
-
+```{r}
+stakeholder_survey %>%
+  summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score)) 
+```
 
 
 ```{r}

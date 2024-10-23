@@ -536,6 +536,1112 @@ stakeholder_survey <- stakeholder_survey %>%
 ```
 
 ``` r
+stakeholder_survey %>% mutate(dietary_sustainability_over_dietary_health=case_when(dietary_sustainability_ranking<dietary_health_ranking ~ 1,
+                                                                                   dietary_sustainability_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(dietary_sustainability_over_dietary_health_sum=sum(dietary_sustainability_over_dietary_health))
+```
+
+    ##   dietary_sustainability_over_dietary_health_sum
+    ## 1                                             10
+
+``` r
+stakeholder_survey %>% mutate(institutional_sustainability_over_dietary_health=case_when(institutional_sustainability_ranking<dietary_health_ranking ~ 1,
+                                                                                   institutional_sustainability_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(institutional_sustainability_over_dietary_health_sum=sum(institutional_sustainability_over_dietary_health))
+```
+
+    ##   institutional_sustainability_over_dietary_health_sum
+    ## 1                                                   13
+
+``` r
+stakeholder_survey %>% mutate(food_pricing_over_dietary_health=case_when(food_pricing_ranking<dietary_health_ranking ~ 1,
+                                                                                   food_pricing_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(food_pricing_over_dietary_health_sum=sum(food_pricing_over_dietary_health))
+```
+
+    ##   food_pricing_over_dietary_health_sum
+    ## 1                                   13
+
+``` r
+stakeholder_survey %>% mutate(operational_costs_over_dietary_health=case_when(operational_costs_ranking<dietary_health_ranking ~ 1,
+                                                                                   operational_costs_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(operational_costs_over_dietary_health_sum=sum(operational_costs_over_dietary_health))
+```
+
+    ##   operational_costs_over_dietary_health_sum
+    ## 1                                        10
+
+``` r
+stakeholder_survey %>% mutate(guest_satisfaction_over_dietary_health=case_when(guest_satisfaction_ranking<dietary_health_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_dietary_health_sum=sum(guest_satisfaction_over_dietary_health))
+```
+
+    ##   guest_satisfaction_over_dietary_health_sum
+    ## 1                                         20
+
+``` r
+stakeholder_survey %>% mutate(worker_satisfaction_over_dietary_health=case_when(worker_satisfaction_ranking<dietary_health_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(worker_satisfaction_over_dietary_health_sum=sum(worker_satisfaction_over_dietary_health))
+```
+
+    ##   worker_satisfaction_over_dietary_health_sum
+    ## 1                                           9
+
+``` r
+stakeholder_survey %>% mutate(campus_culture_over_dietary_health=case_when(campus_culture_ranking<dietary_health_ranking ~ 1,
+                                                                                   campus_culture_ranking>dietary_health_ranking ~ 0)) %>%
+  summarise(campus_culture_over_dietary_health_sum=sum(campus_culture_over_dietary_health))
+```
+
+    ##   campus_culture_over_dietary_health_sum
+    ## 1                                     11
+
+``` r
+stakeholder_survey %>% mutate(institutional_sustainability_over_dietary_sustainability=case_when(institutional_sustainability_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   institutional_sustainability_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(institutional_sustainability_over_dietary_sustainability_sum=sum(institutional_sustainability_over_dietary_sustainability))
+```
+
+    ##   institutional_sustainability_over_dietary_sustainability_sum
+    ## 1                                                           15
+
+``` r
+stakeholder_survey %>% mutate(food_pricing_over_dietary_sustainability=case_when(food_pricing_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   food_pricing_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(food_pricing_over_dietary_sustainability_sum=sum(food_pricing_over_dietary_sustainability))
+```
+
+    ##   food_pricing_over_dietary_sustainability_sum
+    ## 1                                           15
+
+``` r
+stakeholder_survey %>% mutate(operational_costs_over_dietary_sustainability=case_when(operational_costs_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   operational_costs_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(operational_costs_over_dietary_sustainability_sum=sum(operational_costs_over_dietary_sustainability))
+```
+
+    ##   operational_costs_over_dietary_sustainability_sum
+    ## 1                                                13
+
+``` r
+stakeholder_survey %>% mutate(guest_satisfaction_over_dietary_sustainability=case_when(guest_satisfaction_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_dietary_sustainability_sum=sum(guest_satisfaction_over_dietary_sustainability))
+```
+
+    ##   guest_satisfaction_over_dietary_sustainability_sum
+    ## 1                                                 24
+
+``` r
+stakeholder_survey %>% mutate(campus_culture_over_dietary_sustainability=case_when(campus_culture_ranking<dietary_sustainability_ranking ~ 1,
+                                                                                   campus_culture_ranking>dietary_sustainability_ranking ~ 0)) %>%
+  summarise(campus_culture_over_dietary_sustainability_sum=sum(campus_culture_over_dietary_sustainability))
+```
+
+    ##   campus_culture_over_dietary_sustainability_sum
+    ## 1                                             11
+
+``` r
+stakeholder_survey %>% mutate(food_pricing_over_institutional_sustainability=case_when(food_pricing_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   food_pricing_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(food_pricing_over_institutional_sustainability_sum=sum(food_pricing_over_institutional_sustainability))
+```
+
+    ##   food_pricing_over_institutional_sustainability_sum
+    ## 1                                                 17
+
+``` r
+stakeholder_survey %>% mutate(operational_costs_over_institutional_sustainability=case_when(operational_costs_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   operational_costs_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(operational_costs_over_institutional_sustainability_sum=sum(operational_costs_over_institutional_sustainability))
+```
+
+    ##   operational_costs_over_institutional_sustainability_sum
+    ## 1                                                      17
+
+``` r
+stakeholder_survey %>% mutate(guest_satisfaction_over_institutional_sustainability=case_when(guest_satisfaction_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_institutional_sustainability_sum=sum(guest_satisfaction_over_institutional_sustainability))
+```
+
+    ##   guest_satisfaction_over_institutional_sustainability_sum
+    ## 1                                                       25
+
+``` r
+stakeholder_survey %>% mutate(worker_satisfaction_over_institutional_sustainability=case_when(worker_satisfaction_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(worker_satisfaction_over_institutional_sustainability_sum=sum(worker_satisfaction_over_institutional_sustainability))
+```
+
+    ##   worker_satisfaction_over_institutional_sustainability_sum
+    ## 1                                                        16
+
+``` r
+stakeholder_survey %>% mutate(campus_culture_over_institutional_sustainability=case_when(campus_culture_ranking<institutional_sustainability_ranking ~ 1,
+                                                                                   campus_culture_ranking>institutional_sustainability_ranking ~ 0)) %>%
+  summarise(campus_culture_over_institutional_sustainability_sum=sum(campus_culture_over_institutional_sustainability))
+```
+
+    ##   campus_culture_over_institutional_sustainability_sum
+    ## 1                                                   17
+
+``` r
+stakeholder_survey %>% mutate(operational_costs_over_food_pricing=case_when(operational_costs_ranking<food_pricing_ranking ~ 1,
+                                                                                   operational_costs_ranking>food_pricing_ranking ~ 0)) %>%
+  summarise(operational_costs_over_food_pricing_sum=sum(operational_costs_over_food_pricing))
+```
+
+    ##   operational_costs_over_food_pricing_sum
+    ## 1                                      13
+
+``` r
+stakeholder_survey %>% mutate(guest_satisfaction_over_food_pricing=case_when(guest_satisfaction_ranking<food_pricing_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>food_pricing_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_food_pricing_sum=sum(guest_satisfaction_over_food_pricing))
+```
+
+    ##   guest_satisfaction_over_food_pricing_sum
+    ## 1                                       22
+
+``` r
+stakeholder_survey %>% mutate(worker_satisfaction_over_food_pricing=case_when(worker_satisfaction_ranking<food_pricing_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>food_pricing_ranking ~ 0)) %>%
+  summarise(worker_satisfaction_over_food_pricing_sum=sum(worker_satisfaction_over_food_pricing))
+```
+
+    ##   worker_satisfaction_over_food_pricing_sum
+    ## 1                                        12
+
+``` r
+stakeholder_survey %>% mutate(campus_culture_over_food_pricing=case_when(campus_culture_ranking<food_pricing_ranking ~ 1,
+                                                                                   campus_culture_ranking>food_pricing_ranking ~ 0)) %>%
+  summarise(campus_culture_over_food_pricing_sum=sum(campus_culture_over_food_pricing))
+```
+
+    ##   campus_culture_over_food_pricing_sum
+    ## 1                                   14
+
+``` r
+stakeholder_survey %>% mutate(guest_satisfaction_over_operational_costs=case_when(guest_satisfaction_ranking<operational_costs_ranking ~ 1,
+                                                                                   guest_satisfaction_ranking>operational_costs_ranking ~ 0)) %>%
+  summarise(guest_satisfaction_over_operational_costs_sum=sum(guest_satisfaction_over_operational_costs))
+```
+
+    ##   guest_satisfaction_over_operational_costs_sum
+    ## 1                                            25
+
+``` r
+stakeholder_survey %>% mutate(worker_satisfaction_over_operational_costs=case_when(worker_satisfaction_ranking<operational_costs_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>operational_costs_ranking ~ 0)) 
+```
+
+    ##                   date completion channel               consent
+    ## 1  2024-10-02 12:42:10        100      qr I wish to participate
+    ## 2  2024-10-02 12:42:13        100      qr I wish to participate
+    ## 3  2024-10-02 12:42:20        100      qr I wish to participate
+    ## 4  2024-10-02 12:42:26        100      qr I wish to participate
+    ## 5  2024-10-02 12:42:29        100      qr I wish to participate
+    ## 6  2024-10-02 12:42:32        100      qr I wish to participate
+    ## 7  2024-10-02 12:42:37        100      qr I wish to participate
+    ## 8  2024-10-02 12:42:41        100      qr I wish to participate
+    ## 9  2024-10-02 12:42:51        100      qr I wish to participate
+    ## 10 2024-10-02 12:42:54        100      qr I wish to participate
+    ## 11 2024-10-02 12:42:57        100      qr I wish to participate
+    ## 12 2024-10-02 12:42:58        100      qr I wish to participate
+    ## 13 2024-10-02 12:43:05        100      qr I wish to participate
+    ## 14 2024-10-02 12:43:06        100      qr I wish to participate
+    ## 15 2024-10-02 12:43:09        100      qr I wish to participate
+    ## 16 2024-10-02 12:43:11        100      qr I wish to participate
+    ## 17 2024-10-02 12:43:16        100      qr I wish to participate
+    ## 18 2024-10-02 12:43:18        100      qr I wish to participate
+    ## 19 2024-10-02 12:43:20        100      qr I wish to participate
+    ## 20 2024-10-02 12:43:21        100      qr I wish to participate
+    ## 21 2024-10-02 12:43:30        100      qr I wish to participate
+    ## 22 2024-10-02 12:43:38        100      qr I wish to participate
+    ## 23 2024-10-02 12:43:52        100      qr I wish to participate
+    ## 24 2024-10-02 12:44:02        100      qr I wish to participate
+    ## 25 2024-10-02 12:44:04        100      qr I wish to participate
+    ## 26 2024-10-02 12:44:16        100      qr I wish to participate
+    ## 27 2024-10-02 12:44:22        100      qr I wish to participate
+    ## 28 2024-10-02 12:44:39        100      qr I wish to participate
+    ## 29 2024-10-02 12:44:43        100      qr I wish to participate
+    ## 30 2024-10-02 12:44:44        100      qr I wish to participate
+    ## 31 2024-10-02 14:20:00        100      qr I wish to participate
+    ## 32 2024-10-04 07:14:22        100      qr I wish to participate
+    ##                              involvement
+    ## 1            I consult on best practices
+    ## 2            I consult on best practices
+    ## 3                Other (please specify):
+    ## 4          I am a primary decision maker
+    ## 5          I am a primary decision maker
+    ## 6          I am a primary decision maker
+    ## 7          I am a primary decision maker
+    ## 8            I consult on best practices
+    ## 9            I consult on best practices
+    ## 10         I am a primary decision maker
+    ## 11           I consult on best practices
+    ## 12         I am a primary decision maker
+    ## 13           I consult on best practices
+    ## 14         I am a primary decision maker
+    ## 15           I consult on best practices
+    ## 16           I consult on best practices
+    ## 17           I consult on best practices
+    ## 18         I am a primary decision maker
+    ## 19           I consult on best practices
+    ## 20 I offer feedback on existing services
+    ## 21         I am a primary decision maker
+    ## 22         I am a primary decision maker
+    ## 23           I consult on best practices
+    ## 24           I consult on best practices
+    ## 25 I offer feedback on existing services
+    ## 26           I consult on best practices
+    ## 27         I am a primary decision maker
+    ## 28           I consult on best practices
+    ## 29           I consult on best practices
+    ## 30           I consult on best practices
+    ## 31         I am a primary decision maker
+    ## 32 I offer feedback on existing services
+    ##                                                                   involvement_other
+    ## 1                                                                                  
+    ## 2                                                                                  
+    ## 3  Collaboration and influence with corporate stakeholders on food loss and waste  
+    ## 4                                                                                  
+    ## 5                                                                                  
+    ## 6                                                                                  
+    ## 7                                                                                  
+    ## 8                                                                                  
+    ## 9                                                                                  
+    ## 10                                                                                 
+    ## 11                                                                                 
+    ## 12                                                                                 
+    ## 13                                                                                 
+    ## 14                                                                                 
+    ## 15                                                                                 
+    ## 16                                                                                 
+    ## 17                                                                                 
+    ## 18                                                                                 
+    ## 19                                                                                 
+    ## 20                                                                                 
+    ## 21                                                                                 
+    ## 22                                                                                 
+    ## 23                                                                                 
+    ## 24                                                                                 
+    ## 25                                                                                 
+    ## 26                                                                                 
+    ## 27                                                                                 
+    ## 28                                                                                 
+    ## 29                                                                                 
+    ## 30                                                                                 
+    ## 31                                                                                 
+    ## 32                                                                                 
+    ##              stakeholder_type         stakeholder_type_other
+    ## 1        Nutrition specialist                               
+    ## 2  Sustainability coordinator                               
+    ## 3     Other (please specify):                   NGO employee
+    ## 4             Dining director                               
+    ## 5             Dining director                               
+    ## 6                        Chef                               
+    ## 7             Dining director                               
+    ## 8  Sustainability coordinator                               
+    ## 9        Nutrition specialist                               
+    ## 10            Dining director                               
+    ## 11    Other (please specify):                       Advisor 
+    ## 12                       Chef                               
+    ## 13       Nutrition specialist                               
+    ## 14   University administrator                               
+    ## 15 Sustainability coordinator                               
+    ## 16                       Chef                               
+    ## 17   University administrator                               
+    ## 18   University administrator                               
+    ## 19    Other (please specify):             Dining management 
+    ## 20                       Chef                               
+    ## 21            Dining director                               
+    ## 22   University administrator                               
+    ## 23       Nutrition specialist                               
+    ## 24 Sustainability coordinator                               
+    ## 25       Nutrition specialist                               
+    ## 26 Sustainability coordinator                               
+    ## 27 Sustainability coordinator                               
+    ## 28            Dining director                               
+    ## 29    Other (please specify): Manager of residential dining 
+    ## 30    Other (please specify):              Dining marketing 
+    ## 31            Dining director                               
+    ## 32    Other (please specify):                      marketing
+    ##                                                                          title
+    ## 1                                                                             
+    ## 2                                                      Sustainability Manager 
+    ## 3                                                 Associate Program Specialist
+    ## 4                                                                     Director
+    ## 5                                                           Director of Dining
+    ## 6                                                        Campus Executive Chef
+    ## 7                                                           Director of Dining
+    ## 8                                                     Sustainability Director 
+    ## 9                                                                    Dietitian
+    ## 10                                          Senior Director of Dining Services
+    ## 11                                                                            
+    ## 12 Senior associate Director culinary strategies and plant forward experience 
+    ## 13                                                   Nutrition Systems Manager
+    ## 14                                                   Assistant Vice President 
+    ## 15                                                      Sustainability Manager
+    ## 16                                                              Executive chef
+    ## 17                                                                         AVP
+    ## 18                                                  Associate Vice Chancellor 
+    ## 19                              Director of Culinary development and nutrition
+    ## 20                                                                 Sous Chef/s
+    ## 21                                                  Executive Director dining 
+    ## 22                                                          Asst. Vice Provost
+    ## 23                                                                   Dietitian
+    ## 24                                                                            
+    ## 25                                                        Registered Dietitian
+    ## 26                                                  Director of sustainability
+    ## 27                                             Regional Sustainability Manager
+    ## 28                                       Associate Director, Food and beverage
+    ## 29                                                       Halls cluster manger 
+    ## 30                                                          Marketing manager 
+    ## 31                                                            Dining Director 
+    ## 32                                                                            
+    ##    role_duration dietary_health_ranking dietary_sustainability_ranking
+    ## 1              2                      2                              3
+    ## 2              1                      2                              3
+    ## 3              2                      3                              4
+    ## 4              1                      2                              5
+    ## 5             11                      8                              5
+    ## 6              3                      8                              3
+    ## 7              1                      1                              2
+    ## 8      5.5 years                      6                              5
+    ## 9              3                      2                              5
+    ## 10            32                      4                              2
+    ## 11             1                      7                              3
+    ## 12             3                      1                              6
+    ## 13            12                      6                              7
+    ## 14             2                      1                              8
+    ## 15             3                      4                              5
+    ## 16             3                      6                              4
+    ## 17      20 years                      3                              6
+    ## 18             4                      4                              8
+    ## 19             2                      1                              4
+    ## 20             1                      5                              6
+    ## 21             2                      5                              2
+    ## 22            16                      6                              5
+    ## 23             3                      1                              2
+    ## 24            .1                      6                              2
+    ## 25             3                      2                              5
+    ## 26            10                      3                              5
+    ## 27             2                      6                              5
+    ## 28             5                      5                              8
+    ## 29             2                      3                              5
+    ## 30             3                      2                              4
+    ## 31             3                      5                              6
+    ## 32                                    3                              6
+    ##    institutional_sustainability_ranking food_pricing_ranking
+    ## 1                                     7                    5
+    ## 2                                     1                    8
+    ## 3                                     8                    2
+    ## 4                                     6                    4
+    ## 5                                     7                    1
+    ## 6                                     6                    2
+    ## 7                                     3                    5
+    ## 8                                     4                    8
+    ## 9                                     7                    8
+    ## 10                                    1                    7
+    ## 11                                    8                    5
+    ## 12                                    8                    4
+    ## 13                                    5                    3
+    ## 14                                    5                    6
+    ## 15                                    1                    6
+    ## 16                                    8                    2
+    ## 17                                    8                    1
+    ## 18                                    7                    3
+    ## 19                                    8                    6
+    ## 20                                    4                    8
+    ## 21                                    3                    7
+    ## 22                                    4                    3
+    ## 23                                    6                    8
+    ## 24                                    1                    5
+    ## 25                                    6                    3
+    ## 26                                    1                    6
+    ## 27                                    4                    2
+    ## 28                                    6                    1
+    ## 29                                    4                    7
+    ## 30                                    3                    6
+    ## 31                                    7                    8
+    ## 32                                    8                    2
+    ##    operational_costs_ranking guest_satisfaction_ranking
+    ## 1                          6                          1
+    ## 2                          5                          4
+    ## 3                          7                          6
+    ## 4                          7                          1
+    ## 5                          2                          4
+    ## 6                          7                          4
+    ## 7                          6                          4
+    ## 8                          1                          2
+    ## 9                          6                          1
+    ## 10                         6                          5
+    ## 11                         6                          1
+    ## 12                         2                          5
+    ## 13                         8                          4
+    ## 14                         3                          2
+    ## 15                         8                          3
+    ## 16                         7                          1
+    ## 17                         2                          4
+    ## 18                         6                          2
+    ## 19                         3                          2
+    ## 20                         3                          1
+    ## 21                         1                          4
+    ## 22                         2                          1
+    ## 23                         7                          3
+    ## 24                         4                          8
+    ## 25                         8                          1
+    ## 26                         8                          4
+    ## 27                         8                          3
+    ## 28                         7                          2
+    ## 29                         8                          2
+    ## 30                         7                          1
+    ## 31                         2                          4
+    ## 32                         5                          4
+    ##    worker_satisfaction_ranking campus_culture_ranking other_ranking
+    ## 1                            6                      8             9
+    ## 2                            5                      6             9
+    ## 3                            7                      1             9
+    ## 4                            7                      8             9
+    ## 5                            2                      6             9
+    ## 6                            7                      5             9
+    ## 7                            6                      7             9
+    ## 8                            1                      7             9
+    ## 9                            6                      3             9
+    ## 10                           6                      8             9
+    ## 11                           6                      4             9
+    ## 12                           2                      3             9
+    ## 13                           8                      1             9
+    ## 14                           3                      4             9
+    ## 15                           8                      7             9
+    ## 16                           7                      5             9
+    ## 17                           2                      5             9
+    ## 18                           6                      1             9
+    ## 19                           3                      7             9
+    ## 20                           3                      2             9
+    ## 21                           1                      8             9
+    ## 22                           7                      8             2
+    ## 23                           7                      5             9
+    ## 24                           4                      7             9
+    ## 25                           8                      7             9
+    ## 26                           8                      2             9
+    ## 27                           8                      7             9
+    ## 28                           7                      4             9
+    ## 29                           8                      6             9
+    ## 30                           7                      8             9
+    ## 31                           2                      1             9
+    ## 32                           5                      7             9
+    ##    other_ranking_other id dietary_health_score dietary_sustainability_score
+    ## 1                       1                    7                            6
+    ## 2                       2                    7                            6
+    ## 3                       3                    6                            5
+    ## 4                       4                    7                            4
+    ## 5                       5                    1                            4
+    ## 6                       6                    1                            6
+    ## 7                       7                    8                            7
+    ## 8                       8                    3                            4
+    ## 9                       9                    7                            4
+    ## 10                     10                    5                            7
+    ## 11                     11                    2                            6
+    ## 12                     12                    8                            3
+    ## 13                     13                    3                            2
+    ## 14                     14                    8                            1
+    ## 15                     15                    5                            4
+    ## 16                     16                    3                            5
+    ## 17                     17                    6                            3
+    ## 18                     18                    5                            1
+    ## 19                     19                    8                            5
+    ## 20                     20                    4                            3
+    ## 21                     21                    4                            7
+    ## 22        Cuisine type 22                    3                            4
+    ## 23                     23                    8                            7
+    ## 24                     24                    3                            7
+    ## 25                     25                    7                            4
+    ## 26                     26                    6                            4
+    ## 27                     27                    3                            4
+    ## 28                     28                    4                            1
+    ## 29                     29                    6                            4
+    ## 30                     30                    7                            5
+    ## 31                     31                    4                            3
+    ## 32                     32                    6                            3
+    ##    institutional_sustainability_score food_pricing_score
+    ## 1                                   3                  4
+    ## 2                                   9                  1
+    ## 3                                   2                  7
+    ## 4                                   4                  5
+    ## 5                                   3                  8
+    ## 6                                   4                  7
+    ## 7                                   7                  4
+    ## 8                                   6                  1
+    ## 9                                   3                  1
+    ## 10                                  9                  2
+    ## 11                                  2                  4
+    ## 12                                  2                  5
+    ## 13                                  5                  6
+    ## 14                                  5                  3
+    ## 15                                  9                  3
+    ## 16                                  2                  7
+    ## 17                                  2                  8
+    ## 18                                  3                  6
+    ## 19                                  2                  3
+    ## 20                                  6                  1
+    ## 21                                  7                  2
+    ## 22                                  6                  6
+    ## 23                                  4                  1
+    ## 24                                  9                  4
+    ## 25                                  4                  6
+    ## 26                                  9                  3
+    ## 27                                  6                  7
+    ## 28                                  4                  8
+    ## 29                                  6                  2
+    ## 30                                  7                  3
+    ## 31                                  3                  1
+    ## 32                                  2                  7
+    ##    operational_costs_score guest_satisfaction_score worker_satisfaction_score
+    ## 1                        3                        8                         3
+    ## 2                        4                        5                         4
+    ## 3                        2                        3                         2
+    ## 4                        2                        8                         2
+    ## 5                        7                        5                         7
+    ## 6                        2                        5                         2
+    ## 7                        3                        5                         3
+    ## 8                        8                        7                         8
+    ## 9                        3                        8                         3
+    ## 10                       3                        4                         3
+    ## 11                       3                        8                         3
+    ## 12                       7                        4                         7
+    ## 13                       1                        5                         1
+    ## 14                       6                        7                         6
+    ## 15                       1                        6                         1
+    ## 16                       2                        8                         2
+    ## 17                       7                        5                         7
+    ## 18                       3                        7                         3
+    ## 19                       6                        7                         6
+    ## 20                       6                        8                         6
+    ## 21                       8                        5                         8
+    ## 22                       7                        8                         2
+    ## 23                       2                        6                         2
+    ## 24                       5                        1                         5
+    ## 25                       1                        8                         1
+    ## 26                       1                        5                         1
+    ## 27                       1                        6                         1
+    ## 28                       2                        7                         2
+    ## 29                       1                        7                         1
+    ## 30                       2                        8                         2
+    ## 31                       7                        5                         7
+    ## 32                       4                        5                         4
+    ##    campus_culture_score worker_satisfaction_over_operational_costs
+    ## 1                     1                                         NA
+    ## 2                     3                                         NA
+    ## 3                     8                                         NA
+    ## 4                     1                                         NA
+    ## 5                     3                                         NA
+    ## 6                     4                                         NA
+    ## 7                     2                                         NA
+    ## 8                     2                                         NA
+    ## 9                     6                                         NA
+    ## 10                    1                                         NA
+    ## 11                    5                                         NA
+    ## 12                    6                                         NA
+    ## 13                    8                                         NA
+    ## 14                    5                                         NA
+    ## 15                    2                                         NA
+    ## 16                    4                                         NA
+    ## 17                    4                                         NA
+    ## 18                    8                                         NA
+    ## 19                    2                                         NA
+    ## 20                    7                                         NA
+    ## 21                    1                                         NA
+    ## 22                    1                                          0
+    ## 23                    4                                         NA
+    ## 24                    2                                         NA
+    ## 25                    2                                         NA
+    ## 26                    7                                         NA
+    ## 27                    2                                         NA
+    ## 28                    5                                         NA
+    ## 29                    3                                         NA
+    ## 30                    1                                         NA
+    ## 31                    8                                         NA
+    ## 32                    2                                         NA
+
+%\>%
+summarise(worker_satisfaction_over_operational_costs_sum=sum(worker_satisfaction_over_operational_costs))
+
+``` r
+stakeholder_survey
+```
+
+    ##                   date completion channel               consent
+    ## 1  2024-10-02 12:42:10        100      qr I wish to participate
+    ## 2  2024-10-02 12:42:13        100      qr I wish to participate
+    ## 3  2024-10-02 12:42:20        100      qr I wish to participate
+    ## 4  2024-10-02 12:42:26        100      qr I wish to participate
+    ## 5  2024-10-02 12:42:29        100      qr I wish to participate
+    ## 6  2024-10-02 12:42:32        100      qr I wish to participate
+    ## 7  2024-10-02 12:42:37        100      qr I wish to participate
+    ## 8  2024-10-02 12:42:41        100      qr I wish to participate
+    ## 9  2024-10-02 12:42:51        100      qr I wish to participate
+    ## 10 2024-10-02 12:42:54        100      qr I wish to participate
+    ## 11 2024-10-02 12:42:57        100      qr I wish to participate
+    ## 12 2024-10-02 12:42:58        100      qr I wish to participate
+    ## 13 2024-10-02 12:43:05        100      qr I wish to participate
+    ## 14 2024-10-02 12:43:06        100      qr I wish to participate
+    ## 15 2024-10-02 12:43:09        100      qr I wish to participate
+    ## 16 2024-10-02 12:43:11        100      qr I wish to participate
+    ## 17 2024-10-02 12:43:16        100      qr I wish to participate
+    ## 18 2024-10-02 12:43:18        100      qr I wish to participate
+    ## 19 2024-10-02 12:43:20        100      qr I wish to participate
+    ## 20 2024-10-02 12:43:21        100      qr I wish to participate
+    ## 21 2024-10-02 12:43:30        100      qr I wish to participate
+    ## 22 2024-10-02 12:43:38        100      qr I wish to participate
+    ## 23 2024-10-02 12:43:52        100      qr I wish to participate
+    ## 24 2024-10-02 12:44:02        100      qr I wish to participate
+    ## 25 2024-10-02 12:44:04        100      qr I wish to participate
+    ## 26 2024-10-02 12:44:16        100      qr I wish to participate
+    ## 27 2024-10-02 12:44:22        100      qr I wish to participate
+    ## 28 2024-10-02 12:44:39        100      qr I wish to participate
+    ## 29 2024-10-02 12:44:43        100      qr I wish to participate
+    ## 30 2024-10-02 12:44:44        100      qr I wish to participate
+    ## 31 2024-10-02 14:20:00        100      qr I wish to participate
+    ## 32 2024-10-04 07:14:22        100      qr I wish to participate
+    ##                              involvement
+    ## 1            I consult on best practices
+    ## 2            I consult on best practices
+    ## 3                Other (please specify):
+    ## 4          I am a primary decision maker
+    ## 5          I am a primary decision maker
+    ## 6          I am a primary decision maker
+    ## 7          I am a primary decision maker
+    ## 8            I consult on best practices
+    ## 9            I consult on best practices
+    ## 10         I am a primary decision maker
+    ## 11           I consult on best practices
+    ## 12         I am a primary decision maker
+    ## 13           I consult on best practices
+    ## 14         I am a primary decision maker
+    ## 15           I consult on best practices
+    ## 16           I consult on best practices
+    ## 17           I consult on best practices
+    ## 18         I am a primary decision maker
+    ## 19           I consult on best practices
+    ## 20 I offer feedback on existing services
+    ## 21         I am a primary decision maker
+    ## 22         I am a primary decision maker
+    ## 23           I consult on best practices
+    ## 24           I consult on best practices
+    ## 25 I offer feedback on existing services
+    ## 26           I consult on best practices
+    ## 27         I am a primary decision maker
+    ## 28           I consult on best practices
+    ## 29           I consult on best practices
+    ## 30           I consult on best practices
+    ## 31         I am a primary decision maker
+    ## 32 I offer feedback on existing services
+    ##                                                                   involvement_other
+    ## 1                                                                                  
+    ## 2                                                                                  
+    ## 3  Collaboration and influence with corporate stakeholders on food loss and waste  
+    ## 4                                                                                  
+    ## 5                                                                                  
+    ## 6                                                                                  
+    ## 7                                                                                  
+    ## 8                                                                                  
+    ## 9                                                                                  
+    ## 10                                                                                 
+    ## 11                                                                                 
+    ## 12                                                                                 
+    ## 13                                                                                 
+    ## 14                                                                                 
+    ## 15                                                                                 
+    ## 16                                                                                 
+    ## 17                                                                                 
+    ## 18                                                                                 
+    ## 19                                                                                 
+    ## 20                                                                                 
+    ## 21                                                                                 
+    ## 22                                                                                 
+    ## 23                                                                                 
+    ## 24                                                                                 
+    ## 25                                                                                 
+    ## 26                                                                                 
+    ## 27                                                                                 
+    ## 28                                                                                 
+    ## 29                                                                                 
+    ## 30                                                                                 
+    ## 31                                                                                 
+    ## 32                                                                                 
+    ##              stakeholder_type         stakeholder_type_other
+    ## 1        Nutrition specialist                               
+    ## 2  Sustainability coordinator                               
+    ## 3     Other (please specify):                   NGO employee
+    ## 4             Dining director                               
+    ## 5             Dining director                               
+    ## 6                        Chef                               
+    ## 7             Dining director                               
+    ## 8  Sustainability coordinator                               
+    ## 9        Nutrition specialist                               
+    ## 10            Dining director                               
+    ## 11    Other (please specify):                       Advisor 
+    ## 12                       Chef                               
+    ## 13       Nutrition specialist                               
+    ## 14   University administrator                               
+    ## 15 Sustainability coordinator                               
+    ## 16                       Chef                               
+    ## 17   University administrator                               
+    ## 18   University administrator                               
+    ## 19    Other (please specify):             Dining management 
+    ## 20                       Chef                               
+    ## 21            Dining director                               
+    ## 22   University administrator                               
+    ## 23       Nutrition specialist                               
+    ## 24 Sustainability coordinator                               
+    ## 25       Nutrition specialist                               
+    ## 26 Sustainability coordinator                               
+    ## 27 Sustainability coordinator                               
+    ## 28            Dining director                               
+    ## 29    Other (please specify): Manager of residential dining 
+    ## 30    Other (please specify):              Dining marketing 
+    ## 31            Dining director                               
+    ## 32    Other (please specify):                      marketing
+    ##                                                                          title
+    ## 1                                                                             
+    ## 2                                                      Sustainability Manager 
+    ## 3                                                 Associate Program Specialist
+    ## 4                                                                     Director
+    ## 5                                                           Director of Dining
+    ## 6                                                        Campus Executive Chef
+    ## 7                                                           Director of Dining
+    ## 8                                                     Sustainability Director 
+    ## 9                                                                    Dietitian
+    ## 10                                          Senior Director of Dining Services
+    ## 11                                                                            
+    ## 12 Senior associate Director culinary strategies and plant forward experience 
+    ## 13                                                   Nutrition Systems Manager
+    ## 14                                                   Assistant Vice President 
+    ## 15                                                      Sustainability Manager
+    ## 16                                                              Executive chef
+    ## 17                                                                         AVP
+    ## 18                                                  Associate Vice Chancellor 
+    ## 19                              Director of Culinary development and nutrition
+    ## 20                                                                 Sous Chef/s
+    ## 21                                                  Executive Director dining 
+    ## 22                                                          Asst. Vice Provost
+    ## 23                                                                   Dietitian
+    ## 24                                                                            
+    ## 25                                                        Registered Dietitian
+    ## 26                                                  Director of sustainability
+    ## 27                                             Regional Sustainability Manager
+    ## 28                                       Associate Director, Food and beverage
+    ## 29                                                       Halls cluster manger 
+    ## 30                                                          Marketing manager 
+    ## 31                                                            Dining Director 
+    ## 32                                                                            
+    ##    role_duration dietary_health_ranking dietary_sustainability_ranking
+    ## 1              2                      2                              3
+    ## 2              1                      2                              3
+    ## 3              2                      3                              4
+    ## 4              1                      2                              5
+    ## 5             11                      8                              5
+    ## 6              3                      8                              3
+    ## 7              1                      1                              2
+    ## 8      5.5 years                      6                              5
+    ## 9              3                      2                              5
+    ## 10            32                      4                              2
+    ## 11             1                      7                              3
+    ## 12             3                      1                              6
+    ## 13            12                      6                              7
+    ## 14             2                      1                              8
+    ## 15             3                      4                              5
+    ## 16             3                      6                              4
+    ## 17      20 years                      3                              6
+    ## 18             4                      4                              8
+    ## 19             2                      1                              4
+    ## 20             1                      5                              6
+    ## 21             2                      5                              2
+    ## 22            16                      6                              5
+    ## 23             3                      1                              2
+    ## 24            .1                      6                              2
+    ## 25             3                      2                              5
+    ## 26            10                      3                              5
+    ## 27             2                      6                              5
+    ## 28             5                      5                              8
+    ## 29             2                      3                              5
+    ## 30             3                      2                              4
+    ## 31             3                      5                              6
+    ## 32                                    3                              6
+    ##    institutional_sustainability_ranking food_pricing_ranking
+    ## 1                                     7                    5
+    ## 2                                     1                    8
+    ## 3                                     8                    2
+    ## 4                                     6                    4
+    ## 5                                     7                    1
+    ## 6                                     6                    2
+    ## 7                                     3                    5
+    ## 8                                     4                    8
+    ## 9                                     7                    8
+    ## 10                                    1                    7
+    ## 11                                    8                    5
+    ## 12                                    8                    4
+    ## 13                                    5                    3
+    ## 14                                    5                    6
+    ## 15                                    1                    6
+    ## 16                                    8                    2
+    ## 17                                    8                    1
+    ## 18                                    7                    3
+    ## 19                                    8                    6
+    ## 20                                    4                    8
+    ## 21                                    3                    7
+    ## 22                                    4                    3
+    ## 23                                    6                    8
+    ## 24                                    1                    5
+    ## 25                                    6                    3
+    ## 26                                    1                    6
+    ## 27                                    4                    2
+    ## 28                                    6                    1
+    ## 29                                    4                    7
+    ## 30                                    3                    6
+    ## 31                                    7                    8
+    ## 32                                    8                    2
+    ##    operational_costs_ranking guest_satisfaction_ranking
+    ## 1                          6                          1
+    ## 2                          5                          4
+    ## 3                          7                          6
+    ## 4                          7                          1
+    ## 5                          2                          4
+    ## 6                          7                          4
+    ## 7                          6                          4
+    ## 8                          1                          2
+    ## 9                          6                          1
+    ## 10                         6                          5
+    ## 11                         6                          1
+    ## 12                         2                          5
+    ## 13                         8                          4
+    ## 14                         3                          2
+    ## 15                         8                          3
+    ## 16                         7                          1
+    ## 17                         2                          4
+    ## 18                         6                          2
+    ## 19                         3                          2
+    ## 20                         3                          1
+    ## 21                         1                          4
+    ## 22                         2                          1
+    ## 23                         7                          3
+    ## 24                         4                          8
+    ## 25                         8                          1
+    ## 26                         8                          4
+    ## 27                         8                          3
+    ## 28                         7                          2
+    ## 29                         8                          2
+    ## 30                         7                          1
+    ## 31                         2                          4
+    ## 32                         5                          4
+    ##    worker_satisfaction_ranking campus_culture_ranking other_ranking
+    ## 1                            6                      8             9
+    ## 2                            5                      6             9
+    ## 3                            7                      1             9
+    ## 4                            7                      8             9
+    ## 5                            2                      6             9
+    ## 6                            7                      5             9
+    ## 7                            6                      7             9
+    ## 8                            1                      7             9
+    ## 9                            6                      3             9
+    ## 10                           6                      8             9
+    ## 11                           6                      4             9
+    ## 12                           2                      3             9
+    ## 13                           8                      1             9
+    ## 14                           3                      4             9
+    ## 15                           8                      7             9
+    ## 16                           7                      5             9
+    ## 17                           2                      5             9
+    ## 18                           6                      1             9
+    ## 19                           3                      7             9
+    ## 20                           3                      2             9
+    ## 21                           1                      8             9
+    ## 22                           7                      8             2
+    ## 23                           7                      5             9
+    ## 24                           4                      7             9
+    ## 25                           8                      7             9
+    ## 26                           8                      2             9
+    ## 27                           8                      7             9
+    ## 28                           7                      4             9
+    ## 29                           8                      6             9
+    ## 30                           7                      8             9
+    ## 31                           2                      1             9
+    ## 32                           5                      7             9
+    ##    other_ranking_other id dietary_health_score dietary_sustainability_score
+    ## 1                       1                    7                            6
+    ## 2                       2                    7                            6
+    ## 3                       3                    6                            5
+    ## 4                       4                    7                            4
+    ## 5                       5                    1                            4
+    ## 6                       6                    1                            6
+    ## 7                       7                    8                            7
+    ## 8                       8                    3                            4
+    ## 9                       9                    7                            4
+    ## 10                     10                    5                            7
+    ## 11                     11                    2                            6
+    ## 12                     12                    8                            3
+    ## 13                     13                    3                            2
+    ## 14                     14                    8                            1
+    ## 15                     15                    5                            4
+    ## 16                     16                    3                            5
+    ## 17                     17                    6                            3
+    ## 18                     18                    5                            1
+    ## 19                     19                    8                            5
+    ## 20                     20                    4                            3
+    ## 21                     21                    4                            7
+    ## 22        Cuisine type 22                    3                            4
+    ## 23                     23                    8                            7
+    ## 24                     24                    3                            7
+    ## 25                     25                    7                            4
+    ## 26                     26                    6                            4
+    ## 27                     27                    3                            4
+    ## 28                     28                    4                            1
+    ## 29                     29                    6                            4
+    ## 30                     30                    7                            5
+    ## 31                     31                    4                            3
+    ## 32                     32                    6                            3
+    ##    institutional_sustainability_score food_pricing_score
+    ## 1                                   3                  4
+    ## 2                                   9                  1
+    ## 3                                   2                  7
+    ## 4                                   4                  5
+    ## 5                                   3                  8
+    ## 6                                   4                  7
+    ## 7                                   7                  4
+    ## 8                                   6                  1
+    ## 9                                   3                  1
+    ## 10                                  9                  2
+    ## 11                                  2                  4
+    ## 12                                  2                  5
+    ## 13                                  5                  6
+    ## 14                                  5                  3
+    ## 15                                  9                  3
+    ## 16                                  2                  7
+    ## 17                                  2                  8
+    ## 18                                  3                  6
+    ## 19                                  2                  3
+    ## 20                                  6                  1
+    ## 21                                  7                  2
+    ## 22                                  6                  6
+    ## 23                                  4                  1
+    ## 24                                  9                  4
+    ## 25                                  4                  6
+    ## 26                                  9                  3
+    ## 27                                  6                  7
+    ## 28                                  4                  8
+    ## 29                                  6                  2
+    ## 30                                  7                  3
+    ## 31                                  3                  1
+    ## 32                                  2                  7
+    ##    operational_costs_score guest_satisfaction_score worker_satisfaction_score
+    ## 1                        3                        8                         3
+    ## 2                        4                        5                         4
+    ## 3                        2                        3                         2
+    ## 4                        2                        8                         2
+    ## 5                        7                        5                         7
+    ## 6                        2                        5                         2
+    ## 7                        3                        5                         3
+    ## 8                        8                        7                         8
+    ## 9                        3                        8                         3
+    ## 10                       3                        4                         3
+    ## 11                       3                        8                         3
+    ## 12                       7                        4                         7
+    ## 13                       1                        5                         1
+    ## 14                       6                        7                         6
+    ## 15                       1                        6                         1
+    ## 16                       2                        8                         2
+    ## 17                       7                        5                         7
+    ## 18                       3                        7                         3
+    ## 19                       6                        7                         6
+    ## 20                       6                        8                         6
+    ## 21                       8                        5                         8
+    ## 22                       7                        8                         2
+    ## 23                       2                        6                         2
+    ## 24                       5                        1                         5
+    ## 25                       1                        8                         1
+    ## 26                       1                        5                         1
+    ## 27                       1                        6                         1
+    ## 28                       2                        7                         2
+    ## 29                       1                        7                         1
+    ## 30                       2                        8                         2
+    ## 31                       7                        5                         7
+    ## 32                       4                        5                         4
+    ##    campus_culture_score
+    ## 1                     1
+    ## 2                     3
+    ## 3                     8
+    ## 4                     1
+    ## 5                     3
+    ## 6                     4
+    ## 7                     2
+    ## 8                     2
+    ## 9                     6
+    ## 10                    1
+    ## 11                    5
+    ## 12                    6
+    ## 13                    8
+    ## 14                    5
+    ## 15                    2
+    ## 16                    4
+    ## 17                    4
+    ## 18                    8
+    ## 19                    2
+    ## 20                    7
+    ## 21                    1
+    ## 22                    1
+    ## 23                    4
+    ## 24                    2
+    ## 25                    2
+    ## 26                    7
+    ## 27                    2
+    ## 28                    5
+    ## 29                    3
+    ## 30                    1
+    ## 31                    8
+    ## 32                    2
+
+``` r
+stakeholder_survey %>% mutate(campus_culture_over_operational_costs=case_when(campus_culture_ranking<operational_costs_ranking ~ 1,
+                                                                                   campus_culture_ranking>operational_costs_ranking ~ 0)) %>%
+  summarise(campus_culture_over_operational_costs_sum=sum(campus_culture_over_operational_costs))
+```
+
+    ##   campus_culture_over_operational_costs_sum
+    ## 1                                        16
+
+``` r
+stakeholder_survey %>% mutate(worker_satisfaction_over_guest_satisfaction=case_when(worker_satisfaction_ranking<guest_satisfaction_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>guest_satisfaction_ranking ~ 0)) %>%
+  summarise(worker_satisfaction_over_guest_satisfaction_sum=sum(worker_satisfaction_over_guest_satisfaction))
+```
+
+    ##   worker_satisfaction_over_guest_satisfaction_sum
+    ## 1                                               7
+
+``` r
+stakeholder_survey %>% mutate(campus_culture_over_guest_satisfaction=case_when(campus_culture_ranking<guest_satisfaction_ranking ~ 1,
+                                                                                   campus_culture_ranking>guest_satisfaction_ranking ~ 0)) %>%
+  summarise(campus_culture_over_guest_satisfaction_sum=sum(campus_culture_over_guest_satisfaction))
+```
+
+    ##   campus_culture_over_guest_satisfaction_sum
+    ## 1                                          7
+
+``` r
+stakeholder_survey %>% mutate(campus_culture_over_worker_satisfaction=case_when(campus_culture_ranking<worker_satisfaction_ranking ~ 1,
+                                                                                   campus_culture_ranking>worker_satisfaction_ranking ~ 0)) %>%
+  summarise(campus_culture_over_worker_satisfaction_sum=sum(campus_culture_over_worker_satisfaction))
+```
+
+    ##   campus_culture_over_worker_satisfaction_sum
+    ## 1                                          16
+
+``` r
 stakeholder_survey %>%
   summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score)) 
 ```
@@ -797,7 +1903,7 @@ global_frequencies <- aggregated_data %>%
 global_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
 
 ``` r
 uk_shapefile <- map_data("world",region="UK")
@@ -1406,7 +2512,7 @@ usa_frequencies <- state_data %>%
 usa_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-88-1.png)<!-- -->
 
 ``` r
 uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
@@ -1495,7 +2601,7 @@ uk_frequencies <- country_data %>%
 uk_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-68-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-96-1.png)<!-- -->
 
 ``` r
 subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
@@ -1505,7 +2611,7 @@ subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
 subregion_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-69-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-97-1.png)<!-- -->
 
 ``` r
 region_frequencies <- ggarrange(global_frequencies,
@@ -1514,4 +2620,4 @@ region_frequencies <- ggarrange(global_frequencies,
 region_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-70-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-98-1.png)<!-- -->
