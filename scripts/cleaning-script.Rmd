@@ -308,8 +308,15 @@ stakeholder_survey %>% mutate(guest_satisfaction_over_operational_costs=case_whe
 ```
 
 ```{r}
-stakeholder_survey %>% mutate(worker_satisfaction_over_operational_costs=case_when(worker_satisfaction_ranking<operational_costs_ranking ~ 1,
-                                                                                   worker_satisfaction_ranking>operational_costs_ranking ~ 0)) 
+stakeholder_survey
+```
+
+
+```{r}
+stakeholder_survey %>% 
+  mutate(worker_satisfaction_over_operational_costs=case_when(worker_satisfaction_ranking<operational_costs_ranking ~ 1,
+                                                                                   worker_satisfaction_ranking>operational_costs_ranking ~ 0)) %>%
+  summarise(worker_satisfaction_over_operational_costs_sum=sum(worker_satisfaction_over_operational_costs,na.rm=TRUE))
 ```
 
 %>%
@@ -346,9 +353,48 @@ stakeholder_survey %>% mutate(campus_culture_over_worker_satisfaction=case_when(
   summarise(campus_culture_over_worker_satisfaction_sum=sum(campus_culture_over_worker_satisfaction))
 ```
 
+will need to bridge some of these steps, specifically by using qnorm to perform z-score conversions 
+
+for now, we will do our one-way anova and post-hoc tukey tests by creating a tibble from the information provided in table 4
 
 
 
+```{r}
+holdover_survey_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/holdover-survey-data.csv")
+```
+
+
+```{r}
+holdover_survey_data %>% 
+  group_by(group) %>%
+  summarise(count=n(),
+            mean=mean(z_score),
+            sd=sd(z_score))
+```
+
+```{r}
+holdover_survey_data %>%
+  ggboxplot(x="group",y="z_score",
+            color="group",palette=c("#00AFBB","#E7B800","#FC4E07","#00AFBB","#00AFBB","#00AFBB","#00AFBB","#00AFBB"))
+```
+
+```{r}
+holdover_survey_data %>%
+  ggplot(aes(x=group,y=z_score)) + 
+  geom_boxplot()
+```
+
+```{r}
+aov <- aov(z_score ~ group,data=holdover_survey_data)
+summary(aov)
+```
+multiple tukey pairwise comparisons
+
+```{r}
+TukeyHSD(aov)
+```
+
+from this, we can glean that there are statistically significant differences between guest satisfaction and six of the remaining performance indicators: culture (p=0.0001151), food pricing (p=0.0067500), institutional sustainability (p=0.0003308), operational costs (p=0.0003974), dietary sustainability (p=0.0089635), and worker satisfaction (p=0.0000146), as well as between worker satisfaction and dietary health (p=0.0120744).
 
 
 
