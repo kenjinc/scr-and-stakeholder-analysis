@@ -365,23 +365,101 @@ holdover_survey_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-
 
 
 ```{r}
-holdover_survey_data %>% 
+summary_table <- holdover_survey_data %>% 
   group_by(group) %>%
   summarise(count=n(),
             mean=mean(z_score),
             sd=sd(z_score))
+summary_table
+```
+
+```{r}
+summary_table %>%
+  summarise(mean=mean(mean))
+```
+
+
+```{r}
+holdover_survey_data %>%
+  mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Guest Dining Experiences","Dining Experience")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(x=z_score,y=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_boxplot(outlier.shape=NA,alpha=0.5) +
+  geom_vline(xintercept=-0.001115625,linetype="dashed",size=0.3) + 
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  xlab("Priority Score") + 
+  ylab("") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
 ```{r}
 holdover_survey_data %>%
-  ggboxplot(x="group",y="z_score",
-            color="group",palette=c("#00AFBB","#E7B800","#FC4E07","#00AFBB","#00AFBB","#00AFBB","#00AFBB","#00AFBB"))
+  mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Guest Dining Experiences","Dining Experience")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(x=z_score,y=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_violin(draw_quantiles=0.5,adjust=0.66,alpha=0.5,scale="width",trim=TRUE) + 
+  geom_vline(xintercept=-0.001115625,linetype="dashed",size=0.3) + 
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  xlab("Priority Score") + 
+  ylab("") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
 ```{r}
 holdover_survey_data %>%
-  ggplot(aes(x=group,y=z_score)) + 
-  geom_boxplot()
+  mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(y=z_score,x=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_boxplot(outlier.shape=NA,alpha=0.5) +
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  geom_hline(yintercept=-0.001115625,linetype="dashed",size=0.3) +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10),axis.text.x=element_text(angle=90,vjust=0.5,hjust=1))
+```
+
+
+```{r}
+holdover_survey_data %>%
+  mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(y=z_score,x=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_violin(draw_quantiles=0.5,adjust=0.66,alpha=0.5,scale="width",trim=TRUE) + 
+  geom_hline(yintercept=-0.001115625,linetype="dashed",size=0.3) +
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10),axis.text.x=element_text(angle=90,vjust=0.5,hjust=1))
 ```
 
 ```{r}

@@ -1661,11 +1661,12 @@ holdover_survey_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-
 ```
 
 ``` r
-holdover_survey_data %>% 
+summary_table <- holdover_survey_data %>% 
   group_by(group) %>%
   summarise(count=n(),
             mean=mean(z_score),
             sd=sd(z_score))
+summary_table
 ```
 
     ## # A tibble: 8 × 4
@@ -1681,20 +1682,129 @@ holdover_survey_data %>%
     ## 8 Worker Satisfaction                      8 -0.297   0.289
 
 ``` r
-holdover_survey_data %>%
-  ggboxplot(x="group",y="z_score",
-            color="group",palette=c("#00AFBB","#E7B800","#FC4E07","#00AFBB","#00AFBB","#00AFBB","#00AFBB","#00AFBB"))
+summary_table %>%
+  summarise(mean=mean(mean))
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
+    ## # A tibble: 1 × 1
+    ##       mean
+    ##      <dbl>
+    ## 1 -0.00112
 
 ``` r
 holdover_survey_data %>%
-  ggplot(aes(x=group,y=z_score)) + 
-  geom_boxplot()
+  mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Guest Dining Experiences","Dining Experience")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(x=z_score,y=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_boxplot(outlier.shape=NA,alpha=0.5) +
+  geom_vline(xintercept=-0.001115625,linetype="dashed",size=0.3) + 
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  xlab("Priority Score") + 
+  ylab("") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
+    ## Warning: There was 1 warning in `mutate()`.
+    ## ℹ In argument: `across(group, str_replace, "Healthiness of Food Offerings",
+    ##   "Dietary Health")`.
+    ## Caused by warning:
+    ## ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+    ## Supply arguments directly to `.fns` through an anonymous function instead.
+    ## 
+    ##   # Previously
+    ##   across(a:b, mean, na.rm = TRUE)
+    ## 
+    ##   # Now
+    ##   across(a:b, \(x) mean(x, na.rm = TRUE))
+
+    ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+    ## ℹ Please use `linewidth` instead.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
+
+    ## Warning: The `fun.y` argument of `stat_summary()` is deprecated as of ggplot2 3.3.0.
+    ## ℹ Please use the `fun` argument instead.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
+
 ![](cleaning-script_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+
+``` r
+holdover_survey_data %>%
+  mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Guest Dining Experiences","Dining Experience")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(x=z_score,y=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_violin(draw_quantiles=0.5,adjust=0.66,alpha=0.5,scale="width",trim=TRUE) + 
+  geom_vline(xintercept=-0.001115625,linetype="dashed",size=0.3) + 
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  xlab("Priority Score") + 
+  ylab("") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+```
+
+![](cleaning-script_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
+
+``` r
+holdover_survey_data %>%
+  mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(y=z_score,x=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_boxplot(outlier.shape=NA,alpha=0.5) +
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  geom_hline(yintercept=-0.001115625,linetype="dashed",size=0.3) +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10),axis.text.x=element_text(angle=90,vjust=0.5,hjust=1))
+```
+
+![](cleaning-script_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
+
+``` r
+holdover_survey_data %>%
+  mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(y=z_score,x=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_violin(draw_quantiles=0.5,adjust=0.66,alpha=0.5,scale="width",trim=TRUE) + 
+  geom_hline(yintercept=-0.001115625,linetype="dashed",size=0.3) +
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10),axis.text.x=element_text(angle=90,vjust=0.5,hjust=1))
+```
+
+![](cleaning-script_files/figure-gfm/unnamed-chunk-44-1.png)<!-- -->
 
 ``` r
 aov <- aov(z_score ~ group,data=holdover_survey_data)
@@ -2045,18 +2155,6 @@ review_data <- review_data %>%
   mutate(across(country,str_replace,"UK","United Kingdom")) 
 ```
 
-    ## Warning: There was 1 warning in `mutate()`.
-    ## ℹ In argument: `across(country, str_replace, "USA", "United States")`.
-    ## Caused by warning:
-    ## ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
-    ## Supply arguments directly to `.fns` through an anonymous function instead.
-    ## 
-    ##   # Previously
-    ##   across(a:b, mean, na.rm = TRUE)
-    ## 
-    ##   # Now
-    ##   across(a:b, \(x) mean(x, na.rm = TRUE))
-
 ``` r
 review_data <- review_data %>%
   group_by(country) %>%
@@ -2106,7 +2204,7 @@ global_frequencies <- aggregated_data %>%
 global_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
 
 ``` r
 uk_shapefile <- map_data("world",region="UK")
@@ -2715,7 +2813,7 @@ usa_frequencies <- state_data %>%
 usa_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-95-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-98-1.png)<!-- -->
 
 ``` r
 uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
@@ -2804,7 +2902,7 @@ uk_frequencies <- country_data %>%
 uk_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-103-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-106-1.png)<!-- -->
 
 ``` r
 subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
@@ -2814,7 +2912,7 @@ subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
 subregion_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-104-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-107-1.png)<!-- -->
 
 ``` r
 region_frequencies <- ggarrange(global_frequencies,
@@ -2823,4 +2921,4 @@ region_frequencies <- ggarrange(global_frequencies,
 region_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-105-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-108-1.png)<!-- -->
