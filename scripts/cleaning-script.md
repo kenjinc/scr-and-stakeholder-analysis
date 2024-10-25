@@ -1705,14 +1705,7 @@ holdover_survey_data %>%
   geom_boxplot(outlier.shape=NA,alpha=0.5) +
   geom_vline(xintercept=-0.001115625,linetype="dashed",size=0.3) + 
   geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
-  geom_signif(comparisons=list(c("Guest Experience","Campus Culture"),
-                               c("Guest Experience","Food Pricing"),
-                               c("Guest Experience","Organizational Sustainability"),
-                               c("Guest Experience","Operating Costs"),
-                               c("Guest Experience","Dietary Sustainability"),
-                               c("Guest Experience","Staff Satisfaction"),
-                               c("Dietary Health","Staff Satisfaction")),
-                               map_signif_level=TRUE,y_position=c(0.9,1.1)) +
+  geom_signif(comparisons=list(c("Guest Experience","Campus Culture"),y_position=c(0.9,1.1)),annotation="***",color="black",size=0.3) +
   scale_fill_brewer(palette="Paired") + 
   scale_color_brewer(palette="Paired") +
   xlab("Priority Score") + 
@@ -1746,31 +1739,14 @@ holdover_survey_data %>%
     ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
     ## generated.
 
-    ## Warning in wilcox.test.default(c(0, 0.4959, 0.2275, 0.2275, 0.4959, -0.3055, :
-    ## cannot compute exact p-value with ties
-
-    ## Warning in wilcox.test.default(c(0.3319, 0.6745, 0.7722, 0.4959, 0.7722, :
-    ## cannot compute exact p-value with ties
-
-    ## Warning in wilcox.test.default(c(0.3319, 0.6745, 0.7722, 0.4959, 0.7722, :
-    ## cannot compute exact p-value with ties
-
-    ## Warning in wilcox.test.default(c(0.3319, 0.6745, 0.7722, 0.4959, 0.7722, :
-    ## cannot compute exact p-value with ties
-
-    ## Warning in wilcox.test.default(c(0.3319, 0.6745, 0.7722, 0.4959, 0.7722, :
-    ## cannot compute exact p-value with ties
-
-    ## Warning in wilcox.test.default(c(0.3319, 0.6745, 0.7722, 0.4959, 0.7722, :
-    ## cannot compute exact p-value with ties
-
-    ## Warning in wilcox.test.default(c(0.3319, 0.6745, 0.7722, 0.4959, 0.7722, :
-    ## cannot compute exact p-value with ties
-
-    ## Warning: Removed 15 rows containing missing values or values outside the scale range
-    ## (`geom_signif()`).
-
 ![](cleaning-script_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+
+                 c("Guest Experience","Food Pricing"),
+                               c("Guest Experience","Organizational Sustainability"),
+                               c("Guest Experience","Operating Costs"),
+                               c("Guest Experience","Dietary Sustainability"),
+                               c("Guest Experience","Staff Satisfaction"),
+                               c("Dietary Health","Staff Satisfaction"))
 
 ``` r
 holdover_survey_data %>%
