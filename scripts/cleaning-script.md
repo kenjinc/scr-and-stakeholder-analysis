@@ -954,17 +954,58 @@ global_shapefile %>%
     ## # ℹ 248 more rows
 
 ``` r
-review_data %>%
-  ggplot(aes(x=Publication.Year,y=Participating.Institutions)) + 
-  geom_col()
+annual_frequencies <- review_data %>%
+  select(Publication.Year,Participating.Institutions) %>%
+  drop_na() %>%
+  rename(year=Publication.Year,sites=Participating.Institutions) %>%
+  mutate(count=case_when(sites >= 1 ~ 1)) %>%
+  group_by(year) %>%
+  summarise(frequency=sum(count)) 
 ```
 
-    ## Warning: Removed 883 rows containing missing values or values outside the scale range
-    ## (`geom_col()`).
+``` r
+annual_frequencies <- annual_frequencies %>% 
+  mutate(cumulative_frequency=cumsum(frequency)) %>%
+  add_row(year=2000,frequency=0) %>%
+  add_row(year=2002,frequency=0) %>%
+  add_row(year=2003,frequency=0) %>%
+  add_row(year=2004,frequency=0) %>%
+  add_row(year=2007,frequency=0) %>%
+  add_row(year=2008,frequency=0) %>%
+  add_row(year=2010,frequency=0) %>%
+  arrange(year) %>%
+  mutate(cumulative_frequency=cumsum(frequency)) 
+```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
+``` r
+annual_frequency_plot <- annual_frequencies %>%
+  ggplot(aes(x=year,y=frequency,color=frequency,fill=frequency)) +
+  geom_col() +
+  scale_fill_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
+  scale_color_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
+  xlab("Year") + 
+  ylab("Frequency") + 
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+```
 
-cumulative frequency at study (not site) level
+``` r
+annual_cumulative_frequency_plot <- annual_frequencies %>% 
+  ggplot(aes(x=year,y=cumulative_frequency,color=cumulative_frequency,fill=cumulative_frequency)) +
+  scale_fill_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
+  scale_color_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
+  geom_col() + 
+  xlab("Year") + 
+  ylab("Cumulative Frequency") + 
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+```
+
+``` r
+ggarrange(annual_frequency_plot,annual_cumulative_frequency_plot,
+          nrow=2,
+          labels=c("A","B"))
+```
+
+![](cleaning-script_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->
 
 ``` r
 review_data <- review_data %>% 
@@ -1027,7 +1068,7 @@ global_frequencies <- aggregated_data %>%
 global_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-61-1.png)<!-- -->
 
 ``` r
 uk_shapefile <- map_data("world",region="UK")
@@ -1636,7 +1677,7 @@ usa_frequencies <- state_data %>%
 usa_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-95-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-99-1.png)<!-- -->
 
 ``` r
 uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
@@ -1725,7 +1766,7 @@ uk_frequencies <- country_data %>%
 uk_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-103-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-107-1.png)<!-- -->
 
 ``` r
 subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
@@ -1735,7 +1776,7 @@ subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
 subregion_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-104-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-108-1.png)<!-- -->
 
 ``` r
 region_frequencies <- ggarrange(global_frequencies,
@@ -1744,4 +1785,4 @@ region_frequencies <- ggarrange(global_frequencies,
 region_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-105-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-109-1.png)<!-- -->
