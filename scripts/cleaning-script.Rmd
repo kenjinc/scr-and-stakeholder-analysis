@@ -593,30 +593,39 @@ annual_frequencies <- annual_frequencies %>%
 annual_frequency_plot <- annual_frequencies %>%
   ggplot(aes(x=year,y=frequency,color=frequency,fill=frequency)) +
   geom_col() +
-  scale_fill_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
-  scale_color_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
+  scale_fill_gradient(name="Count",low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender",breaks=c(1,29,58,87,116)) +
+  scale_color_gradient(name="Count",low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender",breaks=c(1,29,58,87,116)) +
   xlab("Year") + 
   ylab("Frequency") + 
-  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+  theme(legend.position="none",legend.justification="center",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
 ```{r}
 annual_cumulative_frequency_plot <- annual_frequencies %>% 
   ggplot(aes(x=year,y=cumulative_frequency,color=cumulative_frequency,fill=cumulative_frequency)) +
-  scale_fill_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
-  scale_color_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
+  scale_fill_gradient(name="Count",low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender",breaks=c(1,29,58,87,116)) +
+  scale_color_gradient(name="Count",low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender",breaks=c(1,29,58,87,116)) +
   geom_col() + 
   xlab("Year") + 
   ylab("Cumulative Frequency") + 
-  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+  labs(caption="Adjusted R-Squared: 0.9857 ") + 
+  theme(legend.title.position="top",legend.position="bottom",legend.justification="center",legend.box.spacing=unit(0,"pt"),legend.key.width=unit(50,"pt"),legend.key.height=unit(7.5,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
 ```{r}
 ggarrange(annual_frequency_plot,annual_cumulative_frequency_plot,
           nrow=2,
-          labels=c("A","B"))
+          labels=c("A","B"),
+          heights=c(1.15,1.7))
 ```
 
+
+```{r}
+exponential_fit <- annual_frequencies %>%
+  slice(-1)
+exponential_model <- lm(log(cumulative_frequency) ~ year,data=exponential_fit)
+summary(exponential_model)
+```
 
 
 ```{r}

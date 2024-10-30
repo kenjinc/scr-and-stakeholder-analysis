@@ -981,31 +981,59 @@ annual_frequencies <- annual_frequencies %>%
 annual_frequency_plot <- annual_frequencies %>%
   ggplot(aes(x=year,y=frequency,color=frequency,fill=frequency)) +
   geom_col() +
-  scale_fill_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
-  scale_color_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
+  scale_fill_gradient(name="Count",low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender",breaks=c(1,29,58,87,116)) +
+  scale_color_gradient(name="Count",low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender",breaks=c(1,29,58,87,116)) +
   xlab("Year") + 
   ylab("Frequency") + 
-  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+  theme(legend.position="none",legend.justification="center",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
 ``` r
 annual_cumulative_frequency_plot <- annual_frequencies %>% 
   ggplot(aes(x=year,y=cumulative_frequency,color=cumulative_frequency,fill=cumulative_frequency)) +
-  scale_fill_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
-  scale_color_gradient(low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender") +
+  scale_fill_gradient(name="Count",low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender",breaks=c(1,29,58,87,116)) +
+  scale_color_gradient(name="Count",low="lavender",high="slateblue4",limits=c(1,116),na.value="lavender",breaks=c(1,29,58,87,116)) +
   geom_col() + 
   xlab("Year") + 
   ylab("Cumulative Frequency") + 
-  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
+  labs(caption="Adjusted R-Squared: 0.9857 ") + 
+  theme(legend.title.position="top",legend.position="bottom",legend.justification="center",legend.box.spacing=unit(0,"pt"),legend.key.width=unit(50,"pt"),legend.key.height=unit(7.5,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10))
 ```
 
 ``` r
 ggarrange(annual_frequency_plot,annual_cumulative_frequency_plot,
           nrow=2,
-          labels=c("A","B"))
+          labels=c("A","B"),
+          heights=c(1.15,1.7))
 ```
 
 ![](cleaning-script_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->
+
+``` r
+exponential_fit <- annual_frequencies %>%
+  slice(-1)
+exponential_model <- lm(log(cumulative_frequency) ~ year,data=exponential_fit)
+summary(exponential_model)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = log(cumulative_frequency) ~ year, data = exponential_fit)
+    ## 
+    ## Residuals:
+    ##      Min       1Q   Median       3Q      Max 
+    ## -0.37118 -0.08780  0.02773  0.10134  0.36635 
+    ## 
+    ## Coefficients:
+    ##               Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept) -4.086e+02  1.034e+01  -39.53   <2e-16 ***
+    ## year         2.044e-01  5.136e-03   39.79   <2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 0.1742 on 22 degrees of freedom
+    ## Multiple R-squared:  0.9863, Adjusted R-squared:  0.9857 
+    ## F-statistic:  1583 on 1 and 22 DF,  p-value: < 2.2e-16
 
 ``` r
 review_data <- review_data %>% 
@@ -1068,7 +1096,7 @@ global_frequencies <- aggregated_data %>%
 global_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-61-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-62-1.png)<!-- -->
 
 ``` r
 uk_shapefile <- map_data("world",region="UK")
@@ -1677,7 +1705,7 @@ usa_frequencies <- state_data %>%
 usa_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-99-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-100-1.png)<!-- -->
 
 ``` r
 uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
@@ -1766,7 +1794,7 @@ uk_frequencies <- country_data %>%
 uk_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-107-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-108-1.png)<!-- -->
 
 ``` r
 subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
@@ -1776,7 +1804,7 @@ subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
 subregion_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-108-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-109-1.png)<!-- -->
 
 ``` r
 region_frequencies <- ggarrange(global_frequencies,
@@ -1785,4 +1813,4 @@ region_frequencies <- ggarrange(global_frequencies,
 region_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-109-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-110-1.png)<!-- -->
