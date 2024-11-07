@@ -527,6 +527,8 @@ summary_table %>%
     ##      <dbl>
     ## 1 -0.00112
 
+There is a z-score tabulation error in current holdover_data
+
 ``` r
 holdover_survey_data %>%
   mutate(across(group,str_replace,"Guest Dining Experiences","Dining Experience")) %>%
@@ -785,6 +787,226 @@ stakeholder_survey %>%
     ## 4 Other (please specify):                   1
 
 ``` r
+pdm_holdover_survey_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/pdm-holdover-survey-data.csv")
+```
+
+``` r
+pdm_summary_table <- pdm_holdover_survey_data %>% 
+  group_by(group) %>%
+  summarise(count=n(),
+            mean=mean(z_score),
+            sd=sd(z_score))
+pdm_summary_table
+```
+
+    ## # A tibble: 8 × 4
+    ##   group                                count    mean    sd
+    ##   <chr>                                <int>   <dbl> <dbl>
+    ## 1 Campus Culture                           8 -0.330  0.239
+    ## 2 Campus Food Prices                       8  0.0550 0.321
+    ## 3 Guest Dining Experiences                 8  0.414  0.225
+    ## 4 Healthiness of Food                      8  0.0802 0.285
+    ## 5 Institutional Sustainability             8 -0.190  0.251
+    ## 6 Operational and Procurement Costs        8  0.135  0.228
+    ## 7 Sustainability of Guest Food Choices     8 -0.0847 0.329
+    ## 8 Worker Satisfaction                      8 -0.0802 0.285
+
+``` r
+pdm_summary_table %>%
+  summarise(mean=mean(mean))
+```
+
+    ## # A tibble: 1 × 1
+    ##    mean
+    ##   <dbl>
+    ## 1     0
+
+``` r
+pdm_holdover_survey_data %>%
+  mutate(across(group,str_replace,"Guest Dining Experiences","Dining Experience")) %>%
+  mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(y=z_score,x=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_violin(draw_quantiles=0.5,adjust=0.66,alpha=0.5,scale="width",trim=TRUE) + 
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  geom_hline(yintercept=0,linetype="dashed",size=0.3) +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  xlab("") + 
+  ylab("Priority Score") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10)) + 
+  coord_flip()
+```
+
+![](cleaning-script_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
+
+``` r
+pdm_aov <- aov(z_score ~ group,data=pdm_holdover_survey_data)
+summary(pdm_aov)
+```
+
+    ##             Df Sum Sq Mean Sq F value   Pr(>F)    
+    ## group        7  2.857  0.4082   5.472 7.96e-05 ***
+    ## Residuals   56  4.177  0.0746                     
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+TukeyHSD(pdm_aov)
+```
+
+    ##   Tukey multiple comparisons of means
+    ##     95% family-wise confidence level
+    ## 
+    ## Fit: aov(formula = z_score ~ group, data = pdm_holdover_survey_data)
+    ## 
+    ## $group
+    ##                                                                              diff
+    ## Campus Food Prices-Campus Culture                                       0.3844875
+    ## Guest Dining Experiences-Campus Culture                                 0.7433125
+    ## Healthiness of Food-Campus Culture                                      0.4097250
+    ## Institutional Sustainability-Campus Culture                             0.1397250
+    ## Operational and Procurement Costs-Campus Culture                        0.4647125
+    ## Sustainability of Guest Food Choices-Campus Culture                     0.2447625
+    ## Worker Satisfaction-Campus Culture                                      0.2492750
+    ## Guest Dining Experiences-Campus Food Prices                             0.3588250
+    ## Healthiness of Food-Campus Food Prices                                  0.0252375
+    ## Institutional Sustainability-Campus Food Prices                        -0.2447625
+    ## Operational and Procurement Costs-Campus Food Prices                    0.0802250
+    ## Sustainability of Guest Food Choices-Campus Food Prices                -0.1397250
+    ## Worker Satisfaction-Campus Food Prices                                 -0.1352125
+    ## Healthiness of Food-Guest Dining Experiences                           -0.3335875
+    ## Institutional Sustainability-Guest Dining Experiences                  -0.6035875
+    ## Operational and Procurement Costs-Guest Dining Experiences             -0.2786000
+    ## Sustainability of Guest Food Choices-Guest Dining Experiences          -0.4985500
+    ## Worker Satisfaction-Guest Dining Experiences                           -0.4940375
+    ## Institutional Sustainability-Healthiness of Food                       -0.2700000
+    ## Operational and Procurement Costs-Healthiness of Food                   0.0549875
+    ## Sustainability of Guest Food Choices-Healthiness of Food               -0.1649625
+    ## Worker Satisfaction-Healthiness of Food                                -0.1604500
+    ## Operational and Procurement Costs-Institutional Sustainability          0.3249875
+    ## Sustainability of Guest Food Choices-Institutional Sustainability       0.1050375
+    ## Worker Satisfaction-Institutional Sustainability                        0.1095500
+    ## Sustainability of Guest Food Choices-Operational and Procurement Costs -0.2199500
+    ## Worker Satisfaction-Operational and Procurement Costs                  -0.2154375
+    ## Worker Satisfaction-Sustainability of Guest Food Choices                0.0045125
+    ##                                                                                lwr
+    ## Campus Food Prices-Campus Culture                                      -0.04544263
+    ## Guest Dining Experiences-Campus Culture                                 0.31338237
+    ## Healthiness of Food-Campus Culture                                     -0.02020513
+    ## Institutional Sustainability-Campus Culture                            -0.29020513
+    ## Operational and Procurement Costs-Campus Culture                        0.03478237
+    ## Sustainability of Guest Food Choices-Campus Culture                    -0.18516763
+    ## Worker Satisfaction-Campus Culture                                     -0.18065513
+    ## Guest Dining Experiences-Campus Food Prices                            -0.07110513
+    ## Healthiness of Food-Campus Food Prices                                 -0.40469263
+    ## Institutional Sustainability-Campus Food Prices                        -0.67469263
+    ## Operational and Procurement Costs-Campus Food Prices                   -0.34970513
+    ## Sustainability of Guest Food Choices-Campus Food Prices                -0.56965513
+    ## Worker Satisfaction-Campus Food Prices                                 -0.56514263
+    ## Healthiness of Food-Guest Dining Experiences                           -0.76351763
+    ## Institutional Sustainability-Guest Dining Experiences                  -1.03351763
+    ## Operational and Procurement Costs-Guest Dining Experiences             -0.70853013
+    ## Sustainability of Guest Food Choices-Guest Dining Experiences          -0.92848013
+    ## Worker Satisfaction-Guest Dining Experiences                           -0.92396763
+    ## Institutional Sustainability-Healthiness of Food                       -0.69993013
+    ## Operational and Procurement Costs-Healthiness of Food                  -0.37494263
+    ## Sustainability of Guest Food Choices-Healthiness of Food               -0.59489263
+    ## Worker Satisfaction-Healthiness of Food                                -0.59038013
+    ## Operational and Procurement Costs-Institutional Sustainability         -0.10494263
+    ## Sustainability of Guest Food Choices-Institutional Sustainability      -0.32489263
+    ## Worker Satisfaction-Institutional Sustainability                       -0.32038013
+    ## Sustainability of Guest Food Choices-Operational and Procurement Costs -0.64988013
+    ## Worker Satisfaction-Operational and Procurement Costs                  -0.64536763
+    ## Worker Satisfaction-Sustainability of Guest Food Choices               -0.42541763
+    ##                                                                                upr
+    ## Campus Food Prices-Campus Culture                                       0.81441763
+    ## Guest Dining Experiences-Campus Culture                                 1.17324263
+    ## Healthiness of Food-Campus Culture                                      0.83965513
+    ## Institutional Sustainability-Campus Culture                             0.56965513
+    ## Operational and Procurement Costs-Campus Culture                        0.89464263
+    ## Sustainability of Guest Food Choices-Campus Culture                     0.67469263
+    ## Worker Satisfaction-Campus Culture                                      0.67920513
+    ## Guest Dining Experiences-Campus Food Prices                             0.78875513
+    ## Healthiness of Food-Campus Food Prices                                  0.45516763
+    ## Institutional Sustainability-Campus Food Prices                         0.18516763
+    ## Operational and Procurement Costs-Campus Food Prices                    0.51015513
+    ## Sustainability of Guest Food Choices-Campus Food Prices                 0.29020513
+    ## Worker Satisfaction-Campus Food Prices                                  0.29471763
+    ## Healthiness of Food-Guest Dining Experiences                            0.09634263
+    ## Institutional Sustainability-Guest Dining Experiences                  -0.17365737
+    ## Operational and Procurement Costs-Guest Dining Experiences              0.15133013
+    ## Sustainability of Guest Food Choices-Guest Dining Experiences          -0.06861987
+    ## Worker Satisfaction-Guest Dining Experiences                           -0.06410737
+    ## Institutional Sustainability-Healthiness of Food                        0.15993013
+    ## Operational and Procurement Costs-Healthiness of Food                   0.48491763
+    ## Sustainability of Guest Food Choices-Healthiness of Food                0.26496763
+    ## Worker Satisfaction-Healthiness of Food                                 0.26948013
+    ## Operational and Procurement Costs-Institutional Sustainability          0.75491763
+    ## Sustainability of Guest Food Choices-Institutional Sustainability       0.53496763
+    ## Worker Satisfaction-Institutional Sustainability                        0.53948013
+    ## Sustainability of Guest Food Choices-Operational and Procurement Costs  0.20998013
+    ## Worker Satisfaction-Operational and Procurement Costs                   0.21449263
+    ## Worker Satisfaction-Sustainability of Guest Food Choices                0.43444263
+    ##                                                                            p adj
+    ## Campus Food Prices-Campus Culture                                      0.1117050
+    ## Guest Dining Experiences-Campus Culture                                0.0000317
+    ## Healthiness of Food-Campus Culture                                     0.0723575
+    ## Institutional Sustainability-Campus Culture                            0.9688950
+    ## Operational and Procurement Costs-Campus Culture                       0.0253903
+    ## Sustainability of Guest Food Choices-Campus Culture                    0.6277049
+    ## Worker Satisfaction-Campus Culture                                     0.6060064
+    ## Guest Dining Experiences-Campus Food Prices                            0.1679123
+    ## Healthiness of Food-Campus Food Prices                                 0.9999996
+    ## Institutional Sustainability-Campus Food Prices                        0.6277049
+    ## Operational and Procurement Costs-Campus Food Prices                   0.9989056
+    ## Sustainability of Guest Food Choices-Campus Food Prices                0.9688950
+    ## Worker Satisfaction-Campus Food Prices                                 0.9740323
+    ## Healthiness of Food-Guest Dining Experiences                           0.2417380
+    ## Institutional Sustainability-Guest Dining Experiences                  0.0011259
+    ## Operational and Procurement Costs-Guest Dining Experiences             0.4652877
+    ## Sustainability of Guest Food Choices-Guest Dining Experiences          0.0125558
+    ## Worker Satisfaction-Guest Dining Experiences                           0.0138246
+    ## Institutional Sustainability-Healthiness of Food                       0.5059806
+    ## Operational and Procurement Costs-Healthiness of Food                  0.9999100
+    ## Sustainability of Guest Food Choices-Healthiness of Food               0.9262039
+    ## Worker Satisfaction-Healthiness of Food                                0.9357230
+    ## Operational and Procurement Costs-Institutional Sustainability         0.2713059
+    ## Sustainability of Guest Food Choices-Institutional Sustainability      0.9940480
+    ## Worker Satisfaction-Institutional Sustainability                       0.9923235
+    ## Sustainability of Guest Food Choices-Operational and Procurement Costs 0.7419778
+    ## Worker Satisfaction-Operational and Procurement Costs                  0.7612961
+    ## Worker Satisfaction-Sustainability of Guest Food Choices               1.0000000
+
+Guest Dining Experiences-Campus Culture 0.0000317 Operational and
+Procurement Costs-Campus Culture 0.0253903 Institutional
+Sustainability-Guest Dining Experiences 0.0011259 Sustainability of
+Guest Food Choices-Guest Dining Experiences 0.0125558 Worker
+Satisfaction-Guest Dining Experiences 0.0138246
+
+geom_signif(comparisons=list(c(“Dining Experience”,“Staff
+Satisfaction”)),color=“black”,size=0.25,annotation=“***”,y_position=-1.4,tip_length=-0.02,vjust=1) +
+geom_signif(comparisons=list(c(”Dining Experience”,”Campus
+Culture”)),color=”black”,size=0.25,annotation=”***”,y_position=-1.3,tip_length=-0.02,vjust=1) +
+geom_signif(comparisons=list(c(“Dining Experience”,“Organizational
+Sustainability”)),color=“black”,size=0.25,annotation=“***”,y_position=-1.2,tip_length=-0.02,vjust=1) +
+geom_signif(comparisons=list(c(”Dining Experience”,”Operating
+Costs”)),color=”black”,size=0.25,annotation=”***”,y_position=-1.1,tip_length=-0.02,vjust=1) +
+geom_signif(comparisons=list(c(“Dining Experience”,“Food
+Pricing”)),color=“black”,size=0.25,annotation=“**”,y_position=-1.0,tip_length=-0.02,vjust=1) +
+geom_signif(comparisons=list(c(”Dining Experience”,”Dietary
+Sustainability”)),color=”black”,size=0.25,annotation=”**”,y_position=-0.9,tip_length=-0.02,vjust=1) +
+geom_signif(comparisons=list(c(“Staff Satisfaction”,“Dietary
+Health”)),color=“black”,size=0.25,annotation=“\*“,y_position=0.6,tip_length=0.02,vjust=0.4)
++
+
+``` r
 stakeholder_survey %>%
   summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score)) 
 ```
@@ -1027,7 +1249,7 @@ ggarrange(annual_frequency_plot,annual_cumulative_frequency_plot,
           heights=c(1.15,1.7))
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-63-1.png)<!-- -->
 
 ``` r
 exponential_fit <- annual_frequencies %>%
@@ -1116,7 +1338,7 @@ global_frequencies <- aggregated_data %>%
 global_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-70-1.png)<!-- -->
 
 ``` r
 uk_shapefile <- map_data("world",region="UK")
@@ -1725,7 +1947,7 @@ usa_frequencies <- state_data %>%
 usa_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-102-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-108-1.png)<!-- -->
 
 ``` r
 uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/review-data.csv") %>%
@@ -1814,7 +2036,7 @@ uk_frequencies <- country_data %>%
 uk_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-110-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-116-1.png)<!-- -->
 
 ``` r
 subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
@@ -1824,7 +2046,7 @@ subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
 subregion_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-111-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-117-1.png)<!-- -->
 
 ``` r
 region_frequencies <- ggarrange(global_frequencies,
@@ -1833,4 +2055,4 @@ region_frequencies <- ggarrange(global_frequencies,
 region_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-112-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-118-1.png)<!-- -->
