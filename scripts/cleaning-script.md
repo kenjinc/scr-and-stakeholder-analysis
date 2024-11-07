@@ -34,8 +34,8 @@ library(maps)
 # Data Loading
 
 ``` r
-stakeholder_survey <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/survey-data.csv")
-review_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv")
+stakeholder_survey <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/survey-data.csv")
+review_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/review-data.csv")
 ```
 
 # Cleaning
@@ -764,6 +764,26 @@ costs (p=0.0003974), dietary sustainability (p=0.0089635), and worker
 satisfaction (p=0.0000146), as well as between worker satisfaction and
 dietary health (p=0.0120744).
 
+need to stratify by involvement
+
+``` r
+write.csv(stakeholder_survey,file="/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/cleaned-files/survey-data.csv")
+```
+
+``` r
+stakeholder_survey %>% 
+  group_by(involvement) %>%
+  summarise(count=n())
+```
+
+    ## # A tibble: 4 × 2
+    ##   involvement                           count
+    ##   <chr>                                 <int>
+    ## 1 I am a primary decision maker            12
+    ## 2 I consult on best practices              16
+    ## 3 I offer feedback on existing services     3
+    ## 4 Other (please specify):                   1
+
 ``` r
 stakeholder_survey %>%
   summarise(dietary_health_score_sum=sum(dietary_health_score),dietary_sustainability_score=sum(dietary_sustainability_score),institutional_sustainability_score_sum=sum(institutional_sustainability_score),food_pricing_score_sum=sum(food_pricing_score),operational_costs_score_sum=sum(operational_costs_score),guest_satisfaction_score_sum=sum(guest_satisfaction_score),worker_satisfaction_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(worker_satisfaction_score),campus_culture_score_sum=sum(campus_culture_score)) 
@@ -1007,7 +1027,7 @@ ggarrange(annual_frequency_plot,annual_cumulative_frequency_plot,
           heights=c(1.15,1.7))
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
 ``` r
 exponential_fit <- annual_frequencies %>%
@@ -1096,7 +1116,7 @@ global_frequencies <- aggregated_data %>%
 global_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-62-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
 
 ``` r
 uk_shapefile <- map_data("world",region="UK")
@@ -1176,7 +1196,7 @@ usa_shapefile %>%
     ## 49              wyoming
 
 ``` r
-usa_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
+usa_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/review-data.csv") %>%
   select(State..If.in.USA.) %>%
   rename(region=State..If.in.USA.) 
 ```
@@ -1705,10 +1725,10 @@ usa_frequencies <- state_data %>%
 usa_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-100-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-102-1.png)<!-- -->
 
 ``` r
-uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
+uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/review-data.csv") %>%
   select(country..if.in.UK.) %>%
   rename(region=country..if.in.UK.) 
 ```
@@ -1794,7 +1814,7 @@ uk_frequencies <- country_data %>%
 uk_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-108-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-110-1.png)<!-- -->
 
 ``` r
 subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
@@ -1804,7 +1824,7 @@ subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
 subregion_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-109-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-111-1.png)<!-- -->
 
 ``` r
 region_frequencies <- ggarrange(global_frequencies,
@@ -1813,4 +1833,4 @@ region_frequencies <- ggarrange(global_frequencies,
 region_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-110-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-112-1.png)<!-- -->

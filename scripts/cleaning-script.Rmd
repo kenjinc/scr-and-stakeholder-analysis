@@ -19,8 +19,8 @@ library(maps)
 # Data Loading
 
 ```{r}
-stakeholder_survey <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/survey-data.csv")
-review_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv")
+stakeholder_survey <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/survey-data.csv")
+review_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/review-data.csv")
 ```
 
 # Cleaning
@@ -444,6 +444,20 @@ TukeyHSD(aov)
 
 from this, we can glean that there are statistically significant differences between guest satisfaction and six of the remaining performance indicators: culture (p=0.0001151), food pricing (p=0.0067500), institutional sustainability (p=0.0003308), operational costs (p=0.0003974), dietary sustainability (p=0.0089635), and worker satisfaction (p=0.0000146), as well as between worker satisfaction and dietary health (p=0.0120744).
 
+need to stratify by involvement 
+
+```{r}
+write.csv(stakeholder_survey,file="/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/cleaned-files/survey-data.csv")
+```
+
+
+```{r}
+stakeholder_survey %>% 
+  group_by(involvement) %>%
+  summarise(count=n())
+```
+
+
 
 
 
@@ -690,7 +704,7 @@ usa_shapefile %>%
 
 
 ```{r}
-usa_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
+usa_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/review-data.csv") %>%
   select(State..If.in.USA.) %>%
   rename(region=State..If.in.USA.) 
 ```
@@ -960,7 +974,7 @@ usa_frequencies
 
 
 ```{r}
-uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/review-data.csv") %>%
+uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/review-data.csv") %>%
   select(country..if.in.UK.) %>%
   rename(region=country..if.in.UK.) 
 ```
