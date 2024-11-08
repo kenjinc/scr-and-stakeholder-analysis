@@ -504,6 +504,11 @@ pdm_holdover_survey_data %>%
   geom_violin(draw_quantiles=0.5,adjust=0.66,alpha=0.5,scale="width",trim=TRUE) + 
   geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
   geom_hline(yintercept=0,linetype="dashed",size=0.3) +
+  geom_signif(comparisons=list(c("Dining Experience","Campus Culture")),color="black",size=0.25,annotation="***",y_position=-0.89,tip_length=-0.02,vjust=1) +
+geom_signif(comparisons=list(c("Operating Costs","Campus Culture")),color="black",size=0.25,annotation="*",y_position=0.5,tip_length=0.02,vjust=0) +
+geom_signif(comparisons=list(c("Organizational Sustainability","Dining Experience")),color="black",size=0.25,annotation="**",y_position=-0.81,tip_length=-0.02,vjust=1) +
+geom_signif(comparisons=list(c("Dietary Sustainability","Dining Experience")),color="black",size=0.25,annotation="*",y_position=-0.73,tip_length=-0.02,vjust=1) +
+geom_signif(comparisons=list(c("Staff Satisfaction","Dining Experience")),color="black",size=0.25,annotation="*",y_position=-0.65,tip_length=-0.02,vjust=1) +
   scale_fill_brewer(palette="Paired") + 
   scale_color_brewer(palette="Paired") +
   xlab("") + 
@@ -529,7 +534,9 @@ Institutional Sustainability-Guest Dining Experiences                  0.0011259
 Sustainability of Guest Food Choices-Guest Dining Experiences          0.0125558
 Worker Satisfaction-Guest Dining Experiences                           0.0138246
 
-geom_signif(comparisons=list(c("Dining Experience","Staff Satisfaction")),color="black",size=0.25,annotation="***",y_position=-1.4,tip_length=-0.02,vjust=1) +
+
+
+
   geom_signif(comparisons=list(c("Dining Experience","Campus Culture")),color="black",size=0.25,annotation="***",y_position=-1.3,tip_length=-0.02,vjust=1) +
   geom_signif(comparisons=list(c("Dining Experience","Organizational Sustainability")),color="black",size=0.25,annotation="***",y_position=-1.2,tip_length=-0.02,vjust=1) +
   geom_signif(comparisons=list(c("Dining Experience","Operating Costs")),color="black",size=0.25,annotation="***",y_position=-1.1,tip_length=-0.02,vjust=1) +
