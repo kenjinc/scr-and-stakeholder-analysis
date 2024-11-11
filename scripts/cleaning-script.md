@@ -587,7 +587,7 @@ holdover_survey_data %>%
 ![](cleaning-script_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
 
 ``` r
-holdover_survey_data %>%
+aggregate_vp <- holdover_survey_data %>%
   mutate(across(group,str_replace,"Guest Dining Experiences","Dining Experience")) %>%
   mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
   mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
@@ -600,13 +600,14 @@ holdover_survey_data %>%
   geom_violin(draw_quantiles=0.5,adjust=0.66,alpha=0.5,scale="width",trim=TRUE) + 
   geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
   geom_hline(yintercept=-0.001115625,linetype="dashed",size=0.3) +
-  geom_signif(comparisons=list(c("Dining Experience","Staff Satisfaction")),color="black",size=0.25,annotation="***",y_position=-1.4,tip_length=-0.02,vjust=1) +
-  geom_signif(comparisons=list(c("Dining Experience","Campus Culture")),color="black",size=0.25,annotation="***",y_position=-1.3,tip_length=-0.02,vjust=1) +
-  geom_signif(comparisons=list(c("Dining Experience","Organizational Sustainability")),color="black",size=0.25,annotation="***",y_position=-1.2,tip_length=-0.02,vjust=1) +
-  geom_signif(comparisons=list(c("Dining Experience","Operating Costs")),color="black",size=0.25,annotation="***",y_position=-1.1,tip_length=-0.02,vjust=1) +
-  geom_signif(comparisons=list(c("Dining Experience","Food Pricing")),color="black",size=0.25,annotation="**",y_position=-1.0,tip_length=-0.02,vjust=1) +
-  geom_signif(comparisons=list(c("Dining Experience","Dietary Sustainability")),color="black",size=0.25,annotation="**",y_position=-0.9,tip_length=-0.02,vjust=1) +
+  geom_signif(comparisons=list(c("Dining Experience","Staff Satisfaction")),color="black",size=0.25,annotation="***",y_position=-1.35,tip_length=-0.02,vjust=2.6) +
+  geom_signif(comparisons=list(c("Dining Experience","Campus Culture")),color="black",size=0.25,annotation="***",y_position=-1.25,tip_length=-0.02,vjust=2.6) +
+  geom_signif(comparisons=list(c("Dining Experience","Organizational Sustainability")),color="black",size=0.25,annotation="***",y_position=-1.15,tip_length=-0.02,vjust=2.6) +
+  geom_signif(comparisons=list(c("Dining Experience","Operating Costs")),color="black",size=0.25,annotation="***",y_position=-1.05,tip_length=-0.02,vjust=2.6) +
+  geom_signif(comparisons=list(c("Dining Experience","Food Pricing")),color="black",size=0.25,annotation="**",y_position=-0.95,tip_length=-0.02,vjust=2.6) +
+  geom_signif(comparisons=list(c("Dining Experience","Dietary Sustainability")),color="black",size=0.25,annotation="**",y_position=-0.85,tip_length=-0.02,vjust=2.6) +
   geom_signif(comparisons=list(c("Staff Satisfaction","Dietary Health")),color="black",size=0.25,annotation="*",y_position=0.6,tip_length=0.02,vjust=0.4) +
+  labs(caption="Aggregated Stakeholder Sample (n=32)") +
   scale_fill_brewer(palette="Paired") + 
   scale_color_brewer(palette="Paired") +
   xlab("") + 
@@ -615,8 +616,6 @@ holdover_survey_data %>%
   theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10)) + 
   coord_flip()
 ```
-
-![](cleaning-script_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
 
 ``` r
 aov <- aov(z_score ~ group,data=holdover_survey_data)
@@ -822,7 +821,7 @@ pdm_summary_table %>%
     ## 1     0
 
 ``` r
-pdm_holdover_survey_data %>%
+pdm_vp <- pdm_holdover_survey_data %>%
   mutate(across(group,str_replace,"Guest Dining Experiences","Dining Experience")) %>%
   mutate(across(group,str_replace,"Healthiness of Food Offerings","Dietary Health")) %>%
   mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
@@ -835,11 +834,12 @@ pdm_holdover_survey_data %>%
   geom_violin(draw_quantiles=0.5,adjust=0.66,alpha=0.5,scale="width",trim=TRUE) + 
   geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
   geom_hline(yintercept=0,linetype="dashed",size=0.3) +
-  geom_signif(comparisons=list(c("Dining Experience","Campus Culture")),color="black",size=0.25,annotation="***",y_position=-0.89,tip_length=-0.02,vjust=1) +
-geom_signif(comparisons=list(c("Operating Costs","Campus Culture")),color="black",size=0.25,annotation="*",y_position=0.5,tip_length=0.02,vjust=0) +
-geom_signif(comparisons=list(c("Organizational Sustainability","Dining Experience")),color="black",size=0.25,annotation="**",y_position=-0.81,tip_length=-0.02,vjust=1) +
-geom_signif(comparisons=list(c("Dietary Sustainability","Dining Experience")),color="black",size=0.25,annotation="*",y_position=-0.73,tip_length=-0.02,vjust=1) +
-geom_signif(comparisons=list(c("Staff Satisfaction","Dining Experience")),color="black",size=0.25,annotation="*",y_position=-0.65,tip_length=-0.02,vjust=1) +
+  geom_signif(comparisons=list(c("Dining Experience","Campus Culture")),color="black",size=0.25,annotation="***",y_position=-0.89,tip_length=-0.02,vjust=2.9) +
+geom_signif(comparisons=list(c("Operating Costs","Campus Culture")),color="black",size=0.25,annotation="*",y_position=0.5,tip_length=0.02,vjust=0.4) +
+geom_signif(comparisons=list(c("Organizational Sustainability","Dining Experience")),color="black",size=0.25,annotation="**",y_position=-0.81,tip_length=-0.02,vjust=2.9) +
+geom_signif(comparisons=list(c("Dietary Sustainability","Dining Experience")),color="black",size=0.25,annotation="*",y_position=-0.73,tip_length=-0.02,vjust=2.9) +
+geom_signif(comparisons=list(c("Staff Satisfaction","Dining Experience")),color="black",size=0.25,annotation="*",y_position=-0.65,tip_length=-0.02,vjust=2.9) +
+  labs(caption="Primary Decision Makers (n=12)") +
   scale_fill_brewer(palette="Paired") + 
   scale_color_brewer(palette="Paired") +
   xlab("") + 
@@ -848,8 +848,6 @@ geom_signif(comparisons=list(c("Staff Satisfaction","Dining Experience")),color=
   theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10)) + 
   coord_flip()
 ```
-
-![](cleaning-script_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
 
 ``` r
 pdm_aov <- aov(z_score ~ group,data=pdm_holdover_survey_data)
@@ -989,25 +987,221 @@ TukeyHSD(pdm_aov)
     ## Worker Satisfaction-Operational and Procurement Costs                  0.7612961
     ## Worker Satisfaction-Sustainability of Guest Food Choices               1.0000000
 
-Guest Dining Experiences-Campus Culture 0.0000317 Operational and
-Procurement Costs-Campus Culture 0.0253903 Institutional
-Sustainability-Guest Dining Experiences 0.0011259 Sustainability of
-Guest Food Choices-Guest Dining Experiences 0.0125558 Worker
-Satisfaction-Guest Dining Experiences 0.0138246
+``` r
+cbp_holdover_survey_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/cbp-holdover-survey-data.csv")
+```
 
-geom_signif(comparisons=list(c(“Dining Experience”,“Campus
-Culture”)),color=“black”,size=0.25,annotation=“***”,y_position=-1.3,tip_length=-0.02,vjust=1) +
-geom_signif(comparisons=list(c(”Dining Experience”,”Organizational
-Sustainability”)),color=”black”,size=0.25,annotation=”***”,y_position=-1.2,tip_length=-0.02,vjust=1) +
-geom_signif(comparisons=list(c(“Dining Experience”,“Operating
-Costs”)),color=“black”,size=0.25,annotation=“\*\**“,y_position=-1.1,tip_length=-0.02,vjust=1) +
-geom_signif(comparisons=list(c(”Dining Experience”,“Food
-Pricing”)),color=“black”,size=0.25,annotation=“**”,y_position=-1.0,tip_length=-0.02,vjust=1) +
-geom_signif(comparisons=list(c(”Dining Experience”,”Dietary
-Sustainability”)),color=”black”,size=0.25,annotation=”**”,y_position=-0.9,tip_length=-0.02,vjust=1) +
-geom_signif(comparisons=list(c(“Staff Satisfaction”,“Dietary
-Health”)),color=“black”,size=0.25,annotation=“*”,y_position=0.6,tip_length=0.02,vjust=0.4)
-+
+``` r
+cbp_summary_table <- cbp_holdover_survey_data %>% 
+  group_by(group) %>%
+  summarise(count=n(),
+            mean=mean(z_score),
+            sd=sd(z_score))
+cbp_summary_table
+```
+
+    ## # A tibble: 8 × 4
+    ##   group                                count    mean    sd
+    ##   <chr>                                <int>   <dbl> <dbl>
+    ## 1 Campus Culture                           8 -0.277  0.362
+    ## 2 Campus Food Prices                       8 -0.269  0.381
+    ## 3 Guest Dining Experiences                 8  0.624  0.311
+    ## 4 Healthiness of Food                      8  0.275  0.351
+    ## 5 Institutional Sustainability             8 -0.128  0.323
+    ## 6 Operational and Procurement Costs        8  0.208  0.464
+    ## 7 Sustainability of Guest Food Choices     8  0.0177 0.586
+    ## 8 Worker Satisfaction                      8 -0.439  0.324
+
+``` r
+cbp_summary_table %>%
+  summarise(mean=mean(mean))
+```
+
+    ## # A tibble: 1 × 1
+    ##      mean
+    ##     <dbl>
+    ## 1 0.00165
+
+``` r
+cbp_vp <- cbp_holdover_survey_data %>%
+  mutate(across(group,str_replace,"Guest Dining Experiences","Dining Experience")) %>%
+  mutate(across(group,str_replace,"Healthiness of Food","Dietary Health")) %>%
+  mutate(across(group,str_replace,"Sustainability of Guest Food Choices","Dietary Sustainability")) %>%
+  mutate(across(group,str_replace,"Institutional Sustainability","Organizational Sustainability")) %>%
+  mutate(across(group,str_replace,"Campus Food Prices","Food Pricing")) %>%
+  mutate(across(group,str_replace,"Operational and Procurement Costs","Operating Costs")) %>%
+  mutate(across(group,str_replace,"Worker Satisfaction","Staff Satisfaction")) %>%
+  mutate(across(group,str_replace,"Campus Culture","Campus Culture")) %>%
+  ggplot(aes(y=z_score,x=fct_reorder(group,z_score,.fun="mean"),fill=group,color=group)) + 
+  geom_violin(draw_quantiles=0.5,adjust=0.66,alpha=0.5,scale="width",trim=TRUE) + 
+  geom_jitter(width=0.33,size=2,shape=21,alpha=0.5) +
+  geom_hline(yintercept=0.00165,linetype="dashed",size=0.3) +
+  geom_signif(comparisons=list(c("Dining Experience","Staff Satisfaction")),color="black",size=0.25,annotation="***",y_position=-1.35,tip_length=-0.02,vjust=2.7) +
+  geom_signif(comparisons=list(c("Dining Experience","Campus Culture")),color="black",size=0.25,annotation="***",y_position=-1.25,tip_length=-0.02,vjust=2.7) +
+geom_signif(comparisons=list(c("Dining Experience","Food Pricing")),color="black",size=0.25,annotation="***",y_position=-1.15,tip_length=-0.02,vjust=2.7) +
+geom_signif(comparisons=list(c("Dining Experience","Organizational Sustainability")),color="black",size=0.25,annotation="**",y_position=-1.05,tip_length=-0.02,vjust=2.7) +
+geom_signif(comparisons=list(c("Staff Satisfaction","Dietary Health")),color="black",size=0.25,annotation="*",y_position=0.85,tip_length=0.02,vjust=0.4) +
+geom_signif(comparisons=list(c("Staff Satisfaction","Operating Costs")),color="black",size=0.25,annotation="*",y_position=0.75,tip_length=0.02,vjust=0.4) +
+  labs(caption="Program Advisors (n=16)") +
+  scale_fill_brewer(palette="Paired") + 
+  scale_color_brewer(palette="Paired") +
+  xlab("") + 
+  ylab("Priority Score") +
+  stat_summary(fun.y=mean,geom="point",shape=20,size=3,color="black",fill="white") +
+  theme(legend.position="none",legend.justification="right",legend.box.spacing=unit(0,"pt"),legend.key.size=unit(10,"pt"),panel.grid=element_blank(),panel.background=element_rect(fill="white"),panel.border=element_rect(fill=NA),legend.title=element_text(size=10),legend.text=element_text(size=10),plot.title=element_text(size=10)) + 
+  coord_flip()
+```
+
+``` r
+cbp_aov <- aov(z_score ~ group,data=cbp_holdover_survey_data)
+summary(cbp_aov)
+```
+
+    ##             Df Sum Sq Mean Sq F value   Pr(>F)    
+    ## group        7  6.927  0.9896   6.262 1.93e-05 ***
+    ## Residuals   56  8.850  0.1580                     
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+TukeyHSD(cbp_aov)
+```
+
+    ##   Tukey multiple comparisons of means
+    ##     95% family-wise confidence level
+    ## 
+    ## Fit: aov(formula = z_score ~ group, data = cbp_holdover_survey_data)
+    ## 
+    ## $group
+    ##                                                                              diff
+    ## Campus Food Prices-Campus Culture                                       0.0083125
+    ## Guest Dining Experiences-Campus Culture                                 0.9004625
+    ## Healthiness of Food-Campus Culture                                      0.5522250
+    ## Institutional Sustainability-Campus Culture                             0.1489625
+    ## Operational and Procurement Costs-Campus Culture                        0.4851125
+    ## Sustainability of Guest Food Choices-Campus Culture                     0.2945125
+    ## Worker Satisfaction-Campus Culture                                     -0.1617875
+    ## Guest Dining Experiences-Campus Food Prices                             0.8921500
+    ## Healthiness of Food-Campus Food Prices                                  0.5439125
+    ## Institutional Sustainability-Campus Food Prices                         0.1406500
+    ## Operational and Procurement Costs-Campus Food Prices                    0.4768000
+    ## Sustainability of Guest Food Choices-Campus Food Prices                 0.2862000
+    ## Worker Satisfaction-Campus Food Prices                                 -0.1701000
+    ## Healthiness of Food-Guest Dining Experiences                           -0.3482375
+    ## Institutional Sustainability-Guest Dining Experiences                  -0.7515000
+    ## Operational and Procurement Costs-Guest Dining Experiences             -0.4153500
+    ## Sustainability of Guest Food Choices-Guest Dining Experiences          -0.6059500
+    ## Worker Satisfaction-Guest Dining Experiences                           -1.0622500
+    ## Institutional Sustainability-Healthiness of Food                       -0.4032625
+    ## Operational and Procurement Costs-Healthiness of Food                  -0.0671125
+    ## Sustainability of Guest Food Choices-Healthiness of Food               -0.2577125
+    ## Worker Satisfaction-Healthiness of Food                                -0.7140125
+    ## Operational and Procurement Costs-Institutional Sustainability          0.3361500
+    ## Sustainability of Guest Food Choices-Institutional Sustainability       0.1455500
+    ## Worker Satisfaction-Institutional Sustainability                       -0.3107500
+    ## Sustainability of Guest Food Choices-Operational and Procurement Costs -0.1906000
+    ## Worker Satisfaction-Operational and Procurement Costs                  -0.6469000
+    ## Worker Satisfaction-Sustainability of Guest Food Choices               -0.4563000
+    ##                                                                                lwr
+    ## Campus Food Prices-Campus Culture                                      -0.61745427
+    ## Guest Dining Experiences-Campus Culture                                 0.27469573
+    ## Healthiness of Food-Campus Culture                                     -0.07354177
+    ## Institutional Sustainability-Campus Culture                            -0.47680427
+    ## Operational and Procurement Costs-Campus Culture                       -0.14065427
+    ## Sustainability of Guest Food Choices-Campus Culture                    -0.33125427
+    ## Worker Satisfaction-Campus Culture                                     -0.78755427
+    ## Guest Dining Experiences-Campus Food Prices                             0.26638323
+    ## Healthiness of Food-Campus Food Prices                                 -0.08185427
+    ## Institutional Sustainability-Campus Food Prices                        -0.48511677
+    ## Operational and Procurement Costs-Campus Food Prices                   -0.14896677
+    ## Sustainability of Guest Food Choices-Campus Food Prices                -0.33956677
+    ## Worker Satisfaction-Campus Food Prices                                 -0.79586677
+    ## Healthiness of Food-Guest Dining Experiences                           -0.97400427
+    ## Institutional Sustainability-Guest Dining Experiences                  -1.37726677
+    ## Operational and Procurement Costs-Guest Dining Experiences             -1.04111677
+    ## Sustainability of Guest Food Choices-Guest Dining Experiences          -1.23171677
+    ## Worker Satisfaction-Guest Dining Experiences                           -1.68801677
+    ## Institutional Sustainability-Healthiness of Food                       -1.02902927
+    ## Operational and Procurement Costs-Healthiness of Food                  -0.69287927
+    ## Sustainability of Guest Food Choices-Healthiness of Food               -0.88347927
+    ## Worker Satisfaction-Healthiness of Food                                -1.33977927
+    ## Operational and Procurement Costs-Institutional Sustainability         -0.28961677
+    ## Sustainability of Guest Food Choices-Institutional Sustainability      -0.48021677
+    ## Worker Satisfaction-Institutional Sustainability                       -0.93651677
+    ## Sustainability of Guest Food Choices-Operational and Procurement Costs -0.81636677
+    ## Worker Satisfaction-Operational and Procurement Costs                  -1.27266677
+    ## Worker Satisfaction-Sustainability of Guest Food Choices               -1.08206677
+    ##                                                                                upr
+    ## Campus Food Prices-Campus Culture                                       0.63407927
+    ## Guest Dining Experiences-Campus Culture                                 1.52622927
+    ## Healthiness of Food-Campus Culture                                      1.17799177
+    ## Institutional Sustainability-Campus Culture                             0.77472927
+    ## Operational and Procurement Costs-Campus Culture                        1.11087927
+    ## Sustainability of Guest Food Choices-Campus Culture                     0.92027927
+    ## Worker Satisfaction-Campus Culture                                      0.46397927
+    ## Guest Dining Experiences-Campus Food Prices                             1.51791677
+    ## Healthiness of Food-Campus Food Prices                                  1.16967927
+    ## Institutional Sustainability-Campus Food Prices                         0.76641677
+    ## Operational and Procurement Costs-Campus Food Prices                    1.10256677
+    ## Sustainability of Guest Food Choices-Campus Food Prices                 0.91196677
+    ## Worker Satisfaction-Campus Food Prices                                  0.45566677
+    ## Healthiness of Food-Guest Dining Experiences                            0.27752927
+    ## Institutional Sustainability-Guest Dining Experiences                  -0.12573323
+    ## Operational and Procurement Costs-Guest Dining Experiences              0.21041677
+    ## Sustainability of Guest Food Choices-Guest Dining Experiences           0.01981677
+    ## Worker Satisfaction-Guest Dining Experiences                           -0.43648323
+    ## Institutional Sustainability-Healthiness of Food                        0.22250427
+    ## Operational and Procurement Costs-Healthiness of Food                   0.55865427
+    ## Sustainability of Guest Food Choices-Healthiness of Food                0.36805427
+    ## Worker Satisfaction-Healthiness of Food                                -0.08824573
+    ## Operational and Procurement Costs-Institutional Sustainability          0.96191677
+    ## Sustainability of Guest Food Choices-Institutional Sustainability       0.77131677
+    ## Worker Satisfaction-Institutional Sustainability                        0.31501677
+    ## Sustainability of Guest Food Choices-Operational and Procurement Costs  0.43516677
+    ## Worker Satisfaction-Operational and Procurement Costs                  -0.02113323
+    ## Worker Satisfaction-Sustainability of Guest Food Choices                0.16946677
+    ##                                                                            p adj
+    ## Campus Food Prices-Campus Culture                                      1.0000000
+    ## Guest Dining Experiences-Campus Culture                                0.0007787
+    ## Healthiness of Food-Campus Culture                                     0.1214404
+    ## Institutional Sustainability-Campus Culture                            0.9949213
+    ## Operational and Procurement Costs-Campus Culture                       0.2427093
+    ## Sustainability of Guest Food Choices-Campus Culture                    0.8137193
+    ## Worker Satisfaction-Campus Culture                                     0.9916237
+    ## Guest Dining Experiences-Campus Food Prices                            0.0008960
+    ## Healthiness of Food-Campus Food Prices                                 0.1331746
+    ## Institutional Sustainability-Campus Food Prices                        0.9964374
+    ## Operational and Procurement Costs-Campus Food Prices                   0.2621466
+    ## Sustainability of Guest Food Choices-Campus Food Prices                0.8346637
+    ## Worker Satisfaction-Campus Food Prices                                 0.9887233
+    ## Healthiness of Food-Guest Dining Experiences                           0.6539396
+    ## Institutional Sustainability-Guest Dining Experiences                  0.0085390
+    ## Operational and Procurement Costs-Guest Dining Experiences             0.4340089
+    ## Sustainability of Guest Food Choices-Guest Dining Experiences          0.0642726
+    ## Worker Satisfaction-Guest Dining Experiences                           0.0000453
+    ## Institutional Sustainability-Healthiness of Food                       0.4725088
+    ## Operational and Procurement Costs-Healthiness of Food                  0.9999727
+    ## Sustainability of Guest Food Choices-Healthiness of Food               0.8963437
+    ## Worker Satisfaction-Healthiness of Food                                0.0148824
+    ## Operational and Procurement Costs-Institutional Sustainability         0.6927158
+    ## Sustainability of Guest Food Choices-Institutional Sustainability      0.9955957
+    ## Worker Satisfaction-Institutional Sustainability                       0.7694103
+    ## Sustainability of Guest Food Choices-Operational and Procurement Costs 0.9782847
+    ## Worker Satisfaction-Operational and Procurement Costs                  0.0379109
+    ## Worker Satisfaction-Sustainability of Guest Food Choices               0.3142266
+
+``` r
+ggarrange(aggregate_vp,ggarrange(pdm_vp,cbp_vp,ncol=2,labels=c("B","C")),
+          nrow=2,labels="A")
+```
+
+![](cleaning-script_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+
+``` r
+ggarrange(aggregate_vp,pdm_vp,cbp_vp,labels=c("A","B","C"),nrow=3)
+```
+
+![](cleaning-script_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
 
 ``` r
 stakeholder_survey %>%
@@ -1252,7 +1446,7 @@ ggarrange(annual_frequency_plot,annual_cumulative_frequency_plot,
           heights=c(1.15,1.7))
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-63-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-71-1.png)<!-- -->
 
 ``` r
 exponential_fit <- annual_frequencies %>%
@@ -1341,7 +1535,7 @@ global_frequencies <- aggregated_data %>%
 global_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-70-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-78-1.png)<!-- -->
 
 ``` r
 uk_shapefile <- map_data("world",region="UK")
@@ -1950,7 +2144,7 @@ usa_frequencies <- state_data %>%
 usa_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-108-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-116-1.png)<!-- -->
 
 ``` r
 uk_data <- read.csv("/Users/kenjinchang/github/scr-and-stakeholder-analysis/data/parent-files/review-data.csv") %>%
@@ -2039,7 +2233,7 @@ uk_frequencies <- country_data %>%
 uk_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-116-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-124-1.png)<!-- -->
 
 ``` r
 subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
@@ -2049,7 +2243,7 @@ subregion_frequencies <- ggarrange(usa_frequencies,uk_frequencies,
 subregion_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-117-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-125-1.png)<!-- -->
 
 ``` r
 region_frequencies <- ggarrange(global_frequencies,
@@ -2058,4 +2252,4 @@ region_frequencies <- ggarrange(global_frequencies,
 region_frequencies
 ```
 
-![](cleaning-script_files/figure-gfm/unnamed-chunk-118-1.png)<!-- -->
+![](cleaning-script_files/figure-gfm/unnamed-chunk-126-1.png)<!-- -->
